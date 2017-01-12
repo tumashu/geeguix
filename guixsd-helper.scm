@@ -54,6 +54,7 @@
                '("gvfs" "nss-certs"
                  "font-wqy-zenhei"
                  "font-ubuntu"
+                 "sawfish"
                  "icecat"))
           %base-packages))
 
