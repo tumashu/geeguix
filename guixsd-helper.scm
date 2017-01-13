@@ -6,6 +6,35 @@
 (use-service-modules desktop)
 (use-package-modules certs gnome)
 
+(define fs-root
+  (file-system
+   (device "my-root")
+   (title 'label)
+   (mount-point "/")
+   (type "ext4")
+   (needed-for-boot? #t)))
+
+(define fs-home
+  (file-system
+   (device "my-home")
+   (title 'label)
+   (mount-point "/home")
+   (type "ext4")))
+
+(define fs-backup1
+  (file-system
+   (device "my-backup1")
+   (title 'label)
+   (mount-point "/mnt/backup1")
+   (type "ext4")))
+
+(define fs-backup2
+  (file-system
+   (device "my-backup2")
+   (title 'label)
+   (mount-point "/mnt/backup2")
+   (type "ext4")))
+
 (operating-system
  (host-name "tumashu")
  (timezone "Asia/Shanghai")
@@ -17,34 +46,17 @@
 
  (swap-devices '("/dev/sda5"))
 
- (file-systems (cons* (file-system
-                       (device "my-root")
-                       (title 'label)
-                       (mount-point "/")
-                       (type "ext4"))
-                      (file-system
-                       (device "my-home")
-                       (title 'label)
-                       (mount-point "/home")
-                       (type "ext4"))
-                      (file-system
-                       (device "my-backup1")
-                       (title 'label)
-                       (mount-point "/mnt/backup1")
-                       (type "ext4"))
-                      (file-system
-                       (device "my-backup2")
-                       (title 'label)
-                       (mount-point "/mnt/backup2")
-                       (type "ext4"))
-                      %base-file-systems))
+ (file-systems
+  (cons* fs-root fs-home
+         fs-backup1 fs-backup2
+         %base-file-systems))
 
  (users (cons (user-account
                (name "feng")
                (comment "Feng Shu")
                (group "users")
-               (supplementary-groups '("wheel" "netdev"
-                                       "audio" "video"))
+               (supplementary-groups
+                '("wheel" "netdev" "audio" "video"))
                (home-directory "/home/feng"))
               %base-user-accounts))
 
