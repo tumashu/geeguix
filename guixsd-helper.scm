@@ -18,23 +18,23 @@
  (swap-devices '("/dev/sda5"))
 
  (file-systems (cons* (file-system
-                       (device "/dev/sda1")
-                       (title 'device)
+                       (device "my-root")
+                       (title 'label)
                        (mount-point "/")
                        (type "ext4"))
                       (file-system
-                       (device "/dev/sda7")
-                       (title 'device)
+                       (device "my-home")
+                       (title 'label)
                        (mount-point "/home")
                        (type "ext4"))
                       (file-system
-                       (device "/dev/sda8")
-                       (title 'device)
+                       (device "my-backup1")
+                       (title 'label)
                        (mount-point "/mnt/backup1")
                        (type "ext4"))
                       (file-system
-                       (device "/dev/sda6")
-                       (title 'device)
+                       (device "my-backup2")
+                       (title 'label)
                        (mount-point "/mnt/backup2")
                        (type "ext4"))
                       %base-file-systems))
