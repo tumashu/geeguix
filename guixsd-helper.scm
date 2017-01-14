@@ -61,13 +61,13 @@
  ;; is the label of the target root file system.
  (bootloader (grub-configuration (device "/dev/sda")))
 
- (swap-devices '("/dev/sda5"))
-
  (file-systems (cons* fs-root
                       fs-home
                       fs-backup1
                       fs-backup2
                       %base-file-systems))
+
+ (swap-devices '("/dev/sda5"))
 
  (users (cons (user-account
                (name "feng")
