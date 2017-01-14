@@ -39,6 +39,20 @@
  (host-name "tumashu")
  (timezone "Asia/Shanghai")
  (locale "zh_CN.UTF-8")
+ (locale-definitions
+  (cons* (locale-definition
+          (name "zh_CN.gb2312")
+          (source "zh_CN"))
+         (locale-definition
+          (name "zh_CN.gbk")
+          (source "zh_CN"))
+         (locale-definition
+          (name "zh_CN.gb18030")
+          (source "zh_CN"))
+         (locale-definition
+          (name "zh_TW.big5")
+          (source "zh_CN"))
+         %default-locale-definitions))
 
  ;; Assuming /dev/sdX is the target hard disk, and "my-root"
  ;; is the label of the target root file system.
