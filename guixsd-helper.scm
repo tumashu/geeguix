@@ -3,6 +3,7 @@
 ;; root partition is encrypted with LUKS.
 
 (use-modules (gnu) (gnu system nss))
+(use-modules (gnu system locale))
 (use-service-modules desktop)
 (use-package-modules certs gnome)
 
@@ -11,8 +12,7 @@
    (device "my-root")
    (title 'label)
    (mount-point "/")
-   (type "ext4")
-   (needed-for-boot? #t)))
+   (type "ext4")))
 
 (define fs-home
   (file-system
@@ -61,9 +61,9 @@
  (swap-devices '("/dev/sda5"))
 
  (file-systems
-  (cons* fs-root fs-home
-         fs-backup1 fs-backup2
-         %base-file-systems))
+  `(,fs-root
+    ,@%base-file-systems
+    ,fs-home ,fs-backup1 ,fs-backup2))
 
  (users (cons (user-account
                (name "feng")
