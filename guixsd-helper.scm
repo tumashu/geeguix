@@ -63,11 +63,11 @@
 
  (swap-devices '("/dev/sda5"))
 
- (file-systems
-  `(,fs-root
-    ,@%base-file-systems
-    ;; ,fs-home ,fs-backup1 ,fs-backup2
-    ))
+ (file-systems (cons* fs-root
+                      fs-home
+                      fs-backup1
+                      fs-backup2
+                      %base-file-systems))
 
  (users (cons (user-account
                (name "feng")
