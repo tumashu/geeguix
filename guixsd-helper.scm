@@ -41,17 +41,20 @@
  (locale "zh_CN.UTF-8")
  (locale-definitions
   (cons* (locale-definition
-          (name "zh_CN.gb2312")
+          (name "zh_CN.GB2312")
           (source "zh_CN"))
          (locale-definition
-          (name "zh_CN.gbk")
+          (name "zh_CN.GBK")
           (source "zh_CN"))
          (locale-definition
-          (name "zh_CN.gb18030")
+          (name "zh_CN.GB18030")
           (source "zh_CN"))
          (locale-definition
-          (name "zh_TW.big5")
-          (source "zh_CN"))
+          (name "zh_TW.BIG5")
+          (source "zh_TW"))
+         (locale-definition
+          (name "zh_TW.UTF-8")
+          (source "zh_TW"))
          %default-locale-definitions))
 
  ;; Assuming /dev/sdX is the target hard disk, and "my-root"
@@ -63,7 +66,8 @@
  (file-systems
   `(,fs-root
     ,@%base-file-systems
-    ,fs-home ,fs-backup1 ,fs-backup2))
+    ;; ,fs-home ,fs-backup1 ,fs-backup2
+    ))
 
  (users (cons (user-account
                (name "feng")
