@@ -1,39 +1,7 @@
-;; This is an operating system configuration template
-;; for a "desktop" setup with GNOME and Xfce where the
-;; root partition is encrypted with LUKS.
-
 (use-modules (gnu) (gnu system nss))
 (use-modules (gnu system locale))
 (use-service-modules desktop)
 (use-package-modules certs gnome)
-
-(define fs-root
-  (file-system
-   (device "/dev/sda1")
-   (title 'device)
-   (mount-point "/")
-   (type "ext4")))
-
-(define fs-home
-  (file-system
-   (device "/dev/sda7")
-   (title 'device)
-   (mount-point "/home")
-   (type "ext4")))
-
-(define fs-backup1
-  (file-system
-   (device "/dev/sda8")
-   (title 'device)
-   (mount-point "/mnt/backup1")
-   (type "ext4")))
-
-(define fs-backup2
-  (file-system
-   (device "/dev/sda6")
-   (title 'device)
-   (mount-point "/mnt/backup2")
-   (type "ext4")))
 
 (operating-system
  (host-name "tumashu")
@@ -57,15 +25,32 @@
           (source "zh_TW"))
          %default-locale-definitions))
 
- ;; Assuming /dev/sdX is the target hard disk, and "my-root"
- ;; is the label of the target root file system.
+ ;; Assuming /dev/sdX is the target hard disk
  (bootloader (grub-configuration (device "/dev/sda")))
 
- (file-systems (cons* fs-root
-                      fs-home
-                      fs-backup1
-                      fs-backup2
-                      %base-file-systems))
+ (file-systems
+  (cons*
+   (file-system
+    (device "/dev/sda1")
+    (title 'device)
+    (mount-point "/")
+    (type "ext4"))
+   (file-system
+    (device "/dev/sda7")
+    (title 'device)
+    (mount-point "/home")
+    (type "ext4"))
+   (file-system
+    (device "/dev/sda8")
+    (title 'device)
+    (mount-point "/mnt/backup1")
+    (type "ext4"))
+   (file-system
+    (device "/dev/sda6")
+    (title 'device)
+    (mount-point "/mnt/backup2")
+    (type "ext4"))
+   %base-file-systems))
 
  (swap-devices '("/dev/sda5"))
 
