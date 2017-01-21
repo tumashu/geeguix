@@ -67,8 +67,7 @@
  (packages
   (append (map specification->package
                '("gvfs" "nss-certs"
-                 "font-wqy-zenhei"
-                 "font-ubuntu"
+                 "font-wqy-microhei"
                  "icecat"))
           %base-packages))
 
