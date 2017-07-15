@@ -1,3 +1,4 @@
+
 (use-modules (gnu) (gnu system nss))
 (use-modules (gnu system locale))
 (use-service-modules desktop)
@@ -67,8 +68,7 @@
  (packages
   (append (map specification->package
                '("gvfs" "nss-certs"
-                 "font-wqy-microhei"
-                 "icecat"))
+                 "font-wqy-microhei"))
           %base-packages))
 
  ;; Add GNOME and/or Xfce---we can choose at the log-in
