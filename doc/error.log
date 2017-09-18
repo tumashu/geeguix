@@ -1,0 +1,41 @@
+guix system: warning: The 'device' field of bootloader configurations is deprecated.
+guix system: warning: Use 'target' instead.
+substitute: substitute: updating list of substitutes from 'https://mirror.hydra.gnu.org'...   0.0%substitute: updating list of substitutes from 'https://mirror.hydra.gnu.org'... 100.0%
+substitute: substitute: updating list of substitutes from 'https://mirror.hydra.gnu.org'...   0.0%substitute: updating list of substitutes from 'https://mirror.hydra.gnu.org'... 100.0%
+substitute: substitute: updating list of substitutes from 'https://mirror.hydra.gnu.org'...   0.0%substitute: updating list of substitutes from 'https://mirror.hydra.gnu.org'... 100.0%
+substitute: substitute: updating list of substitutes from 'https://mirror.hydra.gnu.org'...   0.0%substitute: updating list of substitutes from 'https://mirror.hydra.gnu.org'... 100.0%
+substitute: substitute: updating list of substitutes from 'https://mirror.hydra.gnu.org'...   0.0%substitute: updating list of substitutes from 'https://mirror.hydra.gnu.org'...  33.3%substitute: updating list of substitutes from 'https://mirror.hydra.gnu.org'...  66.7%substitute: updating list of substitutes from 'https://mirror.hydra.gnu.org'... 100.0%
+substitute: substitute: updating list of substitutes from 'https://mirror.hydra.gnu.org'...   0.0%substitute: updating list of substitutes from 'https://mirror.hydra.gnu.org'...  33.3%substitute: updating list of substitutes from 'https://mirror.hydra.gnu.org'...  66.7%substitute: updating list of substitutes from 'https://mirror.hydra.gnu.org'... 100.0%
+substitute: substitute: updating list of substitutes from 'https://mirror.hydra.gnu.org'...   0.0%substitute: updating list of substitutes from 'https://mirror.hydra.gnu.org'... 100.0%
+substitute: substitute: updating list of substitutes from 'https://mirror.hydra.gnu.org'...   0.0%substitute: updating list of substitutes from 'https://mirror.hydra.gnu.org'... 100.0%
+substitute: substitute: updating list of substitutes from 'https://mirror.hydra.gnu.org'...   0.0%substitute: updating list of substitutes from 'https://mirror.hydra.gnu.org'... 100.0%
+Backtrace:
+          14 (primitive-load "/gnu/store/xcnrc8lvq7yks3c02cpknphj3n0?")
+In guix/ui.scm:
+  1375:12 13 (run-guix-command _ . _)
+In ice-9/boot-9.scm:
+    837:9 12 (catch _ _ #<procedure b56555a8 at guix/ui.scm:451:2 (?> ?)
+    837:9 11 (catch _ _ #<procedure b56555b8 at guix/ui.scm:539:6 (?> ?)
+In guix/scripts/system.scm:
+   1034:8 10 (_)
+    909:6  9 (process-action _ _ _)
+In guix/store.scm:
+  1443:24  8 (run-with-store _ _ #:guile-for-build _ #:system _ # _)
+In guix/scripts/system.scm:
+   660:31  7 (_ _)
+In srfi/srfi-1.scm:
+   705:23  6 (filter-map #<procedure system->boot-parameters (sys?> . #)
+In ice-9/boot-9.scm:
+    837:9  5 (catch system-error #<procedure b9c3738 at guix/script?> ?)
+In guix/scripts/system.scm:
+   384:30  4 (_)
+In gnu/system.scm:
+   307:17  3 (read-boot-parameters-file "/var/guix/profiles/system-1?")
+In ice-9/ports.scm:
+   444:17  2 (call-with-input-file _ _ #:binary _ #:encoding _ # _)
+In gnu/system.scm:
+   282:10  1 (read-boot-parameters _)
+    238:4  0 (device-sexp->device _)
+
+gnu/system.scm:238:4: In procedure device-sexp->device:
+gnu/system.scm:238:4: Throw to key `match-error' with args `("match" "no matching pattern" #f)'.

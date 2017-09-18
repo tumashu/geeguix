@@ -32,28 +32,23 @@
  (file-systems
   (cons*
    (file-system
-    (device "/dev/sda1")
+    (device "/dev/sda7")
     (title 'device)
     (mount-point "/")
     (type "ext4"))
    (file-system
-    (device "/dev/sda7")
+    (device "/dev/sda5")
     (title 'device)
     (mount-point "/home")
     (type "ext4"))
    (file-system
-    (device "/dev/sda8")
+    (device "/dev/sda6")
     (title 'device)
     (mount-point "/mnt/backup1")
     (type "ext4"))
-   (file-system
-    (device "/dev/sda6")
-    (title 'device)
-    (mount-point "/mnt/backup2")
-    (type "ext4"))
    %base-file-systems))
 
- (swap-devices '("/dev/sda5"))
+ (swap-devices '("/dev/sda8"))
 
  (users (cons (user-account
                (name "feng")
@@ -65,18 +60,20 @@
               %base-user-accounts))
 
  ;; This is where we specify system-wide packages.
- (packages
-  (append (map specification->package
-               '("gvfs" "nss-certs"
-                 "font-wqy-microhei"))
-          %base-packages))
+ ;; (packages
+ ;;  (append (map specification->package
+ ;;               '("wpa-supplicant"  
+ ;;                 "gvfs" "nss-certs"
+ ;;                 "font-wqy-microhei"
+ ;;                 ))
+ ;;         %base-packages))
 
  ;; Add GNOME and/or Xfce---we can choose at the log-in
  ;; screen with F1.  Use the "desktop" services, which
  ;; include the X11 log-in service, networking with Wicd,
  ;; and more.
- (services (cons* (xfce-desktop-service)
-                  %desktop-services))
-
+ ;;(services (cons* (xfce-desktop-service)
+ ;;                 %desktop-services))
+ ;;
  ;; Allow resolution of '.local' host names with mDNS.
  (name-service-switch %mdns-host-lookup-nss))
