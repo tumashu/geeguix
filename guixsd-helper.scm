@@ -39,11 +39,16 @@
             (title 'device)
             (mount-point "/home")
             (type "ext4"))
-          ;; (file-system
-          ;;   (device "/dev/sda6")
-          ;;   (title 'device)
-          ;;   (mount-point "/mnt/backup1")
-          ;;   (type "ext4"))
+          (file-system
+            (device "/dev/sda6")
+            (title 'device)
+            (mount-point "/mnt/backup1")
+            (type "ext4"))
+          (file-system
+            (device "/dev/sda1")
+            (title 'device)
+            (mount-point "/mnt/backup2")
+            (type "ext4"))
           %base-file-systems))
 
   (swap-devices '("/dev/sda8"))
