@@ -30,23 +30,19 @@
 
   (file-systems
    (cons* (file-system
-            (device "my-root")
-            (title 'label)
+            (device (file-system-label "my-root"))
             (mount-point "/")
             (type "ext4"))
           (file-system
-            (device "my-home")
-            (title 'label)
+            (device (file-system-label "my-home"))
             (mount-point "/home")
             (type "ext4"))
           (file-system
-            (device "my-backup1")
-            (title 'label)
+            (device (file-system-label "my-backup1"))
             (mount-point "/mnt/backup1")
             (type "ext4"))
           (file-system
-            (device "my-backup2")
-            (title 'label)
+            (device (file-system-label "my-backup2"))
             (mount-point "/mnt/backup2")
             (type "ext4"))
           %base-file-systems))
