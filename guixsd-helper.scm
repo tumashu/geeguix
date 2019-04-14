@@ -73,8 +73,8 @@
   ;; screen with F1.  Use the "desktop" services, which
   ;; include the X11 log-in service, networking with Wicd,
   ;; and more.
-  (services (cons* (xfce-desktop-service)
-                   %desktop-services))
+  (services (append (list (service xfce-desktop-service-type))
+                    %desktop-services))
 
   ;; Allow resolution of '.local' host names with mDNS.
   (name-service-switch %mdns-host-lookup-nss))
