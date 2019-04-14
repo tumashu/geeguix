@@ -1,7 +1,13 @@
+(use-modules (guix store))
 (use-modules (gnu) (gnu system nss))
 (use-modules (gnu system locale))
 (use-service-modules desktop)
 (use-package-modules certs gnome)
+
+(define %my-substitute-urls
+  (append '("http://guix.mirror.pengmeiyu.com"
+            "http://hydra.mirror.pengmeiyu.com")
+          %default-substitute-urls))
 
 (operating-system
   (host-name "tumashu")
@@ -74,7 +80,11 @@
   ;; include the X11 log-in service, networking with Wicd,
   ;; and more.
   (services (append (list (service xfce-desktop-service-type))
-                    %desktop-services))
+                    (modify-services %desktop-services
+                      (guix-service-type
+                       config => (guix-configuration
+                                  (inherit config)
+                                  (substitute-urls %my-substitute-urls))))))
 
   ;; Allow resolution of '.local' host names with mDNS.
   (name-service-switch %mdns-host-lookup-nss))
