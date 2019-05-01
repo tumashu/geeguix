@@ -5,8 +5,8 @@
 (use-package-modules certs gnome)
 
 (define %my-substitute-urls
-  (append '("http://guix.mirror.pengmeiyu.com"
-            "http://hydra.mirror.pengmeiyu.com")
+  (append '("https://guix-mirror.pengmeiyu.com"
+            "https://hydra-mirror.pengmeiyu.com")
           %default-substitute-urls))
 
 (operating-system
