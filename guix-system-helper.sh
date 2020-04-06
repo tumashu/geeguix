@@ -43,6 +43,7 @@ function guix_pull() {
 
 function guix_system_reconfigure() {
     repeatcmd sudo guix system reconfigure \
+              --keep-going \
               --max-silent-time=${GUIX_MAX_SILENT_TIME} \
               --substitute-urls=${GUIX_SUBSTITUTE_URLS} \
               ${GUIX_SYSTEM_CONFIG_FILE}
