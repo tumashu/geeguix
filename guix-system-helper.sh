@@ -4,8 +4,11 @@ set -e
 
 GUIX_GIT_URL="https://github.com/guix-mirror/guix"
 GUIX_SUBSTITUTE_URLS="http://141.80.181.40"
-GUIX_MAX_SILENT_TIME="120"
+GUIX_MAX_SILENT_TIME="200"
 GUIX_SYSTEM_CONFIG_FILE="guix-system-helper.scm"
+
+GUIX_PULL=""
+GUIX_SYSTEM_RECONFIGURE=""
 
 function repeatcmd() {
     set +e
@@ -33,13 +36,13 @@ function guix_pull() {
     repeatcmd guix pull \
               --max-silent-time=${GUIX_MAX_SILENT_TIME} \
               --url=${GUIX_GIT_URL} \
-              --substitute-urls=${GUIX_GIT_URL}
+              --substitute-urls=${GUIX_SUBSTITUTE_URLS}
 }
 
 function guix_system_reconfigure() {
     repeatcmd sudo guix system reconfigure \
               --max-silent-time=${GUIX_MAX_SILENT_TIME} \
-              --substitute-urls=${GUIX_GIT_URL} \
+              --substitute-urls=${GUIX_SUBSTITUTE_URLS} \
               ${GUIX_SYSTEM_CONFIG_FILE}
 }
 
@@ -62,22 +65,15 @@ function main() {
                 ;;
             -p|--pull)
                 guix_pull;
-                exit 0
                 ;;
             -r|--reconfigure)
                 guix_system_reconfigure;
-                exit 0
-                ;;
-            --)
-                shift
-                break
                 ;;
             *)
                 echo "错误的选项！"
                 exit 1
         esac
     done
-    guix_pull;
 }
 
 # 选项
