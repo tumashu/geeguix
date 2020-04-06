@@ -5,7 +5,7 @@ set -e
 GUIX_GIT_URL="https://github.com/guix-mirror/guix"
 GUIX_SUBSTITUTE_URLS="http://141.80.181.40"
 GUIX_MAX_SILENT_TIME="120"
-GUIX_SYSTEM_CONFIG_FILE="./guix-system-helper.scm"
+GUIX_SYSTEM_CONFIG_FILE="guix-system-helper.scm"
 
 function repeatcmd() {
     set +e
