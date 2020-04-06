@@ -35,6 +35,7 @@ function repeatcmd() {
 
 function guix_pull() {
     repeatcmd guix pull \
+              --keep-going \
               --max-silent-time=${GUIX_MAX_SILENT_TIME} \
               --url=${GUIX_GIT_URL} \
               --substitute-urls=${GUIX_SUBSTITUTE_URLS}
