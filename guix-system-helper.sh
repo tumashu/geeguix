@@ -5,7 +5,8 @@ set -e
 GUIX_GIT_URL="https://github.com/guix-mirror/guix"
 GUIX_SUBSTITUTE_URLS="http://141.80.181.40"
 GUIX_MAX_SILENT_TIME="200"
-GUIX_SYSTEM_CONFIG_FILE="guix-system-helper.scm"
+GUIX_SYSTEM_CONFIG_DIR=$(dirname "${BASH_SOURCE[0]}")
+GUIX_SYSTEM_CONFIG_FILE="${GUIX_SYSTEM_CONFIG_DIR}/guix-system-helper.scm"
 
 GUIX_PULL=""
 GUIX_SYSTEM_RECONFIGURE=""
