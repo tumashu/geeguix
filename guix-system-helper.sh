@@ -9,7 +9,6 @@ GUIX_SYSTEM_CONFIG_DIR=$(dirname "${BASH_SOURCE[0]}")
 GUIX_SYSTEM_CONFIG_FILE="${GUIX_SYSTEM_CONFIG_DIR}/guix-system-helper.scm"
 GUIX_COMMON_OPTIONS=$(echo --keep-going \
                            --max-silent-time=${GUIX_MAX_SILENT_TIME} \
-                           --url=${GUIX_GIT_URL} \
                            --substitute-urls=${GUIX_SUBSTITUTE_URLS})
 
 function repeatcmd() {
