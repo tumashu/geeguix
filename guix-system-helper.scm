@@ -75,8 +75,7 @@
                   "gtk-xfce-engine" "adwaita-icon-theme"
                   "gnome-icon-theme" "gnome-themes-standard"
                   "hicolor-icon-theme"
-                  "font-wqy-microhei"
-                  "postgresql"))
+                  "font-wqy-microhei"))
            %base-packages))
 
   ;; Add GNOME and/or Xfce---we can choose at the log-in
@@ -84,7 +83,6 @@
   ;; include the X11 log-in service, networking with Wicd,
   ;; and more.
   (services (append (list (service xfce-desktop-service-type))
-                    (list (postgresql-service #:extension-packages (list postgis)))
                     (modify-services %desktop-services
                       (guix-service-type
                        config => (guix-configuration
