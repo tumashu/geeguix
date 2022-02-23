@@ -14,6 +14,7 @@
 ;;; along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 (define-module (geeguix linux)
+  #:use-module (gnu)
   #:use-module (gnu packages)
   #:use-module (gnu packages base)
   #:use-module (gnu packages compression)
@@ -28,6 +29,24 @@
   #:use-module (guix build-system linux-module)
   #:use-module (guix build-system trivial)
   #:use-module (nongnu packages linux)
-  #:use-module (ice-9 match))
+  #:use-module (ice-9 match)
+  #:use-module (ice-9 textual-ports)
+  #:use-module (srfi srfi-1))
 
-(define-public linux/thinkpad-t14-amd linux-5.16)
+(define-public linux/thinkpad-t14-amd
+  (let* ((native-inputs (package-native-inputs linux-5.16))
+         (orig-config-str
+          (call-with-input-file (car (assoc-ref native-inputs "kconfig"))
+            get-string-all))
+         (config (mixed-text-file
+                  "thinkpad-t14-amd.config"
+                  orig-config-str
+                  "
+# Add by linux-feng.
+CONFIG_MT7921E=m")))
+    (package
+      (inherit linux-5.15)
+      (name "linux-feng")
+      (native-inputs
+       `(("kconfig" ,config)
+         ,@(alist-delete "kconfig" native-inputs))))))
