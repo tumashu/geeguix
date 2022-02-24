@@ -38,4 +38,6 @@ ThinkPad-T14-AMD 笔记本电脑使用 MEDIATEK 7961 无线网卡，所以开机
                  #t))
       (stop  #~(lambda _
                  (invoke #$(file-append kmod "/bin/rmmod") "mt7921e")
-                 #f))))))
+                 #f))))
+   #f
+   (description "关机之前运行 'rmmod mt7921e' 命令。")))
