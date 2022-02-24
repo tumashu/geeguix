@@ -1,0 +1,81 @@
+;;; -*- mode: scheme; -*-
+
+;; This "home-environment" file can be passed to 'guix home reconfigure'
+;; to reproduce the content of your profile.  This is "symbolic": it only
+;; specifies package names.  To reproduce the exact same profile, you also
+;; need to capture the channels being used, as returned by "guix describe".
+;; See the "Replicating Guix" section in the manual.
+
+(use-modules
+ (gnu home)
+ (gnu packages)
+ (gnu services)
+ (guix gexp)
+ (gnu home services shells))
+
+(home-environment
+ (packages
+  (map (compose list specification->package+output)
+       (list "bash"
+             "bash-completion"
+             "ungoogled-chromium"
+             "gimp"
+             "cheese"
+             ;; "firefox"
+             "unzip"
+             "font-wqy-microhei"
+             "fcitx5-chinese-addons"
+             "fcitx5-configtool"
+             "fcitx5"
+             "zile"
+             "gparted"
+             "file-roller"
+             "icecat"
+             "libreoffice"
+             "mercurial"
+             "git"
+             "emacs")))
+ (services
+  (list (service
+         home-bash-service-type
+         (home-bash-configuration
+          (guix-defaults? #t)
+          (bashrc
+           (list (plain-file "home-bashrc"
+                             "
+# append to the history file, don't overwrite it
+shopt -s histappend
+
+# check the window size after each command and, if necessary,
+# update the values of LINES and COLUMNS.
+shopt -s checkwinsize")))
+	  (environment-variables
+	   `(;; don't put duplicate lines or lines starting with space in the
+             ;; history.  See bash(1) for more options
+             ("HISTCONTROL"   . "ignoreboth")
+
+             ;; for setting history length see HISTSIZE and HISTFILESIZE in
+             ;; bash(1)
+             ("HISTSIZE"       . "1000")
+             ("HISTFILESIZE"   . "2000")
+
+             ;; set a fancy prompt (non-color, unless we know we "want" color)
+             ("color_prompt" . "yes")
+
+             ;; Fcitx5 input method
+             ("GTK_IM_MODULE" . "fcitx")
+	     ("QT_IM_MODULE"  . "fcitx")
+	     ("XMODIFIERS"    . "@im=fcitx")
+	     ;; ("GUIX_GTK2_IM_MODULE_FILE" .  "/run/current-system/profile/lib/gtk-2.0/2.10.0/immodules-gtk2.cache")
+	     ;; ("GUIX_GTK3_IM_MODULE_FILE" .  "/run/current-system/profile/lib/gtk-3.0/3.0.0/immodules-gtk3.cache")
+	     ("GUIX_GTK2_IM_MODULE_FILE" .  "${HOME}/.guix-profile/lib/gtk-2.0/2.10.0/immodules-gtk2.cache")
+	     ("GUIX_GTK3_IM_MODULE_FILE" .  "${HOME}/.guix-profile/lib/gtk-3.0/3.0.0/immodules-gtk3.cache")
+
+             ;; My personal guix packages.
+             ("GUIX_PACKAGE_PATH"        . "${HOME}/guix/geeguix:${HOME}/guix/nonguix:${GUIX_PACKAGE_PATH}")))
+          (aliases
+           '(("la" . "ls -A")
+             ("l"  . "ls -CF")
+             ("gp"   . "guix pull --allow-downgrades")
+             ("gsr"  . "sudo guix system reconfigure --allow-downgrades ~/guix/geeguix/example/system-config.tmpl")
+             ("ghr"  . "guix home reconfigure ~/guix/geeguix/example/home-config.tmpl"))))))))
