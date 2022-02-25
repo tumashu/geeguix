@@ -39,7 +39,7 @@
   (list (simple-service
          'useful-environment-variables-service
 	 home-environment-variables-service-type
-	 `(;; Fcitx5 input method
+	 '(;; Fcitx5 input method
            ("GTK_IM_MODULE" . "fcitx")
 	   ("QT_IM_MODULE"  . "fcitx")
 	   ("XMODIFIERS"    . "@im=fcitx")
@@ -64,7 +64,7 @@ shopt -s histappend
 # update the values of LINES and COLUMNS.
 shopt -s checkwinsize")))
           (environment-variables
-           `(;; Don't put duplicate lines or lines starting with space in the
+           '(;; Don't put duplicate lines or lines starting with space in the
              ;; history.  See bash(1) for more options
              ("HISTCONTROL"   . "ignoreboth")
 
