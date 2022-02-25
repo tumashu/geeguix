@@ -11,6 +11,7 @@
  (gnu packages)
  (gnu services)
  (guix gexp)
+ (gnu home services)
  (gnu home services shells))
 
 (home-environment
