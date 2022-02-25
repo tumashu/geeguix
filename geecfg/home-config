@@ -50,16 +50,16 @@ shopt -s histappend
 # update the values of LINES and COLUMNS.
 shopt -s checkwinsize")))
 	  (environment-variables
-	   `(;; don't put duplicate lines or lines starting with space in the
+	   `(;; Don't put duplicate lines or lines starting with space in the
              ;; history.  See bash(1) for more options
              ("HISTCONTROL"   . "ignoreboth")
 
-             ;; for setting history length see HISTSIZE and HISTFILESIZE in
+             ;; For setting history length see HISTSIZE and HISTFILESIZE in
              ;; bash(1)
              ("HISTSIZE"       . "1000")
              ("HISTFILESIZE"   . "2000")
 
-             ;; set a fancy prompt (non-color, unless we know we "want" color)
+             ;; Set a fancy prompt (non-color, unless we know we "want" color)
              ("color_prompt" . "yes")
 
              ;; Fcitx5 input method
@@ -76,6 +76,7 @@ shopt -s checkwinsize")))
           (aliases
            '(("la" . "ls -A")
              ("l"  . "ls -CF")
-             ("gp"   . "guix pull --allow-downgrades")
-             ("gsr"  . "sudo guix system reconfigure --allow-downgrades ~/guix/geeguix/example/system-config.tmpl")
-             ("ghr"  . "guix home reconfigure ~/guix/geeguix/example/home-config.tmpl"))))))))
+             ("gee-guix-pull"     . "guix pull --allow-downgrades")
+             ("gee-channel-ln"    . "rm -f $HOME/.config/guix/channels.scm; ln -s $HOME/guix/geeguix/geecfg/channel $HOME/.config/guix/channels.scm")
+             ("gee-system-update" . "sudo guix system reconfigure --allow-downgrades $HOME/guix/geeguix/geecfg/system-config")
+             ("gee-home-update"   . "guix home reconfigure $HOME/guix/geeguix/geecfg/home-config"))))))))
