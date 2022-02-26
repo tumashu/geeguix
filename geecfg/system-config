@@ -1,8 +1,5 @@
 ;;; -*- mode: scheme; -*-
 
-;; This is an operating system configuration generated
-;; by the graphical installer.
-
 (use-modules (gnu)
              (gnu system locale)
              (gnu services pm)
@@ -10,6 +7,7 @@
              (gnu packages linux)
              (gnu services shepherd)
              (nongnu packages linux)
+             (nongnu system linux-initrd)
              (geeguix linux)
              (geeguix services))
 
@@ -23,6 +21,7 @@
 (operating-system
   (kernel linux/thinkpad-t14-amd)
   (firmware (list linux-firmware))
+  (initrd microcode-initrd)
 
   (timezone "Asia/Shanghai")
   (keyboard-layout (keyboard-layout "cn"))
@@ -84,12 +83,13 @@
 
   (users (cons* (user-account
                  (name "feng")
-                 (comment "Feng")
+                 (comment "Feng Shu")
                  (group "users")
                  (home-directory "/home/feng")
                  (supplementary-groups
                   '("wheel"
                     "netdev"
+                    "lp"
                     "audio"
                     "video")))
                 %base-user-accounts))
@@ -100,7 +100,10 @@
                   "git"
                   "zile"
                   "tlp"
+                  "thermald"
                   "dconf"
+                  "bluez"
+                  "bluez-alsa"
                   "ntfs-3g"
                   "nss-certs"
                   "exfat-utils"
@@ -113,22 +116,24 @@
                   "hicolor-icon-theme"
                   "caja-extensions"
                   "font-wqy-microhei"
-                  "font-gnu-unifont"
-                  ))
+                  "font-gnu-unifont"))
            %base-packages))
 
   (services
-   (append (list
-            (service mt7921e-service-type)
-            (service mate-desktop-service-type)
-            (service openssh-service-type)
-            (service cups-service-type)
-            (service slim-service-type)
-	    (service tlp-service-type))
-           (modify-services %desktop-services
-             (delete gdm-service-type)
-	     (guix-service-type
-	      config => (guix-configuration
-		         (inherit config)
-		         (substitute-urls %my-substitute-urls)))))))
+   (cons* (service mt7921e-service-type)
+          (service mate-desktop-service-type)
+          (service openssh-service-type)
+          (service cups-service-type)
+          (service slim-service-type)
+          (service tlp-service-type)
+          (service thermald-service-type)
+          (modify-services %desktop-services
+            (delete gdm-service-type)
+            (guix-service-type
+             config => (guix-configuration
+		        (inherit config)
+		        (substitute-urls %my-substitute-urls))))))
+
+  ;; Allow resolution of '.local' host names with mDNS.
+  (name-service-switch %mdns-host-lookup-nss))
 
