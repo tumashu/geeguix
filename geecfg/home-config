@@ -19,6 +19,9 @@
   (map (compose list specification->package+output)
        (list "bash"
              "bash-completion"
+             "p7zip"
+             "unrar"
+             "zip"
              "ungoogled-chromium"
              "gimp"
              "cheese"
