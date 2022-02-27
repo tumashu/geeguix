@@ -27,6 +27,7 @@
              ;; ~/.guix-profile/etc/profile 中不会 *自动* 生成环境变量
              ;; CAJA_EXTENSION_DIRS 对应的设置，如果不想这么折腾，也可以自己设
              ;; 置 CAJA_EXTENSION_DIRS 的值。
+             "mate"
              "caja"
              "caja-extensions"
              "ungoogled-chromium"
