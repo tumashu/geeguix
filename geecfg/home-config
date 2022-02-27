@@ -69,7 +69,7 @@
               ,(string-append "${GUIX_CHECKOUT}/pre-inst-env guix home reconfigure "
                               "$HOME/guix/geeguix/geecfg/home-config"))))
           (environment-variables
-           '(;; Fcitx5 input method
+           `(;; Fcitx5 input method
              ("GTK_IM_MODULE" . "fcitx")
 	     ("QT_IM_MODULE"  . "fcitx")
 	     ("XMODIFIERS"    . "@im=fcitx")
@@ -80,4 +80,7 @@
 
              ;; Environment variables use by guix system.
              ("GUIX_CHECKOUT"            . "${HOME}/guix/guix")
-             ("GUIX_PACKAGE_PATH"        . "${HOME}/guix/geeguix:${HOME}/guix/nonguix:${GUIX_PACKAGE_PATH}"))))))))
+             ("GUIX_PACKAGE_PATH"        .
+              ,(string-prefix "${HOME}/guix/geeguix:"
+                              "${HOME}/guix/nonguix:"
+                              "${GUIX_PACKAGE_PATH}")))))))))
