@@ -44,12 +44,6 @@
          home-bash-service-type
          (home-bash-configuration
           (guix-defaults? #t)
-          (bash-profile
-           (list (plain-file "home-bash-profile"
-                             "
-# Source profile of guix.
-export GUIX_PROFILE=\"${HOME}/.guix-profile\"
-source \"${GUIX_PROFILE}/etc/profile\"")))
           (aliases
            '(("la" . "ls -A")
              ("l"  . "ls -CF")
