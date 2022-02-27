@@ -114,7 +114,6 @@
                   "gnome-icon-theme"
                   "gnome-themes-standard"
                   "hicolor-icon-theme"
-                  "caja-extensions"
                   "font-wqy-microhei"
                   "font-gnu-unifont"))
            %base-packages))
