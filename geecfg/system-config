@@ -126,7 +126,9 @@
           (service cups-service-type)
           (service slim-service-type)
           (service tlp-service-type)
-          (service thermald-service-type)
+          (service thermald-service-type
+                   (thermald-configuration
+                    (ignore-cpuid-check? #t)))
           (modify-services %desktop-services
             (delete gdm-service-type)
             (guix-service-type
