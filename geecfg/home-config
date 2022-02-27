@@ -12,7 +12,8 @@
  (gnu services)
  (guix gexp)
  (gnu home services)
- (gnu home services shells))
+ (gnu home services shells)
+ (srfi srfi-13))
 
 (home-environment
  (packages
@@ -81,6 +82,6 @@
              ;; Environment variables use by guix system.
              ("GUIX_CHECKOUT"            . "${HOME}/guix/guix")
              ("GUIX_PACKAGE_PATH"        .
-              ,(string-prefix "${HOME}/guix/geeguix:"
+              ,(string-append "${HOME}/guix/geeguix:"
                               "${HOME}/guix/nonguix:"
                               "${GUIX_PACKAGE_PATH}")))))))))
