@@ -37,6 +37,7 @@
              ;; "firefox"
              "unzip"
              "font-wqy-microhei"
+             ;; 建议将 fcitx5 安装到 HOME, 这样 addon 环境变量会正确设置。
              "fcitx5-chinese-addons"
              "fcitx5-configtool"
              "fcitx5"
@@ -83,9 +84,10 @@
 	     ("QT_IM_MODULE"  . "fcitx")
 	     ("XMODIFIERS"    . "@im=fcitx")
 
-             ;; use "/run/current-system/profile/" if install fcitx in system.
-	     ("GUIX_GTK2_IM_MODULE_FILE" . "${GUIX_PROFILE}/lib/gtk-2.0/2.10.0/immodules-gtk2.cache")
-	     ("GUIX_GTK3_IM_MODULE_FILE" . "${GUIX_PROFILE}/lib/gtk-3.0/3.0.0/immodules-gtk3.cache")
+	     ("GUIX_GTK2_IM_MODULE_FILE" .
+              "${GUIX_PROFILE}/lib/gtk-2.0/2.10.0/immodules-gtk2.cache")
+	     ("GUIX_GTK3_IM_MODULE_FILE" .
+              "${GUIX_PROFILE}/lib/gtk-3.0/3.0.0/immodules-gtk3.cache")
 
              ;; Environment variables use by guix system.
              ("GUIX_CHECKOUT"     . "${HOME}/guix/guix")
