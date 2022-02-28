@@ -42,7 +42,7 @@
                   "thinkpad-t14-amd.config"
                   orig-config-str
                   "
-# Add by linux-feng.
+# Add by linux-thinkpad-t14-amd.
 CONFIG_MT7921E=m")))
     (package
       (inherit linux)
