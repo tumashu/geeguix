@@ -45,7 +45,7 @@
 # Add by linux-feng.
 CONFIG_MT7921E=m")))
     (package
-      (inherit linux-5.15)
+      (inherit linux)
       (name "linux-thinkpad-t14-amd")
       (native-inputs
        `(("kconfig" ,config)
