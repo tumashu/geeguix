@@ -46,7 +46,7 @@
 CONFIG_MT7921E=m")))
     (package
       (inherit linux-5.15)
-      (name "linux-feng")
+      (name "linux-thinkpad-t14-amd")
       (native-inputs
        `(("kconfig" ,config)
          ,@(alist-delete "kconfig" native-inputs))))))
