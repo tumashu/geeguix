@@ -25,7 +25,7 @@
              "zip"
              ;; 要想 caja 支持 extensions, 就必须在个人目录中将 caja 和
              ;; caja-extensions 两个包再装一次，不然文件
-             ;; ~/.guix-profile/etc/profile 中不会 *自动* 生成环境变量
+             ;; '~/.guix-profile/etc/profile' 中不会 *自动* 生成环境变量
              ;; CAJA_EXTENSION_DIRS 对应的设置，如果不想这么折腾，也可以自己设
              ;; 置 CAJA_EXTENSION_DIRS 的值。
              "mate"
@@ -59,18 +59,24 @@
              ("iguix"            .
               "${GUIX_CHECKOUT}/pre-inst-env guix")
              ("iguix-pull"       .
-              "${GUIX_CHECKOUT}/pre-inst-env guix pull --allow-downgrades")
+              ,(string-join
+                '("${GUIX_CHECKOUT}/pre-inst-env"
+                  "guix pull --allow-downgrades")))
              ("ichannel-link"    .
-              ,(string-append "rm -f $HOME/.config/guix/channels.scm; "
-                              "ln -s $HOME/guix/geeguix/geecfg/channel "
-                              "$HOME/.config/guix/channels.scm"))
+              ,(string-join
+                '("rm -f $HOME/.config/guix/channels.scm;"
+                  "ln -s $HOME/guix/geeguix/geecfg/channel"
+                  "$HOME/.config/guix/channels.scm")))
              ("isystem-reconfig" .
-              ,(string-append "sudo -E ${GUIX_CHECKOUT}/pre-inst-env "
-                              "guix system reconfigure --allow-downgrades "
-                              "$HOME/guix/geeguix/geecfg/system-config"))
+              ,(string-join
+                '("sudo -E ${GUIX_CHECKOUT}/pre-inst-env"
+                  "guix system reconfigure --allow-downgrades"
+                  "$HOME/guix/geeguix/geecfg/system-config")))
              ("ihome-reconfig"   .
-              ,(string-append "${GUIX_CHECKOUT}/pre-inst-env guix home reconfigure "
-                              "$HOME/guix/geeguix/geecfg/home-config"))))
+              ,(string-join
+                '("${GUIX_CHECKOUT}/pre-inst-env"
+                  "guix home reconfigure"
+                  "$HOME/guix/geeguix/geecfg/home-config")))))
           (environment-variables
            `(;; Fcitx5 input method
              ("GTK_IM_MODULE" . "fcitx")
@@ -82,8 +88,9 @@
 	     ("GUIX_GTK3_IM_MODULE_FILE" . "${GUIX_PROFILE}/lib/gtk-3.0/3.0.0/immodules-gtk3.cache")
 
              ;; Environment variables use by guix system.
-             ("GUIX_CHECKOUT"            . "${HOME}/guix/guix")
-             ("GUIX_PACKAGE_PATH"        .
-              ,(string-append "${HOME}/guix/geeguix:"
-                              "${HOME}/guix/nonguix:"
-                              "${GUIX_PACKAGE_PATH}")))))))))
+             ("GUIX_CHECKOUT"     . "${HOME}/guix/guix")
+             ("GUIX_PACKAGE_PATH" .
+              ,(string-join
+                '("${HOME}/guix/geeguix"
+                  "${HOME}/guix/nonguix"
+                  "${GUIX_PACKAGE_PATH}") ":")))))))))
