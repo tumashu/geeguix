@@ -35,7 +35,7 @@
              "ungoogled-chromium"
              "gimp"
              "cheese"
-             ;; "firefox"
+             "firefox"
              "unzip"
              "font-wqy-microhei"
              ;; 建议将 fcitx5 安装到 HOME, 这样 addon 环境变量会正确设置。
