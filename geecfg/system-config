@@ -109,7 +109,11 @@
                   "exfat-utils"
                   "fuse-exfat"
                   "pulseaudio"
+                  "xfce4-cpufreq-plugin"
+                  "xfce4-cpugraph-plugin"
+                  "xfce4-systemload-plugin"
                   "network-manager-applet"
+                  "gtk-xfce-engine"
                   "adwaita-icon-theme"
                   "gnome-icon-theme"
                   "gnome-themes-standard"
@@ -120,7 +124,7 @@
 
   (services
    (cons* (service mt7921e-service-type)
-          (service mate-desktop-service-type)
+          (service xfce-desktop-service-type)
           (service openssh-service-type)
           (service cups-service-type)
           (service slim-service-type)

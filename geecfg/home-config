@@ -23,19 +23,10 @@
              "p7zip"
              "unrar"
              "zip"
-             ;; 要想 caja 支持 extensions, 就必须在个人目录中将 caja 和
-             ;; caja-extensions 两个包再装一次，不然文件
-             ;; '~/.guix-profile/etc/profile' 中不会 *自动* 生成环境变量
-             ;; CAJA_EXTENSION_DIRS 对应的设置，如果不想这么折腾，也可以自己设
-             ;; 置 CAJA_EXTENSION_DIRS 的值。
-             "mate"
-             "mate-applets"
-             "caja"
-             "caja-extensions"
-             "ungoogled-chromium"
+             ;; "ungoogled-chromium"
              "gimp"
              "cheese"
-             "firefox"
+             ;; "firefox"
              "unzip"
              "font-wqy-microhei"
              ;; 建议将 fcitx5 安装到 HOME, 这样 addon 环境变量会正确设置。
@@ -62,8 +53,7 @@
               "${GUIX_CHECKOUT}/pre-inst-env guix")
              ("iguix-pull"       .
               ,(string-join
-                '("${GUIX_CHECKOUT}/pre-inst-env"
-                  "guix pull --allow-downgrades")))
+                '("guix pull --allow-downgrades")))
              ("iguix-make"       .
               ,(string-join
                 '("cd ${GUIX_CHECKOUT};"
@@ -75,13 +65,11 @@
                   "$HOME/.config/guix/channels.scm")))
              ("isystem-reconfig" .
               ,(string-join
-                '("sudo -E ${GUIX_CHECKOUT}/pre-inst-env"
-                  "guix system reconfigure --allow-downgrades"
+                '("sudo -E guix system reconfigure --allow-downgrades"
                   "$HOME/guix/geeguix/geecfg/system-config")))
              ("ihome-reconfig"   .
               ,(string-join
-                '("${GUIX_CHECKOUT}/pre-inst-env"
-                  "guix home reconfigure"
+                '("guix home reconfigure"
                   "$HOME/guix/geeguix/geecfg/home-config")))))
           (environment-variables
            `(;; Fcitx5 input method
