@@ -18,29 +18,37 @@
 (home-environment
  (packages
   (map (compose list specification->package+output)
-       (list "bash"
+       (list "adwaita-icon-theme"
              "bash-completion"
-             "p7zip"
-             "unrar"
-             "zip"
-             ;; "ungoogled-chromium"
-             "gimp"
-             "cheese"
-             ;; "firefox"
-             "unzip"
-             "font-wqy-microhei"
-             ;; 建议将 fcitx5 安装到 HOME, 这样 addon 环境变量会正确设置。
+             "brightnessctl"
+             "elementary-xfce-icon-theme"
+             "emacs"
+             "fcitx5"
              "fcitx5-chinese-addons"
              "fcitx5-configtool"
-             "fcitx5"
-             "zile"
+             ;; "firefox"
+             "font-wqy-microhei"
+             "gimp"
+             "git"
+             "gnome-icon-theme"
              "gparted"
-             "file-roller"
+             "gtk-xfce-engine"
              "icecat"
              "libreoffice"
              "mercurial"
-             "git"
-             "emacs")))
+             "mousepad"
+             "mpv"
+             "p7zip"
+             "ristretto"
+             "tango-icon-theme"
+             ;; "ungoogled-chromium"
+             "unrar"
+             "unzip"
+             "vlc"
+             "watchexec"
+             "xarchiver"
+             "xfce4-screenshooter"
+             "zile")))
  (services
   (list (service
          home-bash-service-type
