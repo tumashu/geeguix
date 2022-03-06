@@ -18,37 +18,53 @@
 (home-environment
  (packages
   (map (compose list specification->package+output)
-       (list "adwaita-icon-theme"
-             "bash-completion"
-             "brightnessctl"
-             "elementary-xfce-icon-theme"
-             "engrampa"
-             "emacs"
-             "fcitx5"
-             "fcitx5-chinese-addons"
-             "fcitx5-configtool"
-             ;; "firefox"
-             "font-wqy-microhei"
-             "gimp"
-             "git"
-             "gnome-icon-theme"
-             "gparted"
-             "gtk-xfce-engine"
-             "icecat"
-             "libreoffice"
-             "mercurial"
-             "mousepad"
-             "mpv"
-             "p7zip"
-             "ristretto"
-             "tango-icon-theme"
-             ;; "ungoogled-chromium"
-             "unrar"
-             "unzip"
-             "vlc"
-             "watchexec"
-             "xfce4-screenshooter"
-             "zile")))
+       (list
+        ;; 基本工具
+        "bash-completion"
+        "git"
+        "emacs"
+        "mercurial"
+        "p7zip"
+        "unrar"
+        "unzip"
+        "watchexec"
+        "zile"
+
+        ;; 网页浏览器
+        "icecat"
+        ;; "firefox"
+        ;; "ungoogled-chromium"
+
+        ;; 中文输入法
+        "fcitx5"
+        "fcitx5-chinese-addons"
+        "fcitx5-configtool"
+
+        ;; 办公软件
+        "libreoffice"
+
+        ;; 硬件管理
+        "brightnessctl"
+        "gparted"
+        
+        ;; 主题字体
+        "adwaita-icon-theme"
+        "elementary-xfce-icon-theme"
+        "gnome-icon-theme"
+        "font-wqy-microhei"
+        "gtk-xfce-engine"
+        "tango-icon-theme"
+
+        ;; Xfce4 桌面工具
+        "engrampa"
+        "mousepad"
+        "ristretto"
+        "xfce4-screenshooter"
+
+        ;; 声音图像多媒体
+        "mpv"
+        "vlc"
+        "gimp")))
  (services
   (list (service
          home-bash-service-type
