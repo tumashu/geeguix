@@ -55,7 +55,9 @@
         "gtk-xfce-engine"
         "tango-icon-theme"
 
-        ;; Xfce4 桌面工具
+        ;; 桌面工具
+        "xautolock"
+        "xlockmore"
         "engrampa"
         "mousepad"
         "ristretto"
