@@ -56,8 +56,6 @@
         "tango-icon-theme"
 
         ;; 桌面工具
-        "xautolock"
-        "xlockmore"
         "engrampa"
         "mousepad"
         "ristretto"
