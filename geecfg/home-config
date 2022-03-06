@@ -8,12 +8,50 @@
 
 (use-modules
  (gnu home)
- (gnu packages)
- (gnu services)
- (guix gexp)
  (gnu home services)
+ (gnu home services desktop)
  (gnu home services shells)
+ (gnu home services shepherd)
+ (gnu packages)
+ (gnu packages admin)
+ (gnu packages linux)
+ (gnu packages syncthing)
+ (gnu packages xdisorg)
+ (gnu services)
+ (gnu services shepherd)
+ (guix gexp)
  (srfi srfi-13))
+
+(define syncthing-service
+  (shepherd-service
+   (provision '(syncthing))
+   (documentation "Run 'syncthing' without calling the browser")
+   (respawn? #t)
+   (start #~(make-forkexec-constructor
+             (list #$(file-append syncthing "/bin/syncthing")
+                   "-no-browser"
+                   "-logflags=3" ; prefix with date & time
+                   "-logfile=~/.cache/syncthing-log/syncthing.log")))
+   (stop #~(make-kill-destructor))))
+
+(define xautolock-service
+  (shepherd-service
+   (provision '(xautolock))
+   (documentation "Run 'xautolock'")
+   (start #~(make-forkexec-constructor
+             (list #$(file-append xautolock "/bin/xautolock"))))
+   (stop #~(make-kill-destructor))))
+
+(define brightnessctl-service
+  (shepherd-service
+   (provision '(brightnessctl))
+   (documentation "Run 'brightnessctl'")
+   (one-shot? #t)
+   (respawn? #f)
+   (start #~(make-forkexec-constructor
+             (list #$(file-append brightnessctl "/bin/brightnessctl")
+                   "set" "70")))
+   (stop #~(make-kill-destructor))))
 
 (home-environment
  (packages
@@ -51,9 +89,10 @@
         "adwaita-icon-theme"
         "elementary-xfce-icon-theme"
         "gnome-icon-theme"
+        "gnome-themes-standard"
+        "gnome-themes-extra"
+        "mate-themes"
         "font-wqy-microhei"
-        "gtk-xfce-engine"
-        "tango-icon-theme"
 
         ;; 桌面工具
         "engrampa"
@@ -61,12 +100,23 @@
         "ristretto"
         "xfce4-screenshooter"
 
+        ;; 同步工具
+        "syncthing"
+        "syncthing-gtk"
+
         ;; 声音图像多媒体
         "mpv"
         "vlc"
         "gimp")))
  (services
-  (list (service
+  (list (service home-shepherd-service-type
+                 (home-shepherd-configuration
+                  (shepherd shepherd)
+                  (services
+                   (list syncthing-service
+                         xautolock-service
+                         brightnessctl-service))))
+        (service
          home-bash-service-type
          (home-bash-configuration
           (guix-defaults? #t)

@@ -135,11 +135,8 @@
                  "network-manager-applet"
 
                  ;; 字体主题
-                 "gtk-xfce-engine"
-                 "adwaita-icon-theme"
                  "gnome-icon-theme"
                  "gnome-themes-standard"
-                 "hicolor-icon-theme"
                  "font-wqy-microhei"
                  "font-gnu-unifont"))
            %base-packages))
