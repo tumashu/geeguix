@@ -46,7 +46,6 @@
              "unzip"
              "vlc"
              "watchexec"
-             "xarchiver"
              "xfce4-screenshooter"
              "zile")))
  (services
