@@ -10,8 +10,10 @@
  (gnu home)
  (gnu home services)
  (gnu home services desktop)
+ (gnu home services fontutils)
  (gnu home services shells)
  (gnu home services shepherd)
+ (gnu home services xdg)
  (gnu packages)
  (gnu packages admin)
  (gnu packages linux)
@@ -31,7 +33,7 @@
              (list #$(file-append syncthing "/bin/syncthing")
                    "-no-browser"
                    "-logflags=3" ; prefix with date & time
-                   "-logfile=~/.cache/syncthing-log/syncthing.log")))
+                   "-logfile=/home/feng/.local/var/log/syncthing.log")))
    (stop #~(make-kill-destructor))))
 
 (define xautolock-service
@@ -109,7 +111,17 @@
         "vlc"
         "gimp")))
  (services
-  (list (service home-shepherd-service-type
+  (list (service home-xdg-user-directories-service-type
+                 (home-xdg-user-directories-configuration
+                  (desktop     "$HOME/desktop")
+                  (documents   "$HOME/documents")
+                  (download    "$HOME/downloads")
+                  (music       "$HOME/music")
+                  (pictures    "$HOME/pictures")
+                  (publicshare "$HOME/public")
+                  (templates   "$HOME/templates")
+                  (videos      "$HOME/videos")))
+        (service home-shepherd-service-type
                  (home-shepherd-configuration
                   (shepherd shepherd)
                   (services
