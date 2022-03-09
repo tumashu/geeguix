@@ -121,12 +121,13 @@
                  "pulseaudio"
 
                  ;; 屏幕保护和锁屏
-                 ;; xfce-screensaver 好像没有和 guix system 集成好，锁住之后
-                 ;; 输入密码都无法解锁，所以这里使用 'xautolock + xlock' 的自
-                 ;; 动锁屏方案， Guix system 自动安装并且设置好 xlock 锁屏程
-                 ;; 序。
-                 "xlockmore"
                  "xautolock"
+                 "xss-lock"
+                 ;; xfce-screensaver 好像没有和 guix system 集成好，锁住之后无
+                 ;; 法解锁，所以这里使用 xautolock 或者 xss-lock 配合
+                 ;; xlockmore 包提供的 xlock 命令的自动锁屏方案， Guix system
+                 ;; 已经自动安装并且设置好 xlock 锁屏程序。
+                 "xlockmore"
 
                  ;; Xfce4-panel 插件
                  "xfce4-cpufreq-plugin"
