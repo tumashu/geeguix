@@ -41,7 +41,8 @@
    (provision '(xautolock))
    (documentation "Run 'xautolock'")
    (start #~(make-forkexec-constructor
-             (list #$(file-append xautolock "/bin/xautolock"))))
+             (list #$(file-append xautolock "/bin/xautolock")
+                   "-detectsleep")))
    (stop #~(make-kill-destructor))))
 
 (define brightnessctl-service
