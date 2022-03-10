@@ -174,7 +174,4 @@
 
              ;; Environment variables use by guix system.
              ("GUIX_CHECKOUT"     . "${HOME}/guix/guix")
-             ("GUIX_PACKAGE_PATH" .
-              ,(string-join
-                '("${HOME}/geeguix/packages"
-                  "${GUIX_PACKAGE_PATH}") ":")))))))))
+             ("GUIX_PACKAGE_PATH" . "${HOME}/geeguix/packages"))))))))
