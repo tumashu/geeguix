@@ -1,15 +1,15 @@
 ;;; -*- mode: scheme; -*-
 
-(use-modules (gnu)
-             (gnu system locale)
-             (gnu services pm)
+(use-modules (geeguix linux)
+             (geeguix services)
+             (gnu)
              (gnu packages audio)
              (gnu packages linux)
+             (gnu services pm)
              (gnu services shepherd)
+             (gnu system locale)
              (nongnu packages linux)
-             (nongnu system linux-initrd)
-             (geeguix linux)
-             (geeguix services))
+             (nongnu system linux-initrd))
 
 (use-service-modules
  cups guix desktop networking ssh xorg)

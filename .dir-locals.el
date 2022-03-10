@@ -7,6 +7,8 @@
  (scheme-mode
   .
   ((indent-tabs-mode . nil)
+   (guix-devel-mode . t)
+   (eval . (aggressive-indent-mode 1))
    (eval . (put 'eval-when 'scheme-indent-function 1))
    (eval . (put 'call-with-prompt 'scheme-indent-function 1))
    (eval . (put 'test-assert 'scheme-indent-function 1))

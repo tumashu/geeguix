@@ -16,11 +16,11 @@
 ;;; along with GNU Guix. If not, see <http://www.gnu.org/licenses/>.
 
 (define-module (geeguix services)
-  #:use-module (guix gexp)
   #:use-module (gnu packages)
   #:use-module (gnu packages linux)
   #:use-module (gnu services)
-  #:use-module (gnu services shepherd))
+  #:use-module (gnu services shepherd)
+  #:use-module (guix gexp))
 
 (define-public mt7921e-service-type
   (shepherd-service-type

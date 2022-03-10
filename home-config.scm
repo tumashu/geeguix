@@ -6,23 +6,33 @@
 ;; need to capture the channels being used, as returned by "guix describe".
 ;; See the "Replicating Guix" section in the manual.
 
-(use-modules
- (gnu home)
- (gnu home services)
- (gnu home services desktop)
- (gnu home services fontutils)
- (gnu home services shells)
- (gnu home services shepherd)
- (gnu home services xdg)
- (gnu packages)
- (gnu packages admin)
- (gnu packages linux)
- (gnu packages syncthing)
- (gnu packages xdisorg)
- (gnu services)
- (gnu services shepherd)
- (guix gexp)
- (srfi srfi-13))
+(use-modules (gnu home)
+             (gnu home services)
+             (gnu home services desktop)
+             (gnu home services fontutils)
+             (gnu home services shells)
+             (gnu home services shepherd)
+             (gnu home services xdg)
+             (gnu packages)
+             (gnu packages admin)
+             (gnu packages linux)
+             (gnu packages syncthing)
+             (gnu packages xdisorg)
+             (gnu services)
+             (gnu services shepherd)
+             (guix gexp)
+             (srfi srfi-13))
+
+(define brightnessctl-service
+  (shepherd-service
+   (provision '(brightnessctl))
+   (documentation "Run 'brightnessctl'")
+   (one-shot? #t)
+   (respawn? #f)
+   (start #~(make-forkexec-constructor
+             (list #$(file-append brightnessctl "/bin/brightnessctl")
+                   "set" "70")))
+   (stop #~(make-kill-destructor))))
 
 (define syncthing-service
   (shepherd-service
@@ -43,17 +53,6 @@
    (start #~(make-forkexec-constructor
              (list #$(file-append xautolock "/bin/xautolock")
                    "-detectsleep")))
-   (stop #~(make-kill-destructor))))
-
-(define brightnessctl-service
-  (shepherd-service
-   (provision '(brightnessctl))
-   (documentation "Run 'brightnessctl'")
-   (one-shot? #t)
-   (respawn? #f)
-   (start #~(make-forkexec-constructor
-             (list #$(file-append brightnessctl "/bin/brightnessctl")
-                   "set" "70")))
    (stop #~(make-kill-destructor))))
 
 (home-environment
@@ -145,9 +144,6 @@
              ("l"  . "ls -CF")
              ("iguix"            .
               "${GUIX_CHECKOUT}/pre-inst-env guix")
-             ("iguix-pull"       .
-              ,(string-join
-                '("guix pull --allow-downgrades")))
              ("iguix-make"       .
               ,(string-join
                 '("cd ${GUIX_CHECKOUT};"
@@ -155,16 +151,16 @@
              ("ichannel-link"    .
               ,(string-join
                 '("rm -f $HOME/.config/guix/channels.scm;"
-                  "ln -s $HOME/guix/geeguix/geecfg/channel"
+                  "ln -s $HOME/geeguix/channels.scm"
                   "$HOME/.config/guix/channels.scm")))
              ("isystem-reconfig" .
               ,(string-join
-                '("sudo -E guix system reconfigure --allow-downgrades"
-                  "$HOME/guix/geeguix/geecfg/system-config")))
+                '("sudo -E guix system reconfigure"
+                  "$HOME/geeguix/system-config.scm")))
              ("ihome-reconfig"   .
               ,(string-join
                 '("guix home reconfigure"
-                  "$HOME/guix/geeguix/geecfg/home-config")))))
+                  "$HOME/geeguix/home-config.scm")))))
           (environment-variables
            `(;; Fcitx5 input method
              ("GTK_IM_MODULE" . "fcitx")
@@ -180,6 +176,5 @@
              ("GUIX_CHECKOUT"     . "${HOME}/guix/guix")
              ("GUIX_PACKAGE_PATH" .
               ,(string-join
-                '("${HOME}/guix/geeguix"
-                  "${HOME}/guix/nonguix"
+                '("${HOME}/geeguix/packages"
                   "${GUIX_PACKAGE_PATH}") ":")))))))))
