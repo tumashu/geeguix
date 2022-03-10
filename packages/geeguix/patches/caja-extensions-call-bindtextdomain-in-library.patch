@@ -1,0 +1,163 @@
+From b07017e6c7b908ecdfd62a4a208fdae7d2a942cb Mon Sep 17 00:00:00 2001
+From: Feng Shu <tumashu@163.com>
+Date: Fri, 4 Mar 2022 16:28:10 +0800
+Subject: [PATCH] Revert "Do not call bindtextdomain/bind_textdomain_codeset in
+ libraries"
+
+This reverts commit 86d43b190d57402a7e531a8079f90b52bc83567f.
+---
+ image-converter/image-converter.c                    | 3 +++
+ open-terminal/open-terminal.c                        | 3 +++
+ sendto/caja-sendto-module.c                          | 3 +++
+ sendto/plugins/caja-burn/caja-burn.c                 | 3 +++
+ sendto/plugins/emailclient/emailclient.c             | 3 +++
+ sendto/plugins/gajim/gajim.c                         | 3 +++
+ sendto/plugins/pidgin/pidgin.c                       | 3 +++
+ sendto/plugins/removable-devices/removable-devices.c | 3 +++
+ sendto/plugins/upnp/upnp.c                           | 3 +++
+ share/caja-share.c                                   | 3 +++
+ 10 files changed, 30 insertions(+)
+
+diff --git a/image-converter/image-converter.c b/image-converter/image-converter.c
+index 35a55eb..9d6a024 100644
+--- a/image-converter/image-converter.c
++++ b/image-converter/image-converter.c
+@@ -40,6 +40,9 @@ caja_module_initialize (GTypeModule *module)
+ 
+ 	caja_image_converter_register_type (module);
+ 	type_list[0] = CAJA_TYPE_IMAGE_CONVERTER;
++
++	bindtextdomain (GETTEXT_PACKAGE, MATELOCALEDIR);
++	bind_textdomain_codeset (GETTEXT_PACKAGE, "UTF-8");
+ }
+ 
+ void
+diff --git a/open-terminal/open-terminal.c b/open-terminal/open-terminal.c
+index d478958..971296c 100644
+--- a/open-terminal/open-terminal.c
++++ b/open-terminal/open-terminal.c
+@@ -40,6 +40,9 @@ caja_module_initialize (GTypeModule *module)
+ 
+ 	caja_open_terminal_register_type (module);
+ 	type_list[0] = CAJA_TYPE_OPEN_TERMINAL;
++
++	bindtextdomain (GETTEXT_PACKAGE, MATELOCALEDIR);
++	bind_textdomain_codeset (GETTEXT_PACKAGE, "UTF-8");
+ }
+ 
+ void
+diff --git a/sendto/caja-sendto-module.c b/sendto/caja-sendto-module.c
+index ed580ba..af0fd0f 100644
+--- a/sendto/caja-sendto-module.c
++++ b/sendto/caja-sendto-module.c
+@@ -37,6 +37,9 @@ caja_module_initialize (GTypeModule*module)
+ {
+ 	g_print ("Initializing caja-sendto extension\n");
+ 	caja_nste_register_type (module);
++
++	bindtextdomain (GETTEXT_PACKAGE, MATELOCALEDIR);
++	bind_textdomain_codeset (GETTEXT_PACKAGE, "UTF-8");
+ }
+ 
+ void
+diff --git a/sendto/plugins/caja-burn/caja-burn.c b/sendto/plugins/caja-burn/caja-burn.c
+index b9cbb53..fe0570d 100644
+--- a/sendto/plugins/caja-burn/caja-burn.c
++++ b/sendto/plugins/caja-burn/caja-burn.c
+@@ -50,6 +50,9 @@ gboolean init (NstPlugin *plugin)
+ 
+ 	g_print ("Init caja burn plugin\n");
+ 
++	bindtextdomain (GETTEXT_PACKAGE, MATELOCALEDIR);
++	bind_textdomain_codeset (GETTEXT_PACKAGE, "UTF-8");
++
+ 	it = gtk_icon_theme_get_default ();
+ 	gtk_icon_theme_append_search_path (it, DATADIR "/brasero/icons");
+ 
+diff --git a/sendto/plugins/emailclient/emailclient.c b/sendto/plugins/emailclient/emailclient.c
+index e325289..3687d6d 100644
+--- a/sendto/plugins/emailclient/emailclient.c
++++ b/sendto/plugins/emailclient/emailclient.c
+@@ -81,6 +81,9 @@ init (NstPlugin *plugin)
+ 
+ 	g_print ("Init email client plugin\n");
+ 
++	bindtextdomain (GETTEXT_PACKAGE, MATELOCALEDIR);
++	bind_textdomain_codeset (GETTEXT_PACKAGE, "UTF-8");
++
+ 	app_info = g_app_info_get_default_for_uri_scheme ("mailto");
+ 	if (app_info) {
+ 		mail_cmd = g_strdup(g_app_info_get_executable (app_info));
+diff --git a/sendto/plugins/gajim/gajim.c b/sendto/plugins/gajim/gajim.c
+index d80c50a..32e0c38 100644
+--- a/sendto/plugins/gajim/gajim.c
++++ b/sendto/plugins/gajim/gajim.c
+@@ -262,6 +262,9 @@ init (NstPlugin *plugin)
+ {
+ 	g_print ("Init gajim plugin\n");
+ 
++	bindtextdomain (GETTEXT_PACKAGE, MATELOCALEDIR);
++	bind_textdomain_codeset (GETTEXT_PACKAGE, "UTF-8");
++
+ 	/* connect to gajim dbus service */
+ 	jid_table = g_hash_table_new (g_str_hash, g_str_equal);
+ 	if (!init_dbus()) {
+diff --git a/sendto/plugins/pidgin/pidgin.c b/sendto/plugins/pidgin/pidgin.c
+index 7b7b107..13ae911 100644
+--- a/sendto/plugins/pidgin/pidgin.c
++++ b/sendto/plugins/pidgin/pidgin.c
+@@ -83,6 +83,9 @@ init (NstPlugin *plugin)
+ 
+ 	g_print ("Init pidgin plugin\n");
+ 
++	bindtextdomain (GETTEXT_PACKAGE, MATELOCALEDIR);
++	bind_textdomain_codeset (GETTEXT_PACKAGE, "UTF-8");
++
+ 	error = NULL;
+ 	connection = dbus_g_bus_get (DBUS_BUS_SESSION, &error);
+ 	if(error != NULL) {
+diff --git a/sendto/plugins/removable-devices/removable-devices.c b/sendto/plugins/removable-devices/removable-devices.c
+index 1b09b19..f64b17c 100644
+--- a/sendto/plugins/removable-devices/removable-devices.c
++++ b/sendto/plugins/removable-devices/removable-devices.c
+@@ -151,6 +151,9 @@ init (NstPlugin *plugin)
+ {
+ 	g_print ("Init removable-devices plugin\n");
+ 
++	bindtextdomain (GETTEXT_PACKAGE, MATELOCALEDIR);
++	bind_textdomain_codeset (GETTEXT_PACKAGE, "UTF-8");
++
+ 	vol_monitor = g_volume_monitor_get ();
+ 	cb = gtk_combo_box_new ();
+ 
+diff --git a/sendto/plugins/upnp/upnp.c b/sendto/plugins/upnp/upnp.c
+index b7000c9..9843cbb 100644
+--- a/sendto/plugins/upnp/upnp.c
++++ b/sendto/plugins/upnp/upnp.c
+@@ -201,6 +201,9 @@ init (NstPlugin *plugin)
+ 	GtkCellRenderer *renderer;
+ 	char *upload_cmd;
+ 
++	bindtextdomain (GETTEXT_PACKAGE, MATELOCALEDIR);
++	bind_textdomain_codeset (GETTEXT_PACKAGE, "UTF-8");
++
+ 	upload_cmd = g_find_program_in_path ("gupnp-upload");
+ 	if (upload_cmd == NULL)
+ 		return FALSE;
+diff --git a/share/caja-share.c b/share/caja-share.c
+index 67c43c3..db6b70d 100644
+--- a/share/caja-share.c
++++ b/share/caja-share.c
+@@ -1257,6 +1257,9 @@ caja_module_initialize (GTypeModule  *module)
+ {
+   g_print ("Initializing caja-share extension\n");
+ 
++  bindtextdomain(GETTEXT_PACKAGE, MATELOCALEDIR);
++  bind_textdomain_codeset(GETTEXT_PACKAGE, "UTF-8");
++
+   caja_share_register_type (module);
+ }
+ 
+-- 
+2.30.2
+

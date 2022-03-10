@@ -52,7 +52,8 @@
    (documentation "Run 'xautolock'")
    (start #~(make-forkexec-constructor
              (list #$(file-append xautolock "/bin/xautolock")
-                   "-detectsleep")))
+                   "-detectsleep"
+                   "-corners" "++++")))
    (stop #~(make-kill-destructor))))
 
 (home-environment
@@ -97,17 +98,8 @@
         "font-wqy-microhei"
 
         ;; 桌面工具
-        "engrampa"
-        "mousepad"
-        "ristretto"
-        "xfce4-screenshooter"
-        ;; Guix system 下 xfce-screensaver 和 mate-screensaver 目前都不可用，
-        ;; 即使手工添加 suid 权限，也存在锁住之后无法解锁的问题。目前只知道
-        ;; slock 和 xlock 两个可以使用。xdg-utils 包含的屏保工具
-        ;; xdg-screensaver，可以让 mate-desktop 支持 xautolock, xautolock 可以
-        ;; 设置使用 xlock 或者 slock. xfce4 内置锁屏脚本，可以支持 xlock 和
-        ;; slock
-        "xdg-utils" 
+        "dconf-editor"
+        "xdg-utils"
 
         ;; 同步工具
         "syncthing"
@@ -171,6 +163,17 @@
               "${GUIX_PROFILE}/lib/gtk-2.0/2.10.0/immodules-gtk2.cache")
 	     ("GUIX_GTK3_IM_MODULE_FILE" .
               "${GUIX_PROFILE}/lib/gtk-3.0/3.0.0/immodules-gtk3.cache")
+
+             ;; Environment variables used by mate-desktop.
+             ;; 
+             ;; Guix 有专门的机制处理类似这种环境变量，只要用户在自己 home 中
+             ;; 安装 caja 和 mate-panel, 然后 ". ~/.guix-profile/etc/profile"
+             ;; 就可以激活，我这里不用这种机制，手工设置，因为在 system 和
+             ;; home 中同时安装 mate 相关组件，容易出现版本不一致的问题，排查
+             ;; 起来啰嗦。
+             ;;
+             ("CAJA_EXTENSION_DIRS"    . "/run/current-system/profile/lib/caja/extensions-2.0")
+             ("MATE_PANEL_APPLETS_DIR" .  "/run/current-system/profile/share/mate-panel/applets")
 
              ;; Environment variables use by guix system.
              ("GUIX_CHECKOUT"     . "${HOME}/guix/guix")

@@ -1,0 +1,41 @@
+From 60b1801980331565b36f4f7b7204bc9cbc363d2e Mon Sep 17 00:00:00 2001
+From: Feng Shu <tumashu@163.com>
+Date: Fri, 4 Mar 2022 18:53:26 +0800
+Subject: [PATCH] Mozo/MainWindow.py: Import and use locale instead of gettext.
+
+---
+ Mozo/MainWindow.py | 10 ++++++----
+ 1 file changed, 6 insertions(+), 4 deletions(-)
+
+diff --git a/Mozo/MainWindow.py b/Mozo/MainWindow.py
+index 31b2135..8dbcc32 100644
+--- a/Mozo/MainWindow.py
++++ b/Mozo/MainWindow.py
+@@ -26,18 +26,20 @@ from gi.repository import Gtk, Gdk, GdkPixbuf
+ from gi.repository import MateMenu
+ import html
+ import os
+-import gettext
++import locale
+ import subprocess
+ import shutil
+ import urllib.parse
++from locale import gettext as _
++
+ try:
+     from Mozo import config
+-    gettext.bindtextdomain(config.GETTEXT_PACKAGE,config.localedir)
+-    gettext.textdomain(config.GETTEXT_PACKAGE)
++    locale.bindtextdomain(config.GETTEXT_PACKAGE,config.localedir)
++    locale.textdomain(config.GETTEXT_PACKAGE)
+     GETTEXT_PACKAGE = config.GETTEXT_PACKAGE
+ except:
+     GETTEXT_PACKAGE = "mozo"
+-_ = gettext.gettext
++
+ from Mozo.MenuEditor import MenuEditor
+ from Mozo import util
+ 
+-- 
+2.34.0
+

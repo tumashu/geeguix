@@ -1,6 +1,7 @@
 ;;; -*- mode: scheme; -*-
 
 (use-modules (geeguix linux)
+             (geeguix mate)
              (geeguix services)
              (gnu)
              (gnu packages audio)
@@ -102,49 +103,51 @@
                  "zile"
 
                  ;; 文件系统
-                 "ntfs-3g"
-                 "nss-certs"
                  "exfat-utils"
                  "fuse-exfat"
+                 "nss-certs"
+                 "ntfs-3g"
 
                  ;; 硬件管理
-                 "tlp"
-                 "thermald"
                  "bluez"
                  "bluez-alsa"
+                 "thermald"
+                 "tlp"
 
                  ;; 桌面基础工具
                  "dconf"
+                 "dconf-editor"
                  "gvfs"
+                 "network-manager-applet"
 
                  ;; 声音
                  "pulseaudio"
 
                  ;; 屏幕保护和锁屏
                  "xautolock"
-                 "xss-lock"
-                 ;; xfce-screensaver 好像没有和 guix system 集成好，锁住之后无
-                 ;; 法解锁，所以这里使用 xautolock 或者 xss-lock 配合
-                 ;; xlockmore 包提供的 xlock 命令的自动锁屏方案， Guix system
-                 ;; 已经自动安装并且设置好 xlock 锁屏程序。
+                 ;; mate 和 xfce4 自带的屏保程序好像没有和 guix system 集成好，
+                 ;; 锁住之后无法解锁，所以这里使用 xautolock|xss-lock + xlock
+                 ;; 方案，Guix system 已经自动安装并且设置好 xlock 程序。
                  "xlockmore"
+                 "xss-lock"
 
-                 ;; Xfce4-panel 插件
-                 "xfce4-cpufreq-plugin"
-                 "xfce4-cpugraph-plugin"
-                 "xfce4-systemload-plugin"
-                 "network-manager-applet"
+                 ;; Mate 相关工具
+                 "caja-extensions"
+                 "mate-applets"
 
                  ;; 字体主题
-                 "gnome-icon-theme"
-                 "gnome-themes-standard"
+                 "font-gnu-unifont"
                  "font-wqy-microhei"
-                 "font-gnu-unifont"))
+                 "gnome-icon-theme"
+                 "gnome-themes-standard"))
            %base-packages))
 
   (services
    (cons* (service mt7921e-service-type)
-          (service xfce-desktop-service-type)
+          ;; (screen-locker-service mate-screensaver)
+          (service mate-desktop-service-type
+                   (mate-desktop-configuration
+                    (mate-package mate)))
           (service openssh-service-type)
           (service cups-service-type)
           (service slim-service-type)
