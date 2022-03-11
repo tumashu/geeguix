@@ -102,44 +102,43 @@
                  "zile"
 
                  ;; 文件系统
-                 "ntfs-3g"
-                 "nss-certs"
                  "exfat-utils"
                  "fuse-exfat"
+                 "ntfs-3g"
+                 "nss-certs"
 
                  ;; 硬件管理
-                 "tlp"
-                 "thermald"
                  "bluez"
                  "bluez-alsa"
+                 "thermald"
+                 "tlp"
 
                  ;; 桌面基础工具
                  "dconf"
+                 "dconf-editor"
                  "gvfs"
+                 "network-manager-applet"
 
                  ;; 声音
                  "pulseaudio"
 
                  ;; 屏幕保护和锁屏
                  "xautolock"
-                 "xss-lock"
                  ;; xfce-screensaver 好像没有和 guix system 集成好，锁住之后无
-                 ;; 法解锁，所以这里使用 xautolock 或者 xss-lock 配合
-                 ;; xlockmore 包提供的 xlock 命令的自动锁屏方案， Guix system
-                 ;; 已经自动安装并且设置好 xlock 锁屏程序。
+                 ;; 法解锁，所以这里使用 xautolock|xss-lock + xlock 的方案，
+                 ;; Guix system 已经自动安装并且设置好 xlock 程序了。
                  "xlockmore"
 
                  ;; Xfce4-panel 插件
                  "xfce4-cpufreq-plugin"
                  "xfce4-cpugraph-plugin"
                  "xfce4-systemload-plugin"
-                 "network-manager-applet"
 
                  ;; 字体主题
-                 "gnome-icon-theme"
-                 "gnome-themes-standard"
+                 "font-gnu-unifont"
                  "font-wqy-microhei"
-                 "font-gnu-unifont"))
+                 "gnome-icon-theme"
+                 "gnome-themes-standard"))
            %base-packages))
 
   (services

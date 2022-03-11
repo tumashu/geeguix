@@ -61,9 +61,9 @@
        (list
         ;; 基本工具
         "bash-completion"
-        "git"
         "emacs"
         "mercurial"
+        "git"
         "p7zip"
         "unrar"
         "unzip"
@@ -90,33 +90,32 @@
         ;; 主题字体
         "adwaita-icon-theme"
         "elementary-xfce-icon-theme"
+        "font-wqy-microhei"
         "gnome-icon-theme"
         "gnome-themes-standard"
         "gnome-themes-extra"
         "mate-themes"
-        "font-wqy-microhei"
 
         ;; 桌面工具
         "engrampa"
         "mousepad"
         "ristretto"
-        "xfce4-screenshooter"
         ;; Guix system 下 xfce-screensaver 和 mate-screensaver 目前都不可用，
         ;; 即使手工添加 suid 权限，也存在锁住之后无法解锁的问题。目前只知道
         ;; slock 和 xlock 两个可以使用。xdg-utils 包含的屏保工具
         ;; xdg-screensaver，可以让 mate-desktop 支持 xautolock, xautolock 可以
         ;; 设置使用 xlock 或者 slock. xfce4 内置锁屏脚本，可以支持 xlock 和
         ;; slock
-        "xdg-utils" 
+        "xdg-utils"
+        "xfce4-screenshooter"
 
         ;; 同步工具
         "syncthing"
-        "syncthing-gtk"
 
         ;; 声音图像多媒体
+        "gimp"
         "mpv"
-        "vlc"
-        "gimp")))
+        "vlc")))
  (services
   (list (service home-xdg-user-directories-service-type
                  (home-xdg-user-directories-configuration
