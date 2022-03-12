@@ -136,6 +136,7 @@
                  "xfce4-cpufreq-plugin"
                  "xfce4-cpugraph-plugin"
                  "xfce4-systemload-plugin"
+                 "xfce4-taskmanager"
 
                  ;; 字体主题
                  "font-gnu-unifont"
