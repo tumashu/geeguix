@@ -115,6 +115,7 @@
         ;; 声音图像多媒体
         "gimp"
         "mpv"
+        "python-mutagen" ; 修复 mp3 乱码
         "vlc")))
  (services
   (list (service home-xdg-user-directories-service-type
