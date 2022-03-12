@@ -12,7 +12,7 @@
              (nongnu system linux-initrd))
 
 (use-service-modules
- cups guix desktop networking ssh xorg)
+ cups guix desktop networking ssh xorg virtualization)
 
 (define %my-substitute-urls
   (list "https://mirror.sjtu.edu.cn/guix/"
@@ -89,6 +89,8 @@
                  (supplementary-groups
                   '("wheel"
                     "netdev"
+                    "kvm"
+                    "libvirt"
                     "lp"
                     "audio"
                     "video")))
@@ -151,6 +153,13 @@
           (service thermald-service-type
                    (thermald-configuration
                     (ignore-cpuid-check? #t)))
+          (service libvirt-service-type
+                   (libvirt-configuration
+                    (unix-sock-group "libvirt")
+                    (tls-port "16555")))
+          (service virtlog-service-type
+                   (virtlog-configuration
+                    (max-clients 1000)))
           (modify-services %desktop-services
             (delete gdm-service-type)
             (guix-service-type
