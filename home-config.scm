@@ -147,7 +147,7 @@
              ("iguix-make"       .
               ,(string-join
                 '("cd ${GUIX_CHECKOUT};"
-                  "${GUIX_CHECKOUT}/pre-inst-env guix shell -D guix -- make")))
+                  "guix shell -D guix -- make")))
              ("ichannel-link"    .
               ,(string-join
                 '("rm -f $HOME/.config/guix/channels.scm;"
