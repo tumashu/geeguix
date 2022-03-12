@@ -16,7 +16,8 @@
 
 (define %my-substitute-urls
   (list "https://mirror.sjtu.edu.cn/guix/"
-	"https://ci.guix.gnu.org"))
+	"https://ci.guix.gnu.org"
+        "https://bordeaux.guix.gnu.org"))
 
 (operating-system
   (kernel linux/thinkpad-t14-amd)
