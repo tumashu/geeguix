@@ -108,6 +108,7 @@
         ;; slock
         "xdg-utils"
         "xfce4-screenshooter"
+        "xkill"
 
         ;; 同步工具
         "syncthing"
