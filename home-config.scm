@@ -97,8 +97,8 @@
         "mate-themes"
 
         ;; 桌面工具
+        "atril"
         "engrampa"
-        "evince"
         "gnome-keyring"
         "mousepad"
         "ristretto"
