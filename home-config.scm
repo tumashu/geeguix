@@ -6,7 +6,8 @@
 ;; need to capture the channels being used, as returned by "guix describe".
 ;; See the "Replicating Guix" section in the manual.
 
-(use-modules (gnu home)
+(use-modules (geeguix xfce)
+             (gnu home)
              (gnu home services)
              (gnu home services desktop)
              (gnu home services fontutils)
@@ -97,6 +98,7 @@
         "mate-themes"
 
         ;; 桌面工具
+        "thunar"  ; 安装 thunar-geeguix
         "engrampa"
         "mousepad"
         "ristretto"
