@@ -98,6 +98,7 @@
 
         ;; 桌面工具
         "engrampa"
+        "evince"
         "gnome-keyring"
         "mousepad"
         "ristretto"
