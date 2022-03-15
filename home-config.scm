@@ -98,6 +98,7 @@
 
         ;; 桌面工具
         "engrampa"
+        "gnome-keyring"
         "mousepad"
         "ristretto"
         ;; Guix system 下 xfce-screensaver 和 mate-screensaver 目前都不可用，
