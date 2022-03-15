@@ -2,7 +2,6 @@
 
 (use-modules (geeguix linux)
              (geeguix services)
-             (geeguix xfce)
              (gnu)
              (gnu packages audio)
              (gnu packages linux)
@@ -132,8 +131,7 @@
                  ;; Guix system 已经自动安装并且设置好 xlock 程序了。
                  "xlockmore"
 
-                 ;; Xfce4 相关
-                 "thunar-archive-plugin"
+                 ;; Xfce4-panel 插件
                  "xfce4-cpufreq-plugin"
                  "xfce4-cpugraph-plugin"
                  "xfce4-systemload-plugin"
