@@ -131,7 +131,6 @@
         ;; 游戏
         "neverball"
         "supertuxkart"
-        "wesnoth"
         "xonotic")))
  (services
   (list (service home-xdg-user-directories-service-type
