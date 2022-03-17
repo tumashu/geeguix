@@ -119,7 +119,20 @@
         "gimp"
         "mpv"
         "python-mutagen" ; 修复 mp3 乱码
-        "vlc")))
+        "vlc"
+
+        ;; Wine
+        "wine"
+        "winetricks"
+
+        ;; 虚拟机
+        "virt-viewer"
+
+        ;; 游戏
+        "neverball"
+        "supertuxkart"
+        "wesnoth"
+        "xonotic")))
  (services
   (list (service home-xdg-user-directories-service-type
                  (home-xdg-user-directories-configuration
