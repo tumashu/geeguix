@@ -5,6 +5,7 @@
              (gnu)
              (gnu packages audio)
              (gnu packages linux)
+             (gnu services linux)
              (gnu services pm)
              (gnu services shepherd)
              (gnu system locale)
@@ -145,22 +146,23 @@
            %base-packages))
 
   (services
-   (cons* (service mt7921e-service-type)
-          (service xfce-desktop-service-type)
-          (service openssh-service-type)
-          (service cups-service-type)
-          (service slim-service-type)
-          (service tlp-service-type)
-          (service thermald-service-type
-                   (thermald-configuration
-                    (ignore-cpuid-check? #t)))
+   (cons* (service cups-service-type)
+          (service earlyoom-service-type)
           (service libvirt-service-type
                    (libvirt-configuration
                     (unix-sock-group "libvirt")
                     (tls-port "16555")))
+          (service mt7921e-service-type)
+          (service openssh-service-type)
+          (service slim-service-type)
+          (service thermald-service-type
+                   (thermald-configuration
+                    (ignore-cpuid-check? #t)))
+          (service tlp-service-type)
           (service virtlog-service-type
                    (virtlog-configuration
                     (max-clients 1000)))
+          (service xfce-desktop-service-type)
           (modify-services %desktop-services
             (delete gdm-service-type)
             (guix-service-type
