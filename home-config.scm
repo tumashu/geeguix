@@ -94,6 +94,7 @@
         "gnome-icon-theme"
         "gnome-themes-standard"
         "gnome-themes-extra"
+        "gtk-engines" ; gtk2 theme
         "mate-themes"
 
         ;; 桌面工具
@@ -186,6 +187,10 @@
               "${GUIX_PROFILE}/lib/gtk-2.0/2.10.0/immodules-gtk2.cache")
 	     ("GUIX_GTK3_IM_MODULE_FILE" .
               "${GUIX_PROFILE}/lib/gtk-3.0/3.0.0/immodules-gtk3.cache")
+
+             ;; GTK2 模块搜索目录
+             ("GUIX_GTK2_PATH"    .
+              "${GUIX_PROFILE}/lib/gtk-2.0:/run/current-system/profile/lib/gtk-2.0")
 
              ;; Environment variables use by guix system.
              ("GUIX_CHECKOUT"     . "${HOME}/guix/guix")
