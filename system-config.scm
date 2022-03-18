@@ -137,6 +137,7 @@
                  "xfce4-cpugraph-plugin"
                  "xfce4-systemload-plugin"
                  "xfce4-taskmanager"
+                 "xfce4-whiskermenu-plugin"
 
                  ;; 字体主题
                  "font-gnu-unifont"
