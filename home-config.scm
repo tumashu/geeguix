@@ -6,7 +6,8 @@
 ;; need to capture the channels being used, as returned by "guix describe".
 ;; See the "Replicating Guix" section in the manual.
 
-(use-modules (gnu home)
+(use-modules (geeguix xfce)
+             (gnu home)
              (gnu home services)
              (gnu home services desktop)
              (gnu home services fontutils)
@@ -109,6 +110,7 @@
         ;; xdg-screensaver，可以让 mate-desktop 支持 xautolock, xautolock 可以
         ;; 设置使用 xlock 或者 slock. xfce4 内置锁屏脚本，可以支持 xlock 和
         ;; slock
+        "thunar"  ; 安装 thunar-geeguix
         "xdg-utils"
         "xfce4-screenshooter"
         "xkill"
@@ -183,6 +185,8 @@
 	     ("QT_IM_MODULE"  . "fcitx")
 	     ("XMODIFIERS"    . "@im=fcitx")
 
+             ("GUIX_PROFILE"  . "${HOME}/.guix-profile")
+
 	     ("GUIX_GTK2_IM_MODULE_FILE" .
               "${GUIX_PROFILE}/lib/gtk-2.0/2.10.0/immodules-gtk2.cache")
 	     ("GUIX_GTK3_IM_MODULE_FILE" .
@@ -191,6 +195,10 @@
              ;; GTK2 模块搜索目录
              ("GUIX_GTK2_PATH"    .
               "${GUIX_PROFILE}/lib/gtk-2.0:/run/current-system/profile/lib/gtk-2.0")
+
+             ;; Thunar 插件搜索目录
+             ("THUNARX_DIRS"    .
+              "${GUIX_PROFILE}/lib/thunarx-3:/run/current-system/profile/lib/thunarx-3")
 
              ;; Environment variables use by guix system.
              ("GUIX_CHECKOUT"     . "${HOME}/guix/guix")
