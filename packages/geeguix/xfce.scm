@@ -62,13 +62,14 @@
               (sha256
                (base32
                 "14lwi4ax0wj77980kkfhdf18b97339b17y8qc8gl2365mgswh1gi"))
-              (patches (search-patches "geeguix/patches/0001-Look-for-thunar-plugins-at-THUNARX_DIRS.patch"))))
+              (patches
+               (search-patches
+                "geeguix/patches/thunar-support-thunarx-dirs-variable.patch"))))
     (build-system gnu-build-system)
     (native-inputs
-     (list pkg-config intltool))
+     (list pkg-config intltool gobject-introspection))
     (inputs
      (list exo
-           gobject-introspection
            gvfs
            libexif
            libgudev
@@ -104,9 +105,9 @@ fast.")
     (native-inputs (list pkg-config intltool))
     (inputs (list exo thunar gtk+))
     (home-page "https://www.xfce.org/")
-    (synopsis "Thunar plugin adding archive operations to file context menus")
-    (description "Thunar plugin which allows you to create and extract archive
-files using the file context menus.")
+    (synopsis "Archive plugin for Thunar file manager")
+    (description "The Thunar Archive Plugin allows you to create and extract
+archive files using the file context menus in the Thunar file manager.")
     (license gpl2+)))
 
 (define-public thunar-shares-plugin
@@ -125,10 +126,10 @@ files using the file context menus.")
     (native-inputs (list pkg-config intltool))
     (inputs (list thunar gtk+))
     (home-page "https://www.xfce.org/")
-    (synopsis "Thunar plugin share a folder using Samba quickly.")
+    (synopsis "Folder share plugin for Thunar file manager")
     (description
-     "Thunar Shares Plugin allows you to quickly share a folder using Samba
-from Thunar without requiring root access.")
+     "The Thunar Shares Plugin allows you to quickly share a folder using
+Samba from Thunar (the Xfce file manager) without requiring root access.")
     (license gpl2+)))
 
 (define-public thunar-media-tags-plugin
@@ -147,10 +148,10 @@ from Thunar without requiring root access.")
     (native-inputs (list pkg-config intltool))
     (inputs (list exo gtk+ thunar taglib))
     (home-page "https://www.xfce.org/")
-    (synopsis "Thunar plugin adding ID3/OGG tag support to bulk rename dialog")
+    (synopsis "Media tags plugin for Thunar file manager")
     (description
-     "Thunar media tags plugin adds ID3/OGG tag support to thunar bulk rename
-dialog.")
+     "Media tags plugin allows tags editing from Thunar file manager and
+tags-based file renaming from inside Thunar Bulk Renamer.")
     (license gpl2+)))
 
 (define-public thunar-vcs-plugin
@@ -166,20 +167,25 @@ dialog.")
        (sha256
         (base32 "1f2d1dwfyi6xv3qkd8l8xh0vhz8wh0601cyigjzn426lqga1d29n"))))
     (build-system gnu-build-system)
+    (arguments
+     (list #:configure-flags
+           #~(list (string-append "CPPFLAGS=-I" #$apr-util "/include/apr-1"))))
     (native-inputs (list pkg-config intltool utf8proc))
     (inputs
      (list exo
            gtk+
            thunar
            libxfce4util
-           ;; apr apr-util subversion
+           apr
+           apr-util
+           subversion
            git))
     (home-page "https://www.xfce.org/")
-    (synopsis "Thunar plugin adding Subversion and GIT actions to context menu.")
+    (synopsis "VCS plugin for Thunar file manager")
     (description
      "Thunar VCS Plugin (formerly known as Thunar SVN Plugin) gives SVN and
 GIT integration to Thunar, it adds Subversion and GIT actions to the context
-menu.this plugin, ")
+menu.")
     (license gpl2+)))
 
 (define-public gigolo
@@ -197,10 +203,12 @@ menu.this plugin, ")
     (build-system gnu-build-system)
     (native-inputs (list pkg-config intltool))
     (inputs (list gtk+))
+    (propagated-inputs
+     (list (list glib "bin")))
     (home-page "https://www.xfce.org/")
     (synopsis "A frontend to easily manage connections to remote filesystems")
     (description
      "A frontend to easily manage connections to remote filesystems using
-GIO/GVfs. It allows you to quickly connect/mount local and remote filesystems
+GIO/GVfs.  It allows you to quickly connect/mount local and remote filesystems
 and manage bookmarks of such.")
     (license gpl2+)))
