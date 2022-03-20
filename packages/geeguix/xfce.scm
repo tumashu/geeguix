@@ -203,8 +203,6 @@ menu.")
     (build-system gnu-build-system)
     (native-inputs (list pkg-config intltool))
     (inputs (list gtk+))
-    (propagated-inputs
-     (list (list glib "bin")))
     (home-page "https://www.xfce.org/")
     (synopsis "A frontend to easily manage connections to remote filesystems")
     (description
