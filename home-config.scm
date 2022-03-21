@@ -62,14 +62,27 @@
        (list
         ;; 基本工具
         "bash-completion"
-        "emacs"
-        "mercurial"
-        "git"
         "p7zip"
         "unrar"
         "unzip"
         "watchexec"
         "zile"
+
+        ;; Emacs
+        "emacs"
+
+        ;; 安全
+        "gnome-keyring"
+        "gnupg"
+        "pinentry"
+        "seahorse"
+
+        ;; 版本管理
+        "git"
+        "git:credential-libsecret"
+        "git:credential-netrc"
+        "git:send-email"
+        "mercurial"
 
         ;; 网页浏览器
         "icecat"
@@ -96,12 +109,10 @@
         "gnome-themes-standard"
         "gnome-themes-extra"
         "gtk-engines" ; gtk2 theme
-        "mate-themes"
 
         ;; 桌面工具
         "atril"
         "engrampa"
-        "gnome-keyring"
         "mousepad"
         "ristretto"
         ;; Guix system 下 xfce-screensaver 和 mate-screensaver 目前都不可用，
@@ -110,7 +121,7 @@
         ;; xdg-screensaver，可以让 mate-desktop 支持 xautolock, xautolock 可以
         ;; 设置使用 xlock 或者 slock. xfce4 内置锁屏脚本，可以支持 xlock 和
         ;; slock
-        "thunar"  ; 安装 thunar-geeguix
+        "thunar"
         "xdg-utils"
         "xfce4-screenshooter"
         "xkill"
