@@ -64,7 +64,7 @@
                 "14lwi4ax0wj77980kkfhdf18b97339b17y8qc8gl2365mgswh1gi"))
               (patches
                (search-patches
-                "geeguix/patches/thunar-support-thunarx-dirs-variable.patch"))))
+                "geeguix/patches/thunar-search-patches.patch"))))
     (build-system gnu-build-system)
     (native-inputs
      (list pkg-config intltool gobject-introspection))
