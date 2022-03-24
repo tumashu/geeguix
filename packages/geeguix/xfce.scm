@@ -1,6 +1,9 @@
 (define-module (geeguix xfce)
   #:use-module (gnu artwork)
   #:use-module (gnu packages)
+  ;; NOTE: (geeguix packages) must behind of (gnu packages), for it redefine
+  ;; search-patches function.
+  #:use-module (geeguix packages)
   #:use-module (gnu packages apr)
   #:use-module (gnu packages base)
   #:use-module (gnu packages calendar)
@@ -64,7 +67,7 @@
                 "14lwi4ax0wj77980kkfhdf18b97339b17y8qc8gl2365mgswh1gi"))
               (patches
                (search-patches
-                "geeguix/patches/thunar-search-patches.patch"))))
+                "thunar-search-patches.patch"))))
     (build-system gnu-build-system)
     (native-inputs
      (list pkg-config intltool gobject-introspection))
