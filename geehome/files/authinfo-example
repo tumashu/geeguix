@@ -1,0 +1,12 @@
+#### pop or imap ####
+machine imap.163.com login USERNAME@163.com port 993 password PASSWORD
+machine pop.163.com  login USERNAME@163.com port 995 password PASSWORD
+machine imap.qq.com  login USERNAME@qq.com  port 993 password PASSWORD
+machine pop.qq.com   login USERNAME@qq.com  port 995 password PASSWORD
+
+#### smtp ####
+machine smtp.163.com login USERNAME@163.com port 465 password PASSWORD user-full-name "Your Name" user-mail-address USERNAME@163.com
+machine smtp.qq.com  login USERNAME@qq.com  port 465 password PASSWORD user-full-name "Your Name" user-mail-address USERNAME@qq.com
+
+#### erc ####
+machine irc.freenode.net login USERNAME port 6667 secret PASSWORD
