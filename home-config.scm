@@ -147,7 +147,14 @@
         "supertuxkart"
         "xonotic")))
  (services
-  (list (service home-xdg-user-directories-service-type
+  (list (simple-service 'guile-config
+                        home-files-service-type
+                        `(("guile"        ,(local-file "files/guile"))
+                          ("guile-geiser" ,(local-file "files/guile-geiser"))))
+        (simple-service 'gtk2-config
+                        home-files-service-type
+                        `(("gtkrc-2.0"    ,(local-file "files/gtkrc-2.0"))))
+        (service home-xdg-user-directories-service-type
                  (home-xdg-user-directories-configuration
                   (desktop     "$HOME/desktop")
                   (documents   "$HOME/documents")
@@ -164,53 +171,52 @@
                    (list syncthing-service
                          xautolock-service
                          brightnessctl-service))))
-        (service
-         home-bash-service-type
-         (home-bash-configuration
-          (guix-defaults? #t)
-          (aliases
-           `(("la" . "ls -A")
-             ("l"  . "ls -CF")
-             ("iguix"            .
-              "${GUIX_CHECKOUT}/pre-inst-env guix")
-             ("iguix-make"       .
-              ,(string-join
-                '("cd ${GUIX_CHECKOUT};"
-                  "guix shell -D guix -- make")))
-             ("ichannel-link"    .
-              ,(string-join
-                '("rm -f $HOME/.config/guix/channels.scm;"
-                  "ln -s $HOME/geeguix/channels.scm"
-                  "$HOME/.config/guix/channels.scm")))
-             ("isystem-reconfig" .
-              ,(string-join
-                '("sudo -E guix system reconfigure"
-                  "$HOME/geeguix/system-config.scm")))
-             ("ihome-reconfig"   .
-              ,(string-join
-                '("guix home reconfigure"
-                  "$HOME/geeguix/home-config.scm")))))
-          (environment-variables
-           `(;; Fcitx5 input method
-             ("GTK_IM_MODULE" . "fcitx")
-	     ("QT_IM_MODULE"  . "fcitx")
-	     ("XMODIFIERS"    . "@im=fcitx")
+        (service home-bash-service-type
+                 (home-bash-configuration
+                  (guix-defaults? #t)
+                  (aliases
+                   `(("la" . "ls -A")
+                     ("l"  . "ls -CF")
+                     ("iguix"            .
+                      "${GUIX_CHECKOUT}/pre-inst-env guix")
+                     ("iguix-make"       .
+                      ,(string-join
+                        '("cd ${GUIX_CHECKOUT};"
+                          "guix shell -D guix -- make")))
+                     ("ichannel-link"    .
+                      ,(string-join
+                        '("rm -f $HOME/.config/guix/channels.scm;"
+                          "ln -s $HOME/geeguix/channels.scm"
+                          "$HOME/.config/guix/channels.scm")))
+                     ("isystem-reconfig" .
+                      ,(string-join
+                        '("sudo -E guix system reconfigure"
+                          "$HOME/geeguix/system-config.scm")))
+                     ("ihome-reconfig"   .
+                      ,(string-join
+                        '("guix home reconfigure"
+                          "$HOME/geeguix/home-config.scm")))))
+                  (environment-variables
+                   `(;; Fcitx5 input method
+                     ("GTK_IM_MODULE" . "fcitx")
+                     ("QT_IM_MODULE"  . "fcitx")
+                     ("XMODIFIERS"    . "@im=fcitx")
 
-             ("GUIX_PROFILE"  . "${HOME}/.guix-profile")
+                     ("GUIX_PROFILE"  . "${HOME}/.guix-profile")
 
-	     ("GUIX_GTK2_IM_MODULE_FILE" .
-              "${GUIX_PROFILE}/lib/gtk-2.0/2.10.0/immodules-gtk2.cache")
-	     ("GUIX_GTK3_IM_MODULE_FILE" .
-              "${GUIX_PROFILE}/lib/gtk-3.0/3.0.0/immodules-gtk3.cache")
+                     ("GUIX_GTK2_IM_MODULE_FILE" .
+                      "${GUIX_PROFILE}/lib/gtk-2.0/2.10.0/immodules-gtk2.cache")
+                     ("GUIX_GTK3_IM_MODULE_FILE" .
+                      "${GUIX_PROFILE}/lib/gtk-3.0/3.0.0/immodules-gtk3.cache")
 
-             ;; GTK2 模块搜索目录
-             ("GUIX_GTK2_PATH"    .
-              "${GUIX_PROFILE}/lib/gtk-2.0:/run/current-system/profile/lib/gtk-2.0")
+                     ;; GTK2 模块搜索目录
+                     ("GUIX_GTK2_PATH"    .
+                      "${GUIX_PROFILE}/lib/gtk-2.0:/run/current-system/profile/lib/gtk-2.0")
 
-             ;; Thunar 插件搜索目录
-             ("THUNARX_DIRS"    .
-              "${GUIX_PROFILE}/lib/thunarx-3:/run/current-system/profile/lib/thunarx-3")
+                     ;; Thunar 插件搜索目录
+                     ("THUNARX_DIRS"      .
+                      "${GUIX_PROFILE}/lib/thunarx-3:/run/current-system/profile/lib/thunarx-3")
 
-             ;; Environment variables use by guix system.
-             ("GUIX_CHECKOUT"     . "${HOME}/guix/guix")
-             ("GUIX_PACKAGE_PATH" . "${HOME}/geeguix/packages"))))))))
+                     ;; Environment variables use by guix system.
+                     ("GUIX_CHECKOUT"     . "${HOME}/guix/guix")
+                     ("GUIX_PACKAGE_PATH" . "${HOME}/geeguix/packages"))))))))
