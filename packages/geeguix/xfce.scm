@@ -1,9 +1,7 @@
 (define-module (geeguix xfce)
-  #:use-module (gnu artwork)
-  #:use-module (gnu packages)
-  ;; NOTE: (geeguix packages) must behind of (gnu packages), for it redefine
-  ;; search-patches function.
   #:use-module (geeguix packages)
+  #:use-module (gnu artwork)
+  #:use-module ((gnu packages) #:hide (search-patches))
   #:use-module (gnu packages apr)
   #:use-module (gnu packages base)
   #:use-module (gnu packages calendar)
