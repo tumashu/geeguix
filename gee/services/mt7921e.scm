@@ -15,7 +15,7 @@
 ;;; You should have received a copy of the GNU General Public License
 ;;; along with GNU Guix. If not, see <http://www.gnu.org/licenses/>.
 
-(define-module (gee services mt7021e)
+(define-module (gee services mt7921e)
   #:use-module (gnu packages)
   #:use-module (gnu packages linux)
   #:use-module (gnu services)
