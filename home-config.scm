@@ -149,11 +149,11 @@
  (services
   (list (simple-service 'guile-config
                         home-files-service-type
-                        `(("guile"        ,(local-file "files/guile"))
-                          ("guile-geiser" ,(local-file "files/guile-geiser"))))
+                        `(("guile"        ,(local-file "home-files/guile"))
+                          ("guile-geiser" ,(local-file "home-files/guile-geiser"))))
         (simple-service 'gtk2-config
                         home-files-service-type
-                        `(("gtkrc-2.0"    ,(local-file "files/gtkrc-2.0"))))
+                        `(("gtkrc-2.0"    ,(local-file "home-files/gtkrc-2.0"))))
         (service home-xdg-user-directories-service-type
                  (home-xdg-user-directories-configuration
                   (desktop     "$HOME/desktop")
