@@ -1,7 +1,10 @@
 (define-module (gee packages xfce)
   #:use-module (gee packages)
   #:use-module (gnu artwork)
-  #:use-module ((gnu packages) #:hide (search-patches))
+  #:use-module ((gnu packages)
+                #:hide (search-patch
+                        search-patches
+                        %patch-path))
   #:use-module (gnu packages apr)
   #:use-module (gnu packages base)
   #:use-module (gnu packages calendar)
