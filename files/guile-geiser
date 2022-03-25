@@ -1,0 +1,3 @@
+;; -*- mode: scheme -*-
+(use-modules (ice-9 format)
+             (gnu packages))

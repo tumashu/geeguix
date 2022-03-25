@@ -1,0 +1,11 @@
+include "/run/current-system/profile/share/themes/Adwaita/gtk-2.0/gtkrc"
+
+style "user-font" {
+	font_name = "微软雅黑 12"
+}
+
+widget_class "*" style "user-font"
+
+gtk-font-name="微软雅黑 12"
+
+include "/home/feng/.gtkrc.mine"
