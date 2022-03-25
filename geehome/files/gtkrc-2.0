@@ -7,5 +7,3 @@ style "user-font" {
 widget_class "*" style "user-font"
 
 gtk-font-name="文泉驿微米黑 13"
-
-include "/home/feng/.gtkrc.mine"

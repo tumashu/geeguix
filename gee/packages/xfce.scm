@@ -192,25 +192,3 @@ GIT integration to Thunar, it adds Subversion and GIT actions to the context
 menu.")
     (license gpl2+)))
 
-(define-public gigolo
-  (package
-    (name "gigolo")
-    (version "0.5.2")
-    (source (origin
-              (method url-fetch)
-              (uri (string-append "https://archive.xfce.org/src/apps/"
-                                  name "/" (version-major+minor version)
-                                  "/" name "-" version ".tar.bz2"))
-              (sha256
-               (base32
-                "1hxv3lla567nnqxxly8xfi8fzmpcdhxb493x9hinr7szfnh1ljp3"))))
-    (build-system gnu-build-system)
-    (native-inputs (list pkg-config intltool))
-    (inputs (list gtk+))
-    (home-page "https://www.xfce.org/")
-    (synopsis "A frontend to easily manage connections to remote filesystems")
-    (description
-     "A frontend to easily manage connections to remote filesystems using
-GIO/GVfs.  It allows you to quickly connect/mount local and remote filesystems
-and manage bookmarks of such.")
-    (license gpl2+)))
