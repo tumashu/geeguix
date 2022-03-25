@@ -13,7 +13,7 @@
 ;;; You should have received a copy of the GNU General Public License
 ;;; along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
-(define-module (geeguix linux)
+(define-module (gee packages linux)
   #:use-module (gnu)
   #:use-module (gnu packages)
   #:use-module (gnu packages base)

@@ -16,7 +16,7 @@
 ;;; You should have received a copy of the GNU General Public License
 ;;; along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-(define-module (geeguix packages)
+(define-module (gee packages)
   #:use-module ((gnu packages) #:prefix gnu:)
   #:use-module (guix diagnostics)
   #:use-module (guix i18n)
@@ -39,11 +39,11 @@ FILE-NAME found in %PATCH-PATH."
 
 (define %geeguix-root
   (find (lambda (path)
-          (file-exists? (string-append path "/geeguix/packages.scm")))
+          (file-exists? (string-append path "/gee/packages.scm")))
         %load-path))
 
 (define %patch-path
   (make-parameter
    (cons
-    (string-append %geeguix-root "/geeguix/patches")
+    (string-append %geeguix-root "/gee/packages/patches")
     (gnu:%patch-path))))

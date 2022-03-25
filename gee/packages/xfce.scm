@@ -1,5 +1,5 @@
-(define-module (geeguix xfce)
-  #:use-module (geeguix packages)
+(define-module (gee packages xfce)
+  #:use-module (gee packages)
   #:use-module (gnu artwork)
   #:use-module ((gnu packages) #:hide (search-patches))
   #:use-module (gnu packages apr)
