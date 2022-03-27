@@ -1,0 +1,5 @@
+# .notmuch-config - Configuration file for the notmuch mail system
+
+[database]
+path=/home/feng/gnus/Mail/
+
