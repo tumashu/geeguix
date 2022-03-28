@@ -1,6 +1,11 @@
 (define-module (gee packages emacs)
+  #:use-module (gee packages)
   #:use-module ((guix licenses) #:prefix license:)
   #:use-module (guix packages)
+  #:use-module ((gnu packages)
+                #:hide (search-patch
+                        search-patches
+                        %patch-path))
   #:use-module (guix download)
   #:use-module (guix git-download)
   #:use-module (guix build-system gnu)
@@ -46,7 +51,7 @@
       (version (git-version "git" revision commit))
       (source
        (origin
-         (inherit (package-source emacs))
+         (inherit (package-source emacs-next))
          (method git-fetch)
          (uri (git-reference
                (url "https://git.savannah.gnu.org/git/emacs.git")
@@ -54,7 +59,11 @@
          (file-name (git-file-name name version))
          (sha256
           (base32
-           "0xqwn96s1a4li3vanran2kmdm3dn47lpz2b9rhgvc58mpw3m61as"))))
+           "0xqwn96s1a4li3vanran2kmdm3dn47lpz2b9rhgvc58mpw3m61as"))
+         (patches (search-patches "emacs-exec-path-1.patch"
+                                  "emacs-fix-scheme-indent-function.patch"
+                                  "emacs-ignore-empty-xim-styles.patch"
+                                  "emacs-source-date-epoch.patch"))))
       (arguments
        (substitute-keyword-arguments (package-arguments emacs-next)
          ((#:configure-flags flags ''())

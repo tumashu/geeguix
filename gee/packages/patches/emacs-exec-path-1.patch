@@ -1,0 +1,26 @@
+From 47990af726d9de2a6e83a0ac0eb4b81864a8cf7d Mon Sep 17 00:00:00 2001
+From: Feng Shu <tumashu@163.com>
+Date: Mon, 28 Mar 2022 17:17:52 +0800
+Subject: [PATCH] u
+
+---
+ lisp/loadup.el | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
+
+diff --git a/lisp/loadup.el b/lisp/loadup.el
+index faeb9188e4..645fd4d277 100644
+--- a/lisp/loadup.el
++++ b/lisp/loadup.el
+@@ -544,7 +544,8 @@
+                         ((equal dump-mode "dump") "emacs")
+                         ((equal dump-mode "bootstrap") "emacs")
+                         ((equal dump-mode "pbootstrap") "bootstrap-emacs.pdmp")
+-                        (t (error "Unrecognized dump mode %s" dump-mode)))))
++                        (t (error "Unrecognized dump mode %s" dump-mode))))
++          (exec-path nil))
+       (when (and (featurep 'native-compile)
+                  (equal dump-mode "pdump"))
+         ;; Don't enable this before bootstrap is completed, as the
+-- 
+2.30.2
+
