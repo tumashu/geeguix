@@ -1,7 +1,6 @@
-From 47990af726d9de2a6e83a0ac0eb4b81864a8cf7d Mon Sep 17 00:00:00 2001
-From: Feng Shu <tumashu@163.com>
-Date: Mon, 28 Mar 2022 17:17:52 +0800
-Subject: [PATCH] u
+Do not capture the build-time value of $PATH in the 'emacs' executable
+since this can noticeably increase the size of the closure of Emacs
+with things like GCC being referenced.
 
 ---
  lisp/loadup.el | 3 ++-

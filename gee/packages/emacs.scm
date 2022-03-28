@@ -10,7 +10,6 @@
   #:use-module (guix git-download)
   #:use-module (guix build-system gnu)
   #:use-module (guix build-system glib-or-gtk)
-  #:use-module (gnu packages)
   #:use-module (gnu packages acl)
   #:use-module (gnu packages autotools)
   #:use-module (gnu packages base)
@@ -42,35 +41,48 @@
   #:use-module (ice-9 match)
   #:use-module (srfi srfi-1))
 
-(define-public emacs29
-  (let ((commit "0e7314f6f15a20cb2ae712c09bb201f571823a6f")
+(define-public emacs28
+  (let ((commit "968af794ba84d90d547de463448de57b7dff3787")
         (revision "0"))
     (package
-      (inherit emacs-next)
-      (name "emacs29")
-      (version (git-version "git" revision commit))
+      (inherit emacs)
+      (name "emacs28")
+      (version (git-version "28.0.92" revision commit))
       (source
        (origin
-         (inherit (package-source emacs-next))
+         (inherit (package-source emacs))
          (method git-fetch)
          (uri (git-reference
-               (url "https://git.savannah.gnu.org/git/emacs.git")
+               ;; Emacs git 下载速度太慢了，使用南京大学的 Emacs 镜像，同步延
+               ;; 迟大概 8 小时。https://git.savannah.gnu.org/git/emacs.git
+               (url "https://mirrors.nju.edu.cn/git/emacs.git")
                (commit commit)))
          (file-name (git-file-name name version))
          (sha256
           (base32
-           "0xqwn96s1a4li3vanran2kmdm3dn47lpz2b9rhgvc58mpw3m61as"))
-         (patches (search-patches "emacs-exec-path-1.patch"
+           "1mjkw0ras4g8g51dc4a6g8jw7zgyfmmi063ljkm77cdn7jg2pgx4"))
+         (patches (search-patches "emacs-exec-path.patch"
                                   "emacs-fix-scheme-indent-function.patch"
-                                  "emacs-ignore-empty-xim-styles.patch"
                                   "emacs-source-date-epoch.patch"))))
-      (arguments
-       (substitute-keyword-arguments (package-arguments emacs-next)
-         ((#:configure-flags flags ''())
-          `(cons* "--with-xwidgets" ,flags))))
       (native-inputs
        (modify-inputs (package-native-inputs emacs)
-         (prepend autoconf)))
-      (inputs
-       `(("webkitgtk" ,webkitgtk-with-libsoup2)
-         ,@(package-inputs emacs-next))))))
+         (prepend autoconf))))))
+
+(define-public emacs29
+  (let ((commit "f5adb2584a9e25e3bbf01d1ca1c7fc6e511a4012")
+        (revision "0"))
+    (package
+      (inherit emacs28)
+      (name "emacs29")
+      (version (git-version "29.0.50" revision commit))
+      (source
+       (origin
+         (inherit (package-source emacs28))
+         (method git-fetch)
+         (uri (git-reference
+               (url "https://mirrors.nju.edu.cn/git/emacs.git")
+               (commit commit)))
+         (file-name (git-file-name name version))
+         (sha256
+          (base32
+           "1dsywvd306r69rgx3w1w27qyg1ncnwxx7mpmxs0dcx92h21k5k4h")))))))
