@@ -37,16 +37,17 @@
   #:use-module (gnu packages webkit)
   #:use-module (gnu packages xml)
   #:use-module (gnu packages xorg)
+  #:use-module (guix gexp)
   #:use-module (guix utils)
   #:use-module (ice-9 match)
   #:use-module (srfi srfi-1))
 
-(define-public emacs28
+(define-public emacs28-without-ctags
   (let ((commit "968af794ba84d90d547de463448de57b7dff3787")
         (revision "0"))
     (package
       (inherit emacs)
-      (name "emacs28")
+      (name "emacs28-without-ctags")
       (version (git-version "28.0.92" revision commit))
       (source
        (origin
@@ -64,20 +65,30 @@
          (patches (search-patches "emacs-exec-path.patch"
                                   "emacs-fix-scheme-indent-function.patch"
                                   "emacs-source-date-epoch.patch"))))
+      (arguments
+       (substitute-keyword-arguments (package-arguments emacs)
+         ((#:phases phases)
+          `(modify-phases ,phases
+             (add-after 'install 'remove-ctags
+               (lambda* (#:key outputs #:allow-other-keys)
+                 (with-directory-excursion (assoc-ref outputs "out")
+                   ;; Emacs 自带的 ctags 会和 universal-ctags 冲突，这里将其重
+                   ;; 命名。
+                   (rename-file "bin/ctags" "bin/ctags-emacs"))))))))
       (native-inputs
        (modify-inputs (package-native-inputs emacs)
          (prepend autoconf))))))
 
-(define-public emacs29
+(define-public emacs29-without-ctags
   (let ((commit "f5adb2584a9e25e3bbf01d1ca1c7fc6e511a4012")
         (revision "0"))
     (package
-      (inherit emacs28)
-      (name "emacs29")
+      (inherit emacs28-without-ctags)
+      (name "emacs29-without-ctags")
       (version (git-version "29.0.50" revision commit))
       (source
        (origin
-         (inherit (package-source emacs28))
+         (inherit (package-source emacs28-without-ctags))
          (method git-fetch)
          (uri (git-reference
                (url "https://mirrors.nju.edu.cn/git/emacs.git")
