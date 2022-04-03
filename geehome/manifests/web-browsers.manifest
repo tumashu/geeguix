@@ -1,0 +1,7 @@
+;;; -*- mode: scheme; -*-
+
+;; 1. firefox 每次升级都需要重新编译。
+;; 2. ungoogled-chromium 经常无 substitute 可以下载。
+(specifications->manifest
+ (list "firefox"
+       "ungoogled-chromium"))
