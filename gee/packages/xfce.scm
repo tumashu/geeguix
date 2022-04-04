@@ -220,3 +220,29 @@ search for words using the aspell/ispell program.
 xfce4-dict contains a stand-alone application called “xfce4-dict” and a panel
 plugin for the Xfce panel.")
     (license gpl2)))
+
+(define-public xfce4-environment-variables
+  (package
+    (name "xfce4-environment-variables")
+    (version "0.1.0")
+    (source #f)
+    (build-system trivial-build-system)
+    (arguments
+     '(#:modules ((guix build union))
+       #:builder
+       (begin
+         (use-modules (ice-9 match)
+                      (guix build union))
+         (match %build-inputs
+           (((names . directories) ...)
+            (union-build (assoc-ref %outputs "out")
+                         directories)
+            #t)))))
+    (native-search-paths
+     `(,@(package-native-search-paths xfce4-panel)
+       ,@(package-native-search-paths thunar)))
+    (synopsis "Environment variables used by Xfce.")
+    (home-page #f)
+    (description
+     "Environment variables used by Xfce desktop.")
+    (license gpl2)))
