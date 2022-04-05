@@ -54,9 +54,9 @@
   #:use-module (guix packages)
   #:use-module (guix utils))
 
-(define-public thunar
+(define-public thunar-gee
   (package
-    (name "thunar")
+    (name "thunar-gee")
     (version "4.16.10")                           ;stable version = even minor
     (source (origin
               (method url-fetch)
@@ -107,7 +107,7 @@ fast.")
         (base32 "059ikda4hig1iqk0g5kqc4p95chj0z1ljhl5qjrlw4l8lf3gm0mz"))))
     (build-system gnu-build-system)
     (native-inputs (list pkg-config intltool))
-    (inputs (list exo thunar gtk+))
+    (inputs (list exo thunar-gee gtk+))
     (home-page "https://www.xfce.org/")
     (synopsis "Archive plugin for Thunar file manager")
     (description "The Thunar Archive Plugin allows you to create and extract
@@ -128,7 +128,7 @@ archive files using the file context menus in the Thunar file manager.")
         (base32 "182j8jl91735004hbl0i2xxga4r6fk03srfl6g87czkjm9y8q7fw"))))
     (build-system gnu-build-system)
     (native-inputs (list pkg-config intltool))
-    (inputs (list thunar gtk+))
+    (inputs (list thunar-gee gtk+))
     (home-page "https://www.xfce.org/")
     (synopsis "Folder share plugin for Thunar file manager")
     (description
@@ -158,91 +158,20 @@ Samba from Thunar (the Xfce file manager) without requiring root access.")
 tags-based file renaming from inside Thunar Bulk Renamer.")
     (license gpl2+)))
 
-(define-public thunar-vcs-plugin
-  (package
-    (name "thunar-vcs-plugin")
-    (version "0.2.0")
-    (source
-     (origin
-       (method url-fetch)
-       (uri (string-append "https://archive.xfce.org/src/thunar-plugins/"
-                           name "/" (version-major+minor version)
-                           "/" name "-" version ".tar.bz2"))
-       (sha256
-        (base32 "1f2d1dwfyi6xv3qkd8l8xh0vhz8wh0601cyigjzn426lqga1d29n"))))
-    (build-system gnu-build-system)
-    (arguments
-     (list #:configure-flags
-           #~(list (string-append "CPPFLAGS=-I" #$apr-util "/include/apr-1"))))
-    (native-inputs (list pkg-config intltool utf8proc))
-    (inputs
-     (list exo
-           gtk+
-           thunar
-           libxfce4util
-           apr
-           apr-util
-           subversion
-           git))
-    (home-page "https://www.xfce.org/")
-    (synopsis "VCS plugin for Thunar file manager")
-    (description
-     "Thunar VCS Plugin (formerly known as Thunar SVN Plugin) gives SVN and
-GIT integration to Thunar, it adds Subversion and GIT actions to the context
-menu.")
-    (license gpl2+)))
+(define replace-thunar
+  (let ((package?
+         (lambda (pkg)
+           (assoc "thunar" (package-inputs pkg)))))
+    (package-mapping
+     (lambda (pkg)
+       (if (package? pkg)
+           ((package-input-rewriting/spec
+             `(("thunar" . ,(const thunar-gee))))
+            pkg)
+           pkg))
+     (negate package?))))
 
-(define-public xfce4-dict
+(define-public xfce-gee
   (package
-    (name "xfce4-dict")
-    (version "0.8.4")
-    (source (origin
-              (method url-fetch)
-              (uri (string-append "https://archive.xfce.org/src/apps/" name "/"
-                                  (version-major+minor version) "/"
-                                  name "-" version ".tar.bz2"))
-              (sha256
-               (base32
-                "1qriyvii50v8a8dx7aw6nlm888mf5cjrb9nwm3r0dcs2yzxzx1fb"))))
-    (build-system gnu-build-system)
-    (native-inputs
-     (list intltool pkg-config))
-    (inputs
-     (list libxfce4ui xfce4-panel))
-    (home-page "https://www.xfce.org/")
-    (synopsis "Dictionary of Xfce desktop")
-    (description
-     "Xfce4-dict allows you to search different kinds of dictionary services
-for words or phrases and shows you the result.  Currently you can query a Dict
-server (RFC 2229), any online dictionary service by opening a web browser or
-search for words using the aspell/ispell program.
-
-xfce4-dict contains a stand-alone application called “xfce4-dict” and a panel
-plugin for the Xfce panel.")
-    (license gpl2)))
-
-(define-public xfce4-environment-variables
-  (package
-    (name "xfce4-environment-variables")
-    (version "0.1.0")
-    (source #f)
-    (build-system trivial-build-system)
-    (arguments
-     '(#:modules ((guix build union))
-       #:builder
-       (begin
-         (use-modules (ice-9 match)
-                      (guix build union))
-         (match %build-inputs
-           (((names . directories) ...)
-            (union-build (assoc-ref %outputs "out")
-                         directories)
-            #t)))))
-    (native-search-paths
-     `(,@(package-native-search-paths xfce4-panel)
-       ,@(package-native-search-paths thunar)))
-    (synopsis "Environment variables used by Xfce.")
-    (home-page #f)
-    (description
-     "Environment variables used by Xfce desktop.")
-    (license gpl2)))
+    (inherit (replace-thunar xfce))
+    (name "xfce-gee")))
