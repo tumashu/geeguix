@@ -5,12 +5,14 @@
 ;; that accepts a '--manifest' (or '-m') option.
 
 (concatenate-manifests
-  (list (specifications->manifest
-          (list "autoconf"
-                "libtool"
-                "xfce4-dev-tools"
-                "gtk-doc"
-                "automake"
-                "git"))
-        (package->development-manifest
-          (specification->package "thunar"))))
+ (list (specifications->manifest
+        (list "autoconf"
+              "libtool"
+              "libxslt"
+              "xfce4-dev-tools"
+              "gtk-doc"
+              "automake"
+              "glib:bin"
+              "git"))
+       (package->development-manifest
+        (specification->package "thunar"))))
