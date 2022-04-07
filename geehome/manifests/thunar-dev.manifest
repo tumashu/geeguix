@@ -7,12 +7,15 @@
 (concatenate-manifests
  (list (specifications->manifest
         (list "autoconf"
+              "automake"
+              "docbook-xsl"
+              "docbook-xml"
+              "glib:bin"
+              "git"
+              "gtk-doc"
               "libtool"
               "libxslt"
-              "xfce4-dev-tools"
-              "gtk-doc"
-              "automake"
-              "glib:bin"
-              "git"))
+              "sed"
+              "xfce4-dev-tools"))
        (package->development-manifest
         (specification->package "thunar"))))
