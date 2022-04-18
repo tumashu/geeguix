@@ -1,24 +1,24 @@
-From fd354698ec401827b91ef327288fcfffc110380a Mon Sep 17 00:00:00 2001
+From 848f1dfb2d2f404efa5371817285236d33b32a5c Mon Sep 17 00:00:00 2001
 From: tumashu <tumashu@163.com>
 Date: Tue, 22 Mar 2022 20:16:19 +0000
 Subject: [PATCH] Look for thunar plugins at $THUNARX_DIRS (Issue #748)
 
 THUNARX_DIRS is a list of directories where thunar plugins are looked
-for. It is needed for distributions like NixOS or Guix System that do
-not install all plugins in the same directory. In NixOS or Guix System
-each package is installed in a self contained directory.
+for. It is needed for distributions like NixOS/GuixOS that do not
+install all plugins in the same directory. In NixOS/GuixOS each
+package is installed in a self contained directory.
 
 MR !197
 ---
- thunarx/thunarx-provider-factory.c | 89 +++++++++++++++++-------------
- thunarx/thunarx-provider-module.c  | 69 ++++++++++++++---------
- 2 files changed, 95 insertions(+), 63 deletions(-)
+ thunarx/thunarx-provider-factory.c | 86 +++++++++++++++++-------------
+ thunarx/thunarx-provider-module.c  | 68 ++++++++++++++---------
+ 2 files changed, 91 insertions(+), 63 deletions(-)
 
 diff --git a/thunarx/thunarx-provider-factory.c b/thunarx/thunarx-provider-factory.c
-index 94b11545..099938ac 100644
+index 94b11545..386c3417 100644
 --- a/thunarx/thunarx-provider-factory.c
 +++ b/thunarx/thunarx-provider-factory.c
-@@ -154,54 +154,69 @@ thunarx_provider_factory_load_modules (ThunarxProviderFactory *factory)
+@@ -154,54 +154,66 @@ thunarx_provider_factory_load_modules (ThunarxProviderFactory *factory)
    GList                 *modules = NULL;
    GList                 *lp;
    GDir                  *dp;
@@ -91,8 +91,7 @@ index 94b11545..099938ac 100644
 +                  /* use or allocate a new module for the file */
 +                  if (G_UNLIKELY (lp != NULL))
 +                    {
-+                      /* just use the existing module */
-+                      module = THUNARX_PROVIDER_MODULE (lp->data);
++                      continue;
 +                    }
 +                  else
 +                    {
@@ -101,10 +100,8 @@ index 94b11545..099938ac 100644
 +                      thunarx_provider_modules = g_list_prepend (thunarx_provider_modules, module);
 +                    }
 +
-+                  /* try to load the module, if a module exists in
-+                     multiple directories, only the first one will be
-+                     added. */
-+                  if (g_type_module_use (G_TYPE_MODULE (module)) && g_list_index(modules, module) == -1)
++                  /* try to load the module */
++                  if (g_type_module_use (G_TYPE_MODULE (module)))
 +                    {
 +                      /* add the types provided by the module */
 +                      thunarx_provider_factory_add (factory, module);
@@ -126,10 +123,10 @@ index 94b11545..099938ac 100644
  }
  
 diff --git a/thunarx/thunarx-provider-module.c b/thunarx/thunarx-provider-module.c
-index 023ad2ae..27066233 100644
+index 023ad2ae..5ddf38b2 100644
 --- a/thunarx/thunarx-provider-module.c
 +++ b/thunarx/thunarx-provider-module.c
-@@ -175,37 +175,54 @@ thunarx_provider_module_load (GTypeModule *type_module)
+@@ -175,37 +175,53 @@ thunarx_provider_module_load (GTypeModule *type_module)
  {
    ThunarxProviderModule *module = THUNARX_PROVIDER_MODULE (type_module);
    gchar                 *path;
@@ -167,11 +164,12 @@ index 023ad2ae..27066233 100644
 +      path = g_build_filename (dirs[i], type_module->name, NULL);
 +
 +      module->library = g_module_open (path, G_MODULE_BIND_LAZY | G_MODULE_BIND_LOCAL);
++      g_free (path);
 +
 +      /* check if the load operation was successfull */
 +      if (G_UNLIKELY (module->library == NULL))
 +        {
-+          g_printerr ("Thunar :Failed to load plugin file `%s': %s\n", path, g_module_error ());
++          g_printerr ("Thunar :Failed to load plugin `%s' from `%s': %s\n", type_module->name, path, g_module_error ());
 +          continue;
 +        }
 +
@@ -180,12 +178,10 @@ index 023ad2ae..27066233 100644
 +          || !g_module_symbol (module->library, "thunar_extension_initialize", (gpointer) &module->initialize)
 +          || !g_module_symbol (module->library, "thunar_extension_list_types", (gpointer) &module->list_types))
 +        {
-+          g_printerr ("Thunar :Plugin `%s' lacks required symbols.\n", path);
++          g_printerr ("Thunar :Plugin `%s' in `%s' lacks required symbols.\n", type_module->name, path);
 +          g_module_close (module->library);
 +          continue;
 +        }
-+
-+      g_free (path);
 +
 +      /* initialize the plugin */
 +      (*module->initialize) (module);
@@ -211,5 +207,5 @@ index 023ad2ae..27066233 100644
  
  
 -- 
-2.30.2
+2.35.1
 
