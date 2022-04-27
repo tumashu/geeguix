@@ -68,9 +68,9 @@
                 "14lwi4ax0wj77980kkfhdf18b97339b17y8qc8gl2365mgswh1gi"))
               (patches
                (search-patches
-                "thunar-Look-for-thunar-plugins-at-THUNARX_DIRS-Issue-748.patch"
-                "thunar-thunarx_provider_module_load-Fix-use-after-free-bug.patch"
-                "thunar-Refactor-thunarx-module-loading-Issue-755.patch"))))
+                "thunar-search-paths.patch"
+                "thunar-fix-use-after-free-bug.patch"
+                "thunar-refactor-thunarx-module-loading.patch"))))
     (build-system gnu-build-system)
     (native-inputs
      (list pkg-config intltool gobject-introspection))
