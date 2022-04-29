@@ -43,7 +43,7 @@
   #:use-module (srfi srfi-1))
 
 (define-public emacs29-without-ctags
-  (let ((commit "f5adb2584a9e25e3bbf01d1ca1c7fc6e511a4012")
+  (let ((commit "6044efe76e8baec4395449675f4ad662183f2f85")
         (revision "0"))
     (package
       (inherit emacs)
@@ -61,12 +61,14 @@
          (file-name (git-file-name name version))
          (sha256
           (base32
-           "1dsywvd306r69rgx3w1w27qyg1ncnwxx7mpmxs0dcx92h21k5k4h"))
+           "017qqh93br5mn29q5j89c6z7bznmwx3paqmcykfmmi1xpwdnq5a1"))
          (patches (search-patches "emacs-exec-path.patch"
                                   "emacs-fix-scheme-indent-function.patch"
                                   "emacs-source-date-epoch.patch"))))
       (arguments
        (substitute-keyword-arguments (package-arguments emacs)
+         ((#:configure-flags flags ''())
+          `(cons* "--with-xinput2" ,flags))
          ((#:phases phases)
           `(modify-phases ,phases
              (add-after 'install 'remove-ctags
