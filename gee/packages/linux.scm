@@ -19,7 +19,7 @@
   #:use-module (srfi srfi-1))
 
 (define-public linux/thinkpad-t14-amd
-  (let* ((native-inputs (package-native-inputs linux-5.17))
+  (let* ((native-inputs (package-native-inputs linux))
          (orig-config-str
           (call-with-input-file (car (assoc-ref native-inputs "kconfig"))
             get-string-all))
