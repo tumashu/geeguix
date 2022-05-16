@@ -43,7 +43,7 @@
   #:use-module (srfi srfi-1))
 
 (define-public emacs29-without-ctags
-  (let ((commit "6044efe76e8baec4395449675f4ad662183f2f85")
+  (let ((commit "9ac40fb9803acd57b15ef4b93ea9c8c72199ea23")
         (revision "0"))
     (package
       (inherit emacs)
@@ -61,22 +61,17 @@
          (file-name (git-file-name name version))
          (sha256
           (base32
-           "017qqh93br5mn29q5j89c6z7bznmwx3paqmcykfmmi1xpwdnq5a1"))
-         (patches (search-patches "emacs-exec-path.patch"
-                                  "emacs-fix-scheme-indent-function.patch"
-                                  "emacs-source-date-epoch.patch"))))
+           "1hg344p298y6yh9sg127v03405zs57jfcn2klgwkbkf5pgjkrkxx"))))
       (arguments
        (substitute-keyword-arguments (package-arguments emacs)
-         ((#:configure-flags flags ''())
-          `(cons* "--with-xinput2" ,flags))
          ((#:phases phases)
-          `(modify-phases ,phases
-             (add-after 'install 'remove-ctags
-               (lambda* (#:key outputs #:allow-other-keys)
-                 (with-directory-excursion (assoc-ref outputs "out")
-                   ;; Emacs 自带的 ctags 会和 universal-ctags 冲突，这里将其重
-                   ;; 命名。
-                   (rename-file "bin/ctags" "bin/ctags-emacs"))))))))
+          #~(modify-phases #$phases
+              (add-after 'install 'remove-ctags
+                (lambda* (#:key outputs #:allow-other-keys)
+                  (with-directory-excursion (assoc-ref outputs "out")
+                    ;; Emacs 自带的 ctags 会和 universal-ctags 冲突，这里将其重
+                    ;; 命名。
+                    (rename-file "bin/ctags" "bin/ctags-emacs"))))))))
       (native-inputs
        (modify-inputs (package-native-inputs emacs)
          (prepend autoconf))))))
