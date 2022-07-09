@@ -43,7 +43,7 @@
   #:use-module (srfi srfi-1))
 
 (define-public emacs29-without-ctags
-  (let ((commit "4ce2322894a21a1bd3045a6c0dcb2069b31a9c05")
+  (let ((commit "edabfe4ff66090b3b2c433962df4cfe1a68259fd")
         (revision "0"))
     (package
       (inherit emacs)
@@ -61,7 +61,7 @@
          (file-name (git-file-name name version))
          (sha256
           (base32
-           "1g3bsprzk0biq7l6aqkh1gzp1gjmn4c9yv9hd7jrk31z4s81mxpd"))))
+           "1q5818g1xp755sc4iknfd5rr27cdkh02ix9a5sj5qqsg5knd6w7r"))))
       (arguments
        (substitute-keyword-arguments (package-arguments emacs)
          ((#:phases phases)
