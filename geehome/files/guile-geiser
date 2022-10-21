@@ -1,3 +1,8 @@
 ;; -*- mode: scheme -*-
-(use-modules (ice-9 format)
-             (gnu packages))
+(use-modules
+ (gnu)
+ (gnu packages)
+ (guix)
+ (guix gexp)
+ (guix utils)
+ (ice-9 format))
