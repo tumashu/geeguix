@@ -19,10 +19,9 @@
         #~(cons* "--with-x-toolkit=lucid" #$flags))
        ((#:phases phases)
         #~(modify-phases #$phases
-            (add-after 'install 'remove-ctags
+            (add-after 'install 'rename-ctags
               (lambda* (#:key outputs #:allow-other-keys)
                 (with-directory-excursion (assoc-ref outputs "out")
                   ;; Emacs 自带的 ctags 会和 universal-ctags 冲突，这里将其重
                   ;; 命名。
                   (rename-file "bin/ctags" "bin/ctags-emacs"))))))))))
-
