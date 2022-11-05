@@ -10,7 +10,7 @@
   #:use-module (srfi srfi-9 gnu))
 
 (define-public emacs-gee
-  (set-field
+  (set-fields
    (package
      (inherit emacs-next)
      (name "emacs-gee")
@@ -29,7 +29,7 @@
                    ;; Emacs 自带的 ctags 会和 universal-ctags 冲突，这里将其重
                    ;; 命名。
                    (rename-file "bin/ctags" "bin/ctags-emacs")))))))))
-   (package-source origin-uri git-reference-url)
-   ;; Emacs git 下载速度太慢了，使用南京大学的 Emacs 镜像，同步延
-   ;; 迟大概 8 小时。https://git.savannah.gnu.org/git/emacs.git
-   "https://mirrors.nju.edu.cn/git/emacs.git"))
+   ((package-source origin-uri git-reference-url)
+    ;; Emacs git 下载速度太慢了，使用南京大学的 Emacs 镜像，同步延
+    ;; 迟大概 8 小时。https://git.savannah.gnu.org/git/emacs.git
+    "https://mirrors.nju.edu.cn/git/emacs.git")))
