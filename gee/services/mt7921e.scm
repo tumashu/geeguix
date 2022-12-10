@@ -32,10 +32,8 @@ ThinkPad-T14-AMD 笔记本电脑使用 MEDIATEK 7961 无线网卡，所以开机
 载 mt7921e 内核模块，但这个模块会导致关机时间消耗很长时间(> 5分钟), 这个服务的
 主要作用就是在关机之前将 mt7921 模块卸载，加快关机。")
       (provision '(mt7921e))
-      (requirement '(xorg-server))
-      (start #~(lambda _
-                 ;; Do nothing.
-                 #t))
+      (requirement '(user-processes))
+      (start #~(const #t))
       (stop  #~(lambda _
                  (invoke #$(file-append kmod "/bin/rmmod") "mt7921e")
                  #f))))
