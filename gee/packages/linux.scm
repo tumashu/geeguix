@@ -4,7 +4,7 @@
   #:use-module (guix packages)
   #:use-module (nongnu packages linux))
 
-(define-public linux/thinkpad-t14-amd
+(define-public linux-thinkpad-t14-amd
   (customize-linux
    #:name "linux-thinkpad-t14-amd"
    #:linux linux
