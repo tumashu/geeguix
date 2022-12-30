@@ -30,8 +30,10 @@
                (url "https://mirrors.nju.edu.cn/git/emacs.git")
                (commit commit)))
          (file-name (git-file-name name version))
-         ;; NOTE: emacs-gee use patches of emacs-next.
-         (patches (origin-patches (package-source emacs-next)))
+         ;; emacs-source-date-epoch.patch is no longer necessary
+         (patches (search-patches "emacs-exec-path.patch"
+                                  "emacs-fix-scheme-indent-function.patch"
+                                  "emacs-native-comp-driver-options.patch"))
          (sha256
           (base32
            "17w0pabqvv2yyqfq3jbvq4cxb1yp83gvv7gws53xb4ms2mnpakwb"))))
