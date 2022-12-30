@@ -25,14 +25,13 @@
          (method git-fetch)
          (uri (git-reference
                ;; Emacs git 下载速度太慢了，使用南京大学的 Emacs 镜像，同步延
-               ;; 迟大概 8 小时。https://git.savannah.gnu.org/git/emacs.git
+               ;; 迟大概 8 小时。
+               ;; (url "https://git.savannah.gnu.org/git/emacs.git")
                (url "https://mirrors.nju.edu.cn/git/emacs.git")
                (commit commit)))
          (file-name (git-file-name name version))
-         ;; emacs-source-date-epoch.patch is no longer necessary
-         (patches (search-patches "emacs-exec-path.patch"
-                                  "emacs-fix-scheme-indent-function.patch"
-                                  "emacs-native-comp-driver-options.patch"))
+         ;; NOTE: emacs-gee use patches of emacs-next.
+         (patches (origin-patches (package-source emacs-next)))
          (sha256
           (base32
            "17w0pabqvv2yyqfq3jbvq4cxb1yp83gvv7gws53xb4ms2mnpakwb"))))
@@ -42,9 +41,6 @@
          (prepend tree-sitter)
          (prepend libxaw)
          (prepend sqlite)))
-      (native-inputs
-       (modify-inputs (package-native-inputs emacs)
-         (prepend autoconf)))
       (arguments
        (substitute-keyword-arguments (package-arguments emacs)
          ((#:configure-flags flags #~'())
