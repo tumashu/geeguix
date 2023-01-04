@@ -1,6 +1,8 @@
 (define-module (gee packages emacs)
   #:use-module ((guix licenses) #:prefix license:)
   #:use-module (gee packages)
+  #:use-module (guix build gnu-build-system)
+  #:use-module (guix build utils)
   #:use-module (guix build-system emacs)
   #:use-module (guix git-download)
   #:use-module (guix packages)
@@ -62,3 +64,84 @@
                     ;; Emacs 自带的 ctags 会和 universal-ctags 冲突，这里将其重
                     ;; 命名。
                     (rename-file "bin/ctags" "bin/ctags-emacs")))))))))))
+
+(define-public emacs-helper
+  (let ((commit "2fc6c2a7b94f08e7592cc21beb344e0ac0de39bc")
+        (revision "0"))
+    (package
+      (name "emacs-helper")
+      (version (git-version "0.1" revision commit))
+      (source
+       (origin
+         (uri (git-reference
+               (url "https://github.com/tumashu/emacs-helper")
+               (commit commit)))
+         (method git-fetch)
+         (sha256
+          (base32 "0ahq3bhf2hgy89dzfhgqbxrk5zm8m1vdhw6ngasvkk2s2yh0f0wd"))
+         (file-name (git-file-name name version))))
+      (build-system emacs-build-system)
+      (arguments
+       (list
+        #:phases
+        #~(modify-phases %standard-phases
+            ;; 个人 Emacs 配置，build 老是报错，处理起来很麻烦了。
+            (delete 'build)
+            ;; 个人 Emacs 配置，不需要生成 autoloads.
+            (delete 'make-autoloads)
+            (add-after 'install 'install-tempel-files
+              (lambda _
+                (for-each (lambda (file)
+                            (install-file file
+                                          (string-append
+                                           #$output "/share/emacs/site-lisp/helper-"
+                                           #$version "/tempel")))
+                          (find-files "tempel" ".*")))))))
+      (propagated-inputs
+       (list emacs-adaptive-wrap
+             emacs-aggressive-indent
+             emacs-cal-china-x
+             emacs-citre
+             emacs-cnfonts
+             emacs-company
+             emacs-company-posframe
+             emacs-consult
+             emacs-eat
+             emacs-ebdb
+             emacs-ebdb-i18n-chn
+             emacs-el2org
+             emacs-emms
+             emacs-flycheck
+             emacs-geiser-guile
+             emacs-guix
+             emacs-magit
+             emacs-marginalia
+             emacs-markdown-mode
+             emacs-modus-themes
+             emacs-orderless
+             emacs-org-contrib
+             emacs-org-download
+             emacs-org-ql
+             emacs-org-super-agenda
+             emacs-ox-gfm
+             emacs-package-lint
+             emacs-paredit
+             emacs-popon
+             emacs-pos-tip
+             emacs-projectile
+             emacs-pyim
+             emacs-pyim-basedict
+             emacs-rainbow-delimiters
+             emacs-rainbow-mode
+             emacs-switch-window
+             emacs-tempel
+             emacs-vertico
+             emacs-vundo
+             emacs-wgrep
+             emacs-xmlgen
+             emacs-xr))
+      (synopsis "Tumashu's Emacs configure")
+      (home-page "https://github.com/tumashu/emacs-helper")
+      (description
+       "Emacs-Helper is Tumashu's Emacs configure.")
+      (license license:gpl3+))))
