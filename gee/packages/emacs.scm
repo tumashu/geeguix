@@ -1,9 +1,12 @@
 (define-module (gee packages emacs)
+  #:use-module ((guix licenses) #:prefix license:)
   #:use-module (gee packages)
+  #:use-module (guix build-system emacs)
   #:use-module (guix git-download)
   #:use-module (guix packages)
   #:use-module (gnu packages autotools)
   #:use-module (gnu packages emacs)
+  #:use-module (gnu packages emacs-xyz)
   #:use-module (gnu packages sqlite)
   #:use-module (gnu packages text-editors)
   #:use-module (gnu packages xorg)
@@ -59,3 +62,68 @@
                     ;; Emacs 自带的 ctags 会和 universal-ctags 冲突，这里将其重
                     ;; 命名。
                     (rename-file "bin/ctags" "bin/ctags-emacs")))))))))))
+
+(define-public emacs-helper
+  (let ((commit "4146ee6b23ea1f3532b4ea40781a9f28b9ea2bda")
+        (revision "0"))
+    (package
+      (name "emacs-helper")
+      (version (git-version "0.1" revision commit))
+      (source
+       (origin
+         (uri (git-reference
+               (url "https://github.com/tumashu/emacs-helper")
+               (commit commit)))
+         (method git-fetch)
+         (sha256
+          (base32 "1q77dvr2zfbhnlyjs6w23dcv547r7mad4n0fxs03ngplgr371cvj"))
+         (file-name (git-file-name name version))))
+      (build-system emacs-build-system)
+      (propagated-inputs
+       (list emacs-adaptive-wrap
+             emacs-aggressive-indent
+             ;; emacs-cal-china-x
+             ;; emacs-citre
+             emacs-cnfonts
+             emacs-company
+             emacs-company-posframe
+             emacs-consult
+             emacs-eat
+             emacs-ebdb
+             ;; emacs-ebdb-i18n-chn
+             emacs-el2org
+             emacs-emms
+             emacs-flycheck
+             emacs-geiser-guile
+             emacs-guix
+             emacs-magit
+             emacs-marginalia
+             emacs-markdown-mode
+             emacs-modus-themes
+             emacs-orderless
+             emacs-org-contrib
+             emacs-org-download
+             emacs-org-ql
+             emacs-org-super-agenda
+             emacs-ox-gfm
+             emacs-package-lint
+             emacs-paredit
+             emacs-popon
+             emacs-pos-tip
+             emacs-projectile
+             emacs-pyim
+             emacs-pyim-basedict
+             emacs-rainbow-delimiters
+             emacs-rainbow-mode
+             emacs-switch-window
+             emacs-tempel
+             emacs-vertico
+             emacs-vundo
+             emacs-wgrep
+             emacs-xmlgen
+             emacs-xr))
+      (synopsis "Tumashu's Emacs configure")
+      (home-page "https://github.com/tumashu/emacs-helper")
+      (description
+       "Emacs-Helper is Tumashu's Emacs configure.")
+      (license license:gpl3+))))
