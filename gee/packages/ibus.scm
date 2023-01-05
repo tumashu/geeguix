@@ -30,9 +30,8 @@
               (and (invoke "unzip" source "-d" "cloverpinyin")
                    (chdir "cloverpinyin")))))
       #:install-plan
-      #~'(("." "share/rime-data/" #:include-regexp ("\\.yaml$")))))
+      #~'(("." "share/rime-data/"))))
     (native-inputs (list unzip))
-    (propagated-inputs (list rime-data))
     (home-page "https://github.com/fkxxyz/rime-cloverpinyin")
     (synopsis "Clover Simplified pinyin input for rime")
     (description "Clover Simplified pinyin input for rime.")
