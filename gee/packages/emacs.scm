@@ -69,7 +69,9 @@
   (let ((commit "2fc6c2a7b94f08e7592cc21beb344e0ac0de39bc")
         (revision "0"))
     (package
-      (name "emacs-helper")
+      ;; 如果使用 emacs-helper 作为名称, 安装的时候 'emacs-' 前缀会被
+      ;; emacs-build-system 特殊处理，所以这里使用 'Emacs-helper'.
+      (name "Emacs-helper")
       (version (git-version "0.1" revision commit))
       (source
        (origin
@@ -94,8 +96,8 @@
                 (for-each (lambda (file)
                             (install-file file
                                           (string-append
-                                           #$output "/share/emacs/site-lisp/helper-"
-                                           #$version "/tempel")))
+                                           #$output "/share/emacs/site-lisp/"
+                                           #$name "-" #$version "/tempel")))
                           (find-files "tempel" ".*")))))))
       (propagated-inputs
        (list emacs-adaptive-wrap
@@ -143,5 +145,5 @@
       (synopsis "Tumashu's Emacs configure")
       (home-page "https://github.com/tumashu/emacs-helper")
       (description
-       "Emacs-Helper is Tumashu's Emacs configure.")
+       "Emacs-helper is Tumashu's Emacs configure.")
       (license license:gpl3+))))
