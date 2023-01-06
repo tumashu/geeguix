@@ -80,3 +80,28 @@
       (description "Rime Settings of wongdean.")
       (license license:lgpl2.0))))
 
+(define-public rime-ssnhd
+  (let ((commit "35527a81cb6b7bb2fab1e6414c4415a5d720a3a7")
+        (revision "0"))
+    (package
+      (name "rime-ssnhd")
+      (version (git-version "0.1" revision commit))
+      (source
+       (origin
+         (uri (git-reference
+               (url "https://github.com/ssnhd/rime")
+               (commit commit)))
+         (method git-fetch)
+         (sha256
+          (base32 "0c3v7bf11fbf84cx9cxzy01wchkczpdpbyad5v4hngcz1kjfhbpk"))
+         (file-name (git-file-name name version))))
+      (build-system copy-build-system)
+      (arguments
+       (list
+        #:install-plan
+        #~'(("配置文件/" "share/rime-data/"))))
+      (home-page "https://github.com/ssnhd/rime")
+      (synopsis "Rime Settings of ssnhd.")
+      (description "Rime Settings of ssnhd.")
+      (license license:lgpl2.0))))
+
