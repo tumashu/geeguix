@@ -10,22 +10,6 @@
   #:use-module (guix build utils)
   #:use-module (guix build-system copy))
 
-(define-public ibus-rime-gee
-  (package
-    (inherit ibus-rime)
-    (name "ibus-rime-gee")
-    (arguments
-     (substitute-keyword-arguments (package-arguments ibus-rime)
-       ((#:configure-flags flags #~'())
-        #~(list (string-append
-                 "-DRIME_DATA_DIR="
-                 (assoc-ref %build-inputs "rime-ssnhd")
-                 "/share/rime-data")))))
-    (inputs
-     (modify-inputs (package-inputs ibus-rime)
-       (prepend rime-ssnhd)
-       (delete "rime-data")))))
-
 (define-public rime-ssnhd
   (let ((commit "35527a81cb6b7bb2fab1e6414c4415a5d720a3a7")
         (revision "0"))
