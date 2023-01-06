@@ -55,11 +55,11 @@
     (description "Clover Simplified pinyin input for rime.")
     (license license:lgpl2.0)))
 
-(define-public rime-settings
+(define-public rime-wongdean
   (let ((commit "508b0f373fd1a2475a8f531867550220193b30c5")
         (revision "0"))
     (package
-      (name "rime-settings")
+      (name "rime-wongdean")
       (version (git-version "0.1" revision commit))
       (source
        (origin
@@ -76,8 +76,8 @@
         #:install-plan
         #~'(("." "share/rime-data/"))))
       (home-page "https://github.com/wongdean/rime-settings")
-      (synopsis "Rime Settings of wongdean.")
-      (description "Rime Settings of wongdean.")
+      (synopsis "Rime Settings of Wongdean.")
+      (description "Rime Settings of Wongdean.")
       (license license:lgpl2.0))))
 
 (define-public rime-ssnhd
