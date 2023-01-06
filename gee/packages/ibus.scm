@@ -9,6 +9,23 @@
   #:use-module (guix build utils)
   #:use-module (guix build-system copy))
 
+(define-public ibus-rime-gee
+  (package
+    (inherit ibus-rime)
+    (name "ibus-rime-gee")
+    (arguments
+     (substitute-keyword-arguments (package-arguments ibus-rime)
+       ;; 这里用 rime-cloverpinyin 替代 rime-data.
+       ((#:configure-flags flags #~'())
+        #~(list (string-append
+                 "-DRIME_DATA_DIR="
+                 (assoc-ref %build-inputs "rime-cloverpinyin")
+                 "/share/rime-data")))))
+    (inputs
+     (modify-inputs (package-inputs ibus-rime)
+       (prepend rime-cloverpinyin)
+       (delete "rime-data")))))
+
 (define-public rime-cloverpinyin
   (package
     (name "rime-cloverpinyin")
