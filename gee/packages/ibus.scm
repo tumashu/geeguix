@@ -6,6 +6,7 @@
   #:use-module (guix gexp)
   #:use-module (guix utils)
   #:use-module (guix download)
+  #:use-module (guix git-download)
   #:use-module (guix build utils)
   #:use-module (guix build-system copy))
 
@@ -53,4 +54,29 @@
     (synopsis "Clover Simplified pinyin input for rime")
     (description "Clover Simplified pinyin input for rime.")
     (license license:lgpl2.0)))
+
+(define-public rime-settings
+  (let ((commit "508b0f373fd1a2475a8f531867550220193b30c5")
+        (revision "0"))
+    (package
+      (name "rime-settings")
+      (version (git-version "0.1" revision commit))
+      (source
+       (origin
+         (uri (git-reference
+               (url "https://github.com/wongdean/rime-settings")
+               (commit commit)))
+         (method git-fetch)
+         (sha256
+          (base32 "0rbf56icp0fr3hc0i137rv596krvqkagz9gzlw9d0vp69404a2b5"))
+         (file-name (git-file-name name version))))
+      (build-system copy-build-system)
+      (arguments
+       (list
+        #:install-plan
+        #~'(("." "share/rime-data/"))))
+      (home-page "https://github.com/wongdean/rime-settings")
+      (synopsis "Rime Settings of wongdean.")
+      (description "Rime Settings of wongdean.")
+      (license license:lgpl2.0))))
 
