@@ -167,6 +167,3 @@ patch:
   # 分尖團後 v => ü 的改寫條件也要相應地擴充：
   #'translator/preedit_format':
   #  - "xform/([nljqxyzcs])v/$1ü/"
-
-  # librime-lua 输入动态时间和日期
-  "engine/translators/@6": lua_translator@date_translator
