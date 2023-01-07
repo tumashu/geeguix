@@ -21,18 +21,18 @@
   #:use-module (guix diagnostics)
   #:use-module (guix i18n)
   #:use-module (srfi srfi-1)
-  #:export (search-patch
-            search-patches
-            %patch-path))
+  #:export (geeguix-search-patch
+            geeguix-search-patches
+            %geeguix-patch-path))
 
-(define-syntax-rule (search-patches file-name ...)
+(define-syntax-rule (geeguix-search-patches file-name ...)
   "Return the list of absolute file names corresponding to each
-FILE-NAME found in %PATCH-PATH."
-  (list (search-patch file-name) ...))
+FILE-NAME found in %GEEGUIX-PATCH-PATH."
+  (list (geeguix-search-patch file-name) ...))
 
-(define (search-patch file-name)
+(define (geeguix-search-patch file-name)
   "Search the patch FILE-NAME.  Raise an error if not found."
-  (or (search-path (%patch-path) file-name)
+  (or (search-path (%geeguix-patch-path) file-name)
       (raise (formatted-message
               (G_ "~a: patch not found")
               file-name))))
@@ -42,7 +42,7 @@ FILE-NAME found in %PATCH-PATH."
           (file-exists? (string-append path "/gee/packages.scm")))
         %load-path))
 
-(define %patch-path
+(define %geeguix-patch-path
   (make-parameter
    (cons
     (string-append %geeguix-root "/gee/packages/patches")

@@ -6,6 +6,7 @@
   #:use-module (guix build-system emacs)
   #:use-module (guix git-download)
   #:use-module (guix packages)
+  #:use-module (gnu packages)
   #:use-module (gnu packages autotools)
   #:use-module (gnu packages emacs)
   #:use-module (gnu packages emacs-xyz)
@@ -36,9 +37,10 @@
                (commit commit)))
          (file-name (git-file-name name version))
          ;; emacs-source-date-epoch.patch is no longer necessary
-         (patches (search-patches "emacs-exec-path.patch"
-                                  "emacs-fix-scheme-indent-function.patch"
-                                  "emacs-native-comp-driver-options.patch"))
+         (patches (search-patches
+                   "emacs-exec-path.patch"
+                   "emacs-fix-scheme-indent-function.patch"
+                   "emacs-native-comp-driver-options.patch"))
          (sha256
           (base32
            "1kchshxmaw72bn2ds0b2cq1pxhxrfqm2v7k8qxycn8c0awl2xff2"))))
