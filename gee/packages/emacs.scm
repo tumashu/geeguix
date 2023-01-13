@@ -118,6 +118,7 @@
              emacs-flycheck
              emacs-geiser-guile
              emacs-guix
+             emacs-liberime
              emacs-magit
              emacs-marginalia
              emacs-markdown-mode
