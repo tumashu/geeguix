@@ -5,9 +5,6 @@ patch:
       states: ["中文", "西文"]
     - name: full_shape # 全角/半角符号开关
       states: ["半角", "全角"]
-    - name: show_emoji # Emoji 开关
-      reset: 1
-      states: ["🈚️️\uFE0E", "🈶️️\uFE0F"]
     - name: zh_simp # (※1) 繁简转换
       reset: 1
       states: ["漢字", "汉字"]
@@ -24,16 +21,9 @@ patch:
   # 启用罕见字過濾
   engine/filters:
     - simplifier
-    - simplifier@emoji_conversion
     - uniquifier
     - charset_filter@gbk # (※3) GBK 过滤
     - single_char_filter
-
-  emoji_conversion:
-    opencc_config: emoji.json
-    option_name: show_emoji
-    tags: abc
-    #tips: all    # Emoji 显示注释
 
   # 改写拼写运算，含英文的词汇（luna_pinyin.cn_en.dict.yaml）不影响简拼
   "speller/algebra/@before 0": xform/^([b-df-hj-np-tv-z])$/$1_/
