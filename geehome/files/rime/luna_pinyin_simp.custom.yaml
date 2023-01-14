@@ -22,7 +22,6 @@ patch:
   engine/filters:
     - simplifier
     - uniquifier
-    - charset_filter@gbk # (※3) GBK 过滤
     - single_char_filter
 
   # 改写拼写运算，含英文的词汇（luna_pinyin.cn_en.dict.yaml）不影响简拼
