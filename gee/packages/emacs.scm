@@ -87,6 +87,7 @@
       (build-system emacs-build-system)
       (arguments
        (list
+        #:emacs emacs-gee
         #:phases
         #~(modify-phases %standard-phases
             (add-after 'install 'install-tempel-files
