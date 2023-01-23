@@ -68,8 +68,8 @@
                     (rename-file "bin/ctags" "bin/ctags-emacs")))))))))))
 
 (define-public emacs-helper
-  (let ((commit "d03fc6fddce678378b3487b5e97f3560f0a9d95e")
-        (revision "1"))
+  (let ((commit "4b06ed399ed40de57ceb8570bf1b03d83cfde6ff")
+        (revision "2"))
     (package
       ;; 如果使用 emacs-helper 作为名称, 安装的时候 'emacs-' 前缀会被
       ;; emacs-build-system 特殊处理，所以这里使用 'Emacs-helper'.
@@ -82,17 +82,13 @@
                (commit commit)))
          (method git-fetch)
          (sha256
-          (base32 "0g48midqlnjp0497k9p4x61g9infrbxb3hnm1y08d3xg7yafwb89"))
+          (base32 "0cqdn8gcs1mwgcb3q473k1fybwk4s9bi2qrn78949rk0ccs0c5qd"))
          (file-name (git-file-name name version))))
       (build-system emacs-build-system)
       (arguments
        (list
         #:phases
         #~(modify-phases %standard-phases
-            ;; 个人 Emacs 配置，build 老是报错，处理起来很麻烦了。
-            (delete 'build)
-            ;; 个人 Emacs 配置，不需要生成 autoloads.
-            (delete 'make-autoloads)
             (add-after 'install 'install-tempel-files
               (lambda _
                 (for-each (lambda (file)
