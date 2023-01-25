@@ -3,12 +3,13 @@
   #:use-module (guix packages)
   #:use-module (guix download)
   #:use-module (guix gexp)
+  #:use-module (guix git-download)
   #:use-module (guix build-system gnu)
   #:use-module (gnu packages)
+  #:use-module (gnu packages autotools)
   #:use-module (gnu packages compression)
-  #:use-module (gnu packages fontutils)
   #:use-module (gnu packages freedesktop)
-  #:use-module (gnu packages fribidi)
+  #:use-module (gnu packages gettext)
   #:use-module (gnu packages gnome)
   #:use-module (gnu packages gtk)
   #:use-module (gnu packages image)
@@ -19,19 +20,20 @@
 (define-public jwm
   (package
     (name "jwm")
-    (version "2.4.3")
-    (source (origin
-              (method url-fetch)
-              (uri (string-append
-                    "https://github.com/joewing/jwm/releases/download/"
-                    "v" version "/jwm-" version ".tar.xz"))
-              (sha256
-               (base32
-                "1av7r9sp26r5l74zvwdmyyyzav29mw5bafihp7y33vsjqkh4wfzf"))))
+    (version "2.4.4")
+    (source
+     (origin
+       (method git-fetch)
+       (uri (git-reference
+             (url "https://github.com/joewing/jwm")
+             (commit "4640d3b48ea64bd57e3cea63e4c4a9cd558e6142")))
+       (file-name (git-file-name name version))
+       (sha256
+        (base32 "0xwk54y8q12y3cvbgrjhda6g4jd5f57bvyasyb9qdbczzxfhvxqw"))))
     (build-system gnu-build-system)
     (arguments
      (list
-      #:tests? #f   ;no check
+      #:tests? #f   ; no check target
       #:phases
       #~(modify-phases %standard-phases
           (add-after 'install 'install-xsession
@@ -49,20 +51,23 @@
                      Exec=~a/bin/jwm~@
                      Type=XSession~%" out))))
               #t)))))
-    (native-inputs (list pkg-config))
-    (inputs (list fribidi
-                  libjpeg-turbo
-                  libpng
-                  librsvg
-                  libxext
-                  libxft
-                  libxinerama
-                  libxmu
-                  libxpm
-                  libxrandr
-                  freetype
-                  libxt
-                  cairo))
+    (native-inputs
+     (list autoconf
+           automake
+           gettext-minimal
+           pkg-config))
+    (inputs
+     (list cairo
+           libjpeg-turbo
+           libpng
+           librsvg
+           libxext
+           libxinerama
+           libxmu
+           libxpm
+           libxrandr
+           libxt
+           pango))
     (home-page "http://joewing.net/projects/jwm")
     (synopsis "Joe's Window Manager")
     (description
