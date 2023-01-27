@@ -20,16 +20,15 @@
 (define-public jwm
   (package
     (name "jwm")
-    (version "2.4.4")
-    (source
-     (origin
-       (method git-fetch)
-       (uri (git-reference
-             (url "https://github.com/joewing/jwm")
-             (commit "4640d3b48ea64bd57e3cea63e4c4a9cd558e6142")))
-       (file-name (git-file-name name version))
-       (sha256
-        (base32 "0xwk54y8q12y3cvbgrjhda6g4jd5f57bvyasyb9qdbczzxfhvxqw"))))
+    (version "2.4.3")
+    (source (origin
+              (method url-fetch)
+              (uri (string-append
+                    "https://github.com/joewing/jwm/releases/download/"
+                    "v" version "/jwm-" version ".tar.xz"))
+              (sha256
+               (base32
+                "1av7r9sp26r5l74zvwdmyyyzav29mw5bafihp7y33vsjqkh4wfzf"))))
     (build-system gnu-build-system)
     (arguments
      (list
@@ -51,11 +50,7 @@
                      Exec=~a/bin/jwm~@
                      Type=XSession~%" out))))
               #t)))))
-    (native-inputs
-     (list autoconf
-           automake
-           gettext-minimal
-           pkg-config))
+    (native-inputs (list pkg-config))
     (inputs
      (list cairo
            libjpeg-turbo
