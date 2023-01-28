@@ -35,6 +35,25 @@
       #:tests? #f   ; no check target
       #:phases
       #~(modify-phases %standard-phases
+          (add-after 'unpack 'patch-example.jwmrc
+            (lambda* (#:key inputs #:allow-other-keys)
+              (substitute* "example.jwmrc"
+                ;; Ignore existing menus.
+                (("<Menu") "<!-- <Menu")
+                (("</Menu>") "</Menu> -->")
+                ;; Adjust xterm path.
+                ((">xterm</Program>" )
+                 (string-append ">" (search-input-file inputs "/bin/xterm") "</Program>"))
+                ;; Include menu created by mjwm.
+                (("<RootMenu .*>" all)
+                 (string-append
+                  all "\n"
+                  "<Program icon=\"menu-editor\" label=\"Update Menu\">"
+                  (search-input-file inputs "/bin/mjwm")
+                  " --no-backup --output-file $HOME/.jwmrc-mjwm-guix"
+                  "</Program>\n"
+                  "<Separator/>\n"
+                  "<Include>$HOME/.jwmrc-mjwm-guix</Include>\n")))))
           (add-after 'install 'install-xsession
             (lambda* (#:key outputs #:allow-other-keys)
               (let* ((out (assoc-ref outputs "out"))
@@ -62,7 +81,9 @@
            libxpm
            libxrandr
            libxt
-           pango))
+           mjwm
+           pango
+           xterm))
     (home-page "http://joewing.net/projects/jwm")
     (synopsis "Joe's Window Manager")
     (description
