@@ -80,8 +80,8 @@ systems.")
     (source (origin
               (method url-fetch)
               (uri (string-append
-                    "https://github.com/chiku/mjwm/releases/download/"
-                    "v" version "/mjwm-" version ".tar.gz"))
+                    "https://github.com/chiku/mjwm/archive/refs/tags/"
+                    "v" version ".tar.gz"))
               (sha256
                (base32
                 "0q1n3jw22hjzas7q75nb0zkw1875kf4k518f8zg13h7si2knyxy3"))))
