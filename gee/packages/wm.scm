@@ -72,23 +72,3 @@ it makes a good window manager for older computers and less powerful systems,
 such as the Raspberry Pi, though it is perfectly capable of running on modern
 systems.")
     (license license:expat)))
-
-(define-public mjwm
-  (package
-    (name "mjwm")
-    (version "4.1.0")
-    (source (origin
-              (method url-fetch)
-              (uri (string-append
-                    "https://github.com/chiku/mjwm/archive/refs/tags/"
-                    "v" version ".tar.gz"))
-              (sha256
-               (base32
-                "0q1n3jw22hjzas7q75nb0zkw1875kf4k518f8zg13h7si2knyxy3"))))
-    (build-system gnu-build-system)
-    (home-page "https://github.com/chiku/mjwm")
-    (synopsis "Create menu for JWM.")
-    (description
-     "MJWM can create JWM's menu from (freedesktop) desktop files and the
-generated file can be include in the rootmenu section of your jwm config file.")
-    (license license:gpl2)))
