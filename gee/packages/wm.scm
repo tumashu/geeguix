@@ -60,7 +60,7 @@
                   all "\n        "
                   "<Program icon=\"jwm-red\" label=\"Update JWM Menu\">"
                   (search-input-file inputs "/bin/mjwm")
-                  " --iconize=Adwaita --no-backup "
+                  " --iconize --no-backup "
                   " --output-file $HOME/.jwmrc-mjwm-guix"
                   "</Program>\n        "
                   "<Separator/>\n        "
@@ -109,36 +109,16 @@ systems.")
   (package
     (name "mjwm")
     (version "4.1.0")
-    (source (origin
-              (method url-fetch)
-              (uri (string-append
-                    "https://github.com/chiku/mjwm/releases/download/"
-                    "v" version "/mjwm-" version ".tar.gz"))
-              (sha256
-               (base32
-                "0q1n3jw22hjzas7q75nb0zkw1875kf4k518f8zg13h7si2knyxy3"))))
+    (source
+     (origin
+       (method git-fetch)
+       (uri (git-reference
+             (url "https://github.com/chiku/mjwm")
+             (commit (string-append "v" version))))
+       (file-name (git-file-name name version))
+       (sha256
+        (base32 "0lgfp2xidhvmbj4zqvzz9g8zwbn6mz0pgacc57b43ha523vamsjq"))))
     (build-system gnu-build-system)
-    (arguments
-     (list
-      #:phases
-      #~(modify-phases %standard-phases
-          (add-after 'unpack 'patch-path
-            (lambda _
-              (substitute* "test/system_environment_test.cc"
-                ;; Ignore failed tests related to xdg data dirs.
-                ((".*HOME is set.*" all)
-                 (string-append "/* " all))
-                ((".*LANGUAGE is set with encoding and sub-type.*" all)
-                 (string-append "*/ " all)))
-              (substitute* "src/system_environment.cc"
-                (("/usr/share/pixmaps")
-                 "/run/current-system/profile/share/pixmaps")
-                (("xdg_data_dirs_ = \"/usr/local/share:/usr/share\"")
-                 (string-append
-                  "xdg_data_dirs_ = home_ + \"/.guix_home/profile/share:\" + "
-                  "home_ + \"/.guix-profile/share:\" + "
-                  "\"/run/current-system/profile/share:\" + "
-                  "\"/usr/local/share:/usr/share\""))))))))
     (home-page "https://github.com/chiku/mjwm")
     (synopsis "Create menu for JWM.")
     (description
