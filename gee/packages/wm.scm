@@ -38,21 +38,32 @@
           (add-after 'unpack 'patch-example.jwmrc
             (lambda* (#:key inputs #:allow-other-keys)
               (substitute* "example.jwmrc"
-                ;; Ignore existing menus.
-                (("<Menu") "<!-- <Menu")
+                ;; Ignore existing menus in example.jwmrc.
+                (("<Menu ") "<!-- <Menu ")
                 (("</Menu>") "</Menu> -->")
-                ;; Adjust xterm path.
-                ((">xterm</Program>" )
-                 (string-append ">" (search-input-file inputs "/bin/xterm") "</Program>"))
-                ;; Include menu created by mjwm.
+                ;; Adjust xterm path in terminal menu item.
+                ((">xterm</Program>")
+                 (string-append
+                  ">" (search-input-file inputs "/bin/xterm")
+                  "</Program>"))
+                ;; Replace xscreensaver with xlock, which has been configured
+                ;; well by desktop-service.
+                (("xscreensaver-command -lock") "xlock")
+                ;; Adjust icons search paths.
+                (("/usr/local/share/jwm")
+                 (string-append #$output "/share/jwm"))
+                (("/usr/local/share/icons")
+                 "/run/current-system/profile/share/icons")
+                ;; Include menu created by mjwm command.
                 (("<RootMenu .*>" all)
                  (string-append
-                  all "\n"
-                  "<Program icon=\"menu-editor\" label=\"Update Menu\">"
+                  all "\n        "
+                  "<Program icon=\"jwm-red\" label=\"Update JWM Menu\">"
                   (search-input-file inputs "/bin/mjwm")
-                  " --no-backup --output-file $HOME/.jwmrc-mjwm-guix"
-                  "</Program>\n"
-                  "<Separator/>\n"
+                  " --iconize=Adwaita --no-backup "
+                  " --output-file $HOME/.jwmrc-mjwm-guix"
+                  "</Program>\n        "
+                  "<Separator/>\n        "
                   "<Include>$HOME/.jwmrc-mjwm-guix</Include>\n")))))
           (add-after 'install 'install-xsession
             (lambda* (#:key outputs #:allow-other-keys)
@@ -107,6 +118,27 @@ systems.")
                (base32
                 "0q1n3jw22hjzas7q75nb0zkw1875kf4k518f8zg13h7si2knyxy3"))))
     (build-system gnu-build-system)
+    (arguments
+     (list
+      #:phases
+      #~(modify-phases %standard-phases
+          (add-after 'unpack 'patch-path
+            (lambda _
+              (substitute* "test/system_environment_test.cc"
+                ;; Ignore failed tests related to xdg data dirs.
+                ((".*HOME is set.*" all)
+                 (string-append "/* " all))
+                ((".*LANGUAGE is set with encoding and sub-type.*" all)
+                 (string-append "*/ " all)))
+              (substitute* "src/system_environment.cc"
+                (("/usr/share/pixmaps")
+                 "/run/current-system/profile/share/pixmaps")
+                (("xdg_data_dirs_ = \"/usr/local/share:/usr/share\"")
+                 (string-append
+                  "xdg_data_dirs_ = home_ + \"/.guix_home/profile/share:\" + "
+                  "home_ + \"/.guix-profile/share:\" + "
+                  "\"/run/current-system/profile/share:\" + "
+                  "\"/usr/local/share:/usr/share\""))))))))
     (home-page "https://github.com/chiku/mjwm")
     (synopsis "Create menu for JWM.")
     (description
