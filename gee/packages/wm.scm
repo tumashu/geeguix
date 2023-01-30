@@ -60,11 +60,12 @@
                   all "\n        "
                   "<Program icon=\"jwm-red\" label=\"Update JWM Menu\">"
                   (search-input-file inputs "/bin/mjwm")
-                  " --iconize --no-backup "
+                  " --iconize=Adwaita --no-backup "
                   " --output-file $HOME/.jwmrc-mjwm-guix"
                   "</Program>\n        "
-                  "<Separator/>\n        "
-                  "<Include>$HOME/.jwmrc-mjwm-guix</Include>\n")))))
+                  "<Dynamic icon=\"folder\" label=\"Applications\">"
+                  "$HOME/.jwmrc-mjwm-guix"
+                  "</Dynamic>\n")))))
           (add-after 'install 'install-xsession
             (lambda* (#:key outputs #:allow-other-keys)
               (let* ((out (assoc-ref outputs "out"))
