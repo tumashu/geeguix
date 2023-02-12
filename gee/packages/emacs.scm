@@ -11,7 +11,7 @@
   #:use-module (gnu packages emacs)
   #:use-module (gnu packages emacs-xyz)
   #:use-module (gnu packages sqlite)
-  #:use-module (gnu packages text-editors)
+  #:use-module (gnu packages tree-sitter)
   #:use-module (gnu packages xorg)
   #:use-module (guix gexp)
   #:use-module (guix utils)
@@ -68,8 +68,8 @@
                     (rename-file "bin/ctags" "bin/ctags-emacs")))))))))))
 
 (define-public emacs-helper
-  (let ((commit "44c1c8ceadab11338bb20c4ce87c30bcc6d59464")
-        (revision "3"))
+  (let ((commit "6edfc2b2f5c20945799ec82757bbc8df4213bd78")
+        (revision "4"))
     (package
       ;; 如果使用 emacs-helper 作为名称, 安装的时候 'emacs-' 前缀会被
       ;; emacs-build-system 特殊处理，所以这里使用 'Emacs-helper'.
@@ -82,7 +82,7 @@
                (commit commit)))
          (method git-fetch)
          (sha256
-          (base32 "1mm2phiwn1qaywpsf30pi8jchfxka5sc7frbf887l4lfp2pgw5aq"))
+          (base32 "1swbmh5qdvnf5313hf38sszdj46il59f8rikzgnij8phmi8i8ms9"))
          (file-name (git-file-name name version))))
       (build-system emacs-build-system)
       (arguments
@@ -102,7 +102,6 @@
        (list emacs-adaptive-wrap
              emacs-aggressive-indent
              emacs-cal-china-x
-             emacs-citre
              emacs-cnfonts
              emacs-company
              emacs-company-posframe
