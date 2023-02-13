@@ -52,6 +52,8 @@
                 ;; Adjust icons search paths.
                 (("/usr/local/share/jwm")
                  (string-append #$output "/share/jwm"))
+                (("/usr/local/share/icons")
+                 "/run/current-system/profile/share/icons")
                 ;; Include menu created by mjwm command.
                 (("<RootMenu .*>" all)
                  (string-append
@@ -65,6 +67,8 @@
                   "$HOME/.jwmrc-mjwm-guix"
                   "</Dynamic>\n")))))
           (add-after 'install 'install-tango-icon-files
+            ;; Copy icon files used by example.jwm to share/jwm dir, this way
+            ;; may be better than adding tango-icon-theme to inputs.
             (lambda* (#:key inputs #:allow-other-keys)
               (let ((icon-dir (search-input-directory
                                inputs "share/icons/Tango/scalable"))
@@ -74,10 +78,13 @@
                    (for-each (lambda (icon-file)
                                (install-file icon-file icon-install-dir))
                              (find-files icon-dir (string-append "^" icon "\\.svg$"))))
-                 '("calc" "email" "exit" "folder" "font"
+                 '("calc" "email" "exit" "folder" "font" "help-browser"
                    "image" "info" "lock" "reload" "sound"
                    "system-file-manager" "utilities-terminal"
-                   "web-browser" "gnome-settings" "applications-.*")))))
+                   "web-browser" "gnome-settings" "applications-.*"))
+                (with-directory-excursion icon-install-dir
+                  ;; tango-icon-theme have no applications-science icon.
+                  (copy-file "help-browser.svg" "applications-science.svg")))))
           (add-after 'install 'install-xsession
             (lambda* (#:key outputs #:allow-other-keys)
               (let* ((out (assoc-ref outputs "out"))
@@ -131,6 +138,17 @@ systems.")
        (sha256
         (base32 "0lgfp2xidhvmbj4zqvzz9g8zwbn6mz0pgacc57b43ha523vamsjq"))))
     (build-system gnu-build-system)
+    (arguments
+     (list
+      #:tests? #f   ; no check target
+      #:phases
+      #~(modify-phases %standard-phases
+          (add-after 'unpack 'patch-subcategory.h
+            (lambda* (#:key inputs #:allow-other-keys)
+              (substitute* "include/subcategory.h"
+                ;; icon name should be application-other instead of
+                ;; application-others.
+                (("applications-others") "applications-other")))))))
     (home-page "https://github.com/chiku/mjwm")
     (synopsis "Create menu for JWM.")
     (description
