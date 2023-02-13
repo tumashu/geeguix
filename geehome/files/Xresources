@@ -9,7 +9,7 @@ xterm*rightScrollBar: true
 xterm*loginshell: true
 xterm*cursorBlink: true
 xterm*background: black
-xterm*foreground: gray
+xterm*foreground: white
 xterm.borderLess: true
 xterm.cursorBlink: true
 xterm*colorUL: yellow
@@ -37,10 +37,7 @@ xterm*locale: true
 xterm.utf8: true
 xterm*utf8Title: true
 xterm*fontMenu*fontdefault*Label: Default
-xterm*faceName: Consolas:style=Bold:antialias=True:pixelsize=18
-!xterm*faceName: monofur:antialias=True:pixelsize=20
-!xter*boldFont: DejaVu Sans Mono:style=Bold:pixelsize=15
-xterm*faceNameDoublesize: 文泉驿等宽微米黑:antialias=True:pixelsize=18
+xterm*faceName: WenQuanYi Micro Hei Mono:antialias=True:pixelsize=22
 xterm*xftAntialias: true
 xterm*cjkWidth: true
 
