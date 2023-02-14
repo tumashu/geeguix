@@ -37,24 +37,6 @@ xterm*locale: true
 xterm.utf8: true
 xterm*utf8Title: true
 xterm*fontMenu*fontdefault*Label: Default
-xterm*faceName: WenQuanYi Micro Hei Mono:antialias=True:pixelsize=22
+xterm*faceName: PragmataPro Mono:pixelsize=22
+xterm*faceNameDoublesize: WenQuanYi MicroHei Mono:pixelsize=22
 xterm*xftAntialias: true
-xterm*cjkWidth: true
-
-! Xterm: Use tango color scheme
-*xterm*color0:  #2e3436
-*xterm*color1:  #cc0000
-*xterm*color2:  #4e9a06
-*xterm*color3:  #c4a000
-*xterm*color4:  #3465a4
-*xterm*color5:  #75507b
-*xterm*color6:  #0b939b
-*xterm*color7:  #d3d7cf
-*xterm*color8:  #555753
-*xterm*color9:  #ef2929
-*xterm*color10: #8ae234
-*xterm*color11: #fce94f
-*xterm*color12: #729fcf
-*xterm*color13: #ad7fa8
-*xterm*color14: #00f5e9
-*xterm*color15: #eeeeec
