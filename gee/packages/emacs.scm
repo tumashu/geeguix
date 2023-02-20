@@ -19,8 +19,8 @@
   #:use-module (srfi srfi-9 gnu))
 
 (define-public emacs-gee
-  (let ((commit "be304bb3286eb27e1aa8248eb3904925ed73dfcb")
-        (revision "4"))
+  (let ((commit "893ddd5903e1b0345f22b124e5d6fe8fc89ef6af")
+        (revision "5"))
     (package
       (inherit emacs)
       (name "emacs-gee")
@@ -43,7 +43,7 @@
                    "emacs-native-comp-driver-options.patch"))
          (sha256
           (base32
-           "1jbidhnf06vmsvn5mrgx4rd3n6llppani04vl3d6fk0s9xbpjgi5"))))
+           "1pbsyijv246sp2v89m45wl6x91vq81pjcc99xgd9l6wl52iyq2gf"))))
       (inputs
        (modify-inputs (package-inputs emacs)
          (delete "gtk+")
