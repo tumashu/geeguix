@@ -17,7 +17,7 @@
   (package
     (inherit linux-firmware)
     (name "linux-firmware-gee")
-    (version "20230117")
+    (version (package-version linux-firmware))
     (source (origin
               (inherit (package-source linux-firmware))
               (uri (string-append "https://mirrors.nju.edu.cn/kernel/firmware/"
