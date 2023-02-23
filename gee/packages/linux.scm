@@ -17,11 +17,17 @@
   (package
     (inherit linux-firmware)
     (name "linux-firmware-gee")
-    (version "20221214")
+    (version "20230117")
     (source (origin
-              (method url-fetch)
+              (inherit (package-source linux-firmware))
               (uri (string-append "https://mirrors.nju.edu.cn/kernel/firmware/"
-                                  "linux-firmware-" version ".tar.gz"))
+                                  "linux-firmware-" version ".tar.xz"))
               (sha256
                (base32
-                "1f93aq0a35niv8qv8wyy033palpplbgr2cq0vihb97wxfkk5wmr2"))))))
+                "0r1xrgq512031xz1ysx2a295kvsc7dxf2mrp8x1m6kgvl9dy44fz"))))))
+
+(define-public amdgpu-firmware-gee
+  (package
+    (inherit amdgpu-firmware)
+    (name "amdgpu-firmware-gee")
+    (source (package-source linux-firmware-gee))))
