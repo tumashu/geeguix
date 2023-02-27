@@ -1,5 +1,3 @@
-;;; -*- mode: scheme; -*-
-
 (define-module (geesystem thinkpad-t14-amd)
   #:use-module (gee services mt7921e)
   #:use-module (gnu bootloader)
