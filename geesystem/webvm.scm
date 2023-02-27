@@ -34,7 +34,7 @@
   #:use-module (guix gexp)
   #:use-module (nongnu packages linux)
   #:use-module (nongnu system linux-initrd)
-  #:export     (os))
+  #:export (os))
 
 (define webvm-font-name "WenQuanYi Micro Hei")
 (define webvm-font-size "16")

@@ -33,7 +33,7 @@
   #:use-module (guix packages)
   #:use-module (nongnu packages linux)
   #:use-module (nongnu system linux-initrd)
-  #:export     (os))
+  #:export (os))
 
 (define substitute-urls
   (list "https://mirror.sjtu.edu.cn/guix/"
