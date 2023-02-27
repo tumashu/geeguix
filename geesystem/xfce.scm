@@ -139,7 +139,6 @@
 
                    ;; 网页浏览器
                    "icecat"
-                   "ungoogled-chromium"
 
                    ;; 中文输入法
                    "ibus"
