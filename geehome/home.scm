@@ -25,7 +25,7 @@
   #:use-module (guix utils)
   #:use-module (srfi srfi-1)
   #:use-module (srfi srfi-13)
-  #:export (home))
+  #:export     (home))
 
 (define (geehome-directory)
   (dirname (search-config "geehome/home.scm")))
