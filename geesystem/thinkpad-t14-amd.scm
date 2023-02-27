@@ -1,35 +1,47 @@
 ;;; -*- mode: scheme; -*-
 
-(use-modules (gee services mt7921e)
-             (gnu)
-             (gnu packages audio)
-             (gnu packages linux)
-             (gnu packages xfce)
-             (gnu services linux)
-             (gnu services pm)
-             (gnu services shepherd)
-             (gnu system locale)
-             (nongnu packages linux)
-             (nongnu system linux-initrd))
+(define-module (geesystem thinkpad-t14-amd)
+  #:use-module (gee services mt7921e)
+  #:use-module (gnu bootloader)
+  #:use-module (gnu bootloader grub)
+  #:use-module (gnu packages)
+  #:use-module (gnu packages audio)
+  #:use-module (gnu packages linux)
+  #:use-module (gnu packages xfce)
+  #:use-module (gnu services)
+  #:use-module (gnu services base)
+  #:use-module (gnu services cups)
+  #:use-module (gnu services desktop)
+  #:use-module (gnu services guix)
+  #:use-module (gnu services linux)
+  #:use-module (gnu services mcron)
+  #:use-module (gnu services pm)
+  #:use-module (gnu services networking)
+  #:use-module (gnu services shepherd)
+  #:use-module (gnu services ssh)
+  #:use-module (gnu services virtualization)
+  #:use-module (gnu services xorg)
+  #:use-module (gnu system)
+  #:use-module (gnu system accounts)
+  #:use-module (gnu system file-systems)
+  #:use-module (gnu system keyboard)
+  #:use-module (gnu system locale)
+  #:use-module (gnu system nss)
+  #:use-module (gnu system shadow)
+  #:use-module (guix gexp)
+  #:use-module (nongnu packages linux)
+  #:use-module (nongnu system linux-initrd)
+  #:export (os))
 
-(use-service-modules cups
-                     desktop
-                     guix
-                     mcron
-                     networking
-                     ssh
-                     virtualization
-                     xorg)
-
-(define geesystem-substitute-urls
+(define substitute-urls
   (list "https://mirror.sjtu.edu.cn/guix/"
 	"https://ci.guix.gnu.org"))
 
-(define geesystem-garbage-collector-job
+(define garbage-collector-job
   #~(job "10 20 * * *"
          "guix gc --free-space=50G --delete-generations=2m"))
 
-(define geesystem-thinkpad-t14-amd
+(define os
   (operating-system
     (kernel (customize-linux
              #:name "linux-thinkpad-t14-amd"
@@ -184,15 +196,13 @@
             (simple-service
              'my-cron-jobs
              mcron-service-type
-             (list geesystem-garbage-collector-job))
+             (list garbage-collector-job))
             (modify-services %desktop-services
               (delete gdm-service-type)
               (guix-service-type
                config => (guix-configuration
 		          (inherit config)
-		          (substitute-urls geesystem-substitute-urls))))))
+		          (substitute-urls substitute-urls))))))
 
     ;; Allow resolution of '.local' host names with mDNS.
     (name-service-switch %mdns-host-lookup-nss)))
-
-geesystem-thinkpad-t14-amd
