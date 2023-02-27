@@ -1,5 +1,4 @@
 (define-module (geesystem xfce)
-  #:use-module (gee services mt7921e)
   #:use-module (gnu bootloader)
   #:use-module (gnu bootloader grub)
   #:use-module (gnu packages)
