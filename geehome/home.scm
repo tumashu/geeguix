@@ -1,41 +1,40 @@
-;;; -*- mode: scheme; -*-
+(define-module (geehome home)
+  #:use-module (gnu home)
+  #:use-module (gnu home services)
+  #:use-module (gnu home services desktop)
+  #:use-module (gnu home services fontutils)
+  #:use-module (gnu home services guix)
+  #:use-module (gnu home services mcron)
+  #:use-module (gnu home services shells)
+  #:use-module (gnu home services shepherd)
+  #:use-module (gnu home services xdg)
+  #:use-module (gnu packages)
+  #:use-module (gnu packages admin)
+  #:use-module (gnu packages compression)
+  #:use-module (gnu packages ibus)
+  #:use-module (gnu packages linux)
+  #:use-module (gnu packages syncthing)
+  #:use-module (gnu packages xdisorg)
+  #:use-module (gnu packages xfce)
+  #:use-module (gnu services)
+  #:use-module (gnu services shepherd)
+  #:use-module (guix build utils)
+  #:use-module (guix channels)
+  #:use-module (guix gexp)
+  #:use-module (guix packages)
+  #:use-module (guix utils)
+  #:use-module (srfi srfi-1)
+  #:use-module (srfi srfi-13)
+  #:export (home))
 
-(use-modules (gnu home)
-             (gnu home services)
-             (gnu home services desktop)
-             (gnu home services fontutils)
-             (gnu home services guix)
-             (gnu home services mcron)
-             (gnu home services shells)
-             (gnu home services shepherd)
-             (gnu home services xdg)
-             (gnu packages)
-             (gnu packages admin)
-             (gnu packages compression)
-             (gnu packages ibus)
-             (gnu packages linux)
-             (gnu packages syncthing)
-             (gnu packages xdisorg)
-             (gnu packages xfce)
-             (gnu services)
-             (gnu services shepherd)
-             (guix build utils)
-             (guix channels)
-             (guix gexp)
-             (guix packages)
-             (guix utils)
-             (srfi srfi-1)
-             (srfi srfi-13))
+(define (geehome-directory)
+  (dirname (search-config "geehome/home.scm")))
 
 (define (search-config config)
   (canonicalize-path
    (search-path %load-path config)))
 
-(define geehome-config      (search-config "geehome/home.cfg"))
-(define geehome-directory   (dirname geehome-config))
-(define geeguix-directory   (dirname geehome-directory))
-
-(define geehome-packages
+(define packages
   (map (compose list specification->package+output)
        (list
         ;; 基本工具
@@ -233,125 +232,126 @@
                 #t)))
    (stop #~(make-kill-destructor))))
 
-(define (geehome-files-subdirs-map alist)
-  (append-map geehome-files-subdirs-map-1 alist))
+(define (files-subdirs-map alist)
+  (append-map files-subdirs-map-1 alist))
 
-(define (geehome-files-subdirs-map-1 info)
+(define (files-subdirs-map-1 info)
   (let ((install-dir (car info))
-        (dir (string-append geehome-directory "/files/" (cadr info))))
+        (dir (string-append (geehome-directory) "/files/" (cadr info))))
     (with-directory-excursion dir
       (map (lambda (name)
              (list (string-append install-dir "/" name)
                    (local-file (string-append dir "/" name))))
            (find-files ".")))))
 
-(define (geehome-files-map alist)
-  (let ((dir (string-append geehome-directory "/files")))
+(define (files-map alist)
+  (let ((dir (string-append (geehome-directory) "/files")))
     (map (lambda (x)
            (list (car x)
                  (local-file (string-append dir "/" (cadr x)))))
          alist)))
 
-(home-environment
- (packages geehome-packages)
- (services
-  (list
-   (simple-service
-    'ibus-rime-config
-    home-xdg-configuration-files-service-type
-    (geehome-files-subdirs-map
-     '(("ibus/rime/" "rime/"))))
+(define home
+  (home-environment
+   (packages packages)
+   (services
+    (list
+     (simple-service
+      'ibus-rime-config
+      home-xdg-configuration-files-service-type
+      (files-subdirs-map
+       '(("ibus/rime/" "rime/"))))
 
-   (simple-service
-    'emacs-liberime-config
-    home-files-service-type
-    (geehome-files-subdirs-map
-     '((".emacs.d/rime/" "rime/"))))
+     (simple-service
+      'emacs-liberime-config
+      home-files-service-type
+      (files-subdirs-map
+       '((".emacs.d/rime/" "rime/"))))
 
-   (simple-service
-    'fonts
-    home-files-service-type
-    (geehome-files-subdirs-map
-     '((".fonts/" "fonts/"))))
+     (simple-service
+      'fonts
+      home-files-service-type
+      (files-subdirs-map
+       '((".fonts/" "fonts/"))))
 
-   (let* ((webvm-dir (string-append (getenv "HOME") "/webvm/guest"))
-          (webvm-cmd (string-append
-                      "bash -c '$(guix system vm -e \"(@ (geesystem webvm) os)\" "
-                      "--share=" webvm-dir "=/home/guest) "
-                      "-m 4096 -vga virtio -audio pa,model=hda "
-                      "-display gtk,show-menubar=off'"))
-          (desktop-entry
-           (xdg-desktop-entry
-            (file "webvm")
-            (name "网络浏览器(虚拟机)")
-            (type 'application)
-            (config
-             `((exec . ,webvm-cmd)
-               (icon . "chromium")
-               (categories . "System;")
-               (comment . "在虚拟机中运行网络浏览器来访问互联网"))))))
-     (mkdir-p webvm-dir)
+     (let* ((webvm-dir (string-append (getenv "HOME") "/webvm/guest"))
+            (webvm-cmd (string-append
+                        "bash -c '$(guix system vm -e \"(@ (geesystem webvm) os)\" "
+                        "--share=" webvm-dir "=/home/guest) "
+                        "-m 4096 -vga virtio -audio pa,model=hda "
+                        "-display gtk,show-menubar=off'"))
+            (desktop-entry
+             (xdg-desktop-entry
+              (file "webvm")
+              (name "网络浏览器(虚拟机)")
+              (type 'application)
+              (config
+               `((exec . ,webvm-cmd)
+                 (icon . "chromium")
+                 (categories . "System;")
+                 (comment . "在虚拟机中运行网络浏览器来访问互联网"))))))
+       (mkdir-p webvm-dir)
+       (service
+        home-xdg-mime-applications-service-type
+        (home-xdg-mime-applications-configuration
+         (desktop-entries (list desktop-entry)))))
+
+     (simple-service
+      'dot-files
+      home-files-service-type
+      (files-map
+       '((".gtkrc-2.0"        "gtkrc-2.0")
+         (".authinfo-example" "authinfo-example")
+         (".notmuch-config"   "notmuch-config")
+         (".Xresources"       "Xresources"))))
+
      (service
-      home-xdg-mime-applications-service-type
-      (home-xdg-mime-applications-configuration
-       (desktop-entries (list desktop-entry)))))
+      home-channels-service-type
+      (list (channel
+             (name 'nonguix)
+             (url "https://gitlab.com/nonguix/nonguix")
+             ;; Enable signature verification:
+             (introduction
+              (make-channel-introduction
+               "897c1a470da759236cc11798f4e0a5f7d4d59fbc"
+               (openpgp-fingerprint
+                "2A39 3FFF 68F4 EF7A 3D29  12AF 6F51 20A0 22FB B2D5"))))
+            (channel
+             (inherit (find guix-channel? %default-channels))
+             (url "https://git.sjtu.edu.cn/sjtug/guix.git"))))
 
-   (simple-service
-    'dot-files
-    home-files-service-type
-    (geehome-files-map
-     '((".gtkrc-2.0"        "gtkrc-2.0")
-       (".authinfo-example" "authinfo-example")
-       (".notmuch-config"   "notmuch-config")
-       (".Xresources"       "Xresources"))))
+     (service
+      home-xdg-user-directories-service-type
+      (home-xdg-user-directories-configuration
+       (desktop     "$HOME/desktop")
+       (documents   "$HOME/documents")
+       (download    "$HOME/downloads")
+       (music       "$HOME/music")
+       (pictures    "$HOME/pictures")
+       (publicshare "$HOME/public")
+       (templates   "$HOME/templates")
+       (videos      "$HOME/videos")))
 
-   (service
-    home-channels-service-type
-    (list (channel
-           (name 'nonguix)
-           (url "https://gitlab.com/nonguix/nonguix")
-           ;; Enable signature verification:
-           (introduction
-            (make-channel-introduction
-             "897c1a470da759236cc11798f4e0a5f7d4d59fbc"
-             (openpgp-fingerprint
-              "2A39 3FFF 68F4 EF7A 3D29  12AF 6F51 20A0 22FB B2D5"))))
-          (channel
-           (inherit (find guix-channel? %default-channels))
-           (url "https://git.sjtu.edu.cn/sjtug/guix.git"))))
+     (service
+      home-shepherd-service-type
+      (home-shepherd-configuration
+       (shepherd shepherd)
+       (services
+        (list syncthing-service
+              xautolock-service
+              brightnessctl-service
+              ibus-daemon-service
+              rime-sync-setup-service
+              desktop-entries-update-service))))
 
-   (service
-    home-xdg-user-directories-service-type
-    (home-xdg-user-directories-configuration
-     (desktop     "$HOME/desktop")
-     (documents   "$HOME/documents")
-     (download    "$HOME/downloads")
-     (music       "$HOME/music")
-     (pictures    "$HOME/pictures")
-     (publicshare "$HOME/public")
-     (templates   "$HOME/templates")
-     (videos      "$HOME/videos")))
-
-   (service
-    home-shepherd-service-type
-    (home-shepherd-configuration
-     (shepherd shepherd)
-     (services
-      (list syncthing-service
-            xautolock-service
-            brightnessctl-service
-            ibus-daemon-service
-            rime-sync-setup-service
-            desktop-entries-update-service))))
-
-   (service
-    home-bash-service-type
-    (home-bash-configuration
-     (guix-defaults? #t)
-     (bash-profile
-      (list
-       (mixed-text-file
-        "bash-profile" "
+     (service
+      home-bash-service-type
+      (home-bash-configuration
+       (guix-defaults? #t)
+       (bash-profile
+        (list
+         (mixed-text-file
+          "bash-profile" "
 if [ -f ~/.Xresources ]; then
     xrdb -merge -I $HOME ~/.Xresources;
 fi
@@ -366,44 +366,42 @@ eval \"$(guix package --search-paths \\
 # Prepend setuid programs.
 export PATH=/run/setuid-programs:$PATH
 ")))
-     (bashrc
-      (list
-       (mixed-text-file
-        "emacs-eat" "
+       (bashrc
+        (list
+         (mixed-text-file
+          "emacs-eat" "
 if [ -n \"$EAT_SHELL_INTEGRATION_DIR\" ]; then
     source \"$EAT_SHELL_INTEGRATION_DIR/bash\";
 fi
 ")))
-     (aliases
-      `(("la" . "ls -A")
-        ("l"  . "ls -CF")
-        ("isystem-reconfig" .
-         "sudo -E guix system reconfigure -e '(@ (geesystem thinkpad-t14-amd) os)'")
-        ("ihome-test"       .
-         ,(string-append
-           "guix home container " geehome-config))
-        ("ihome-reconfig"   .
-         ,(string-append
-           "guix home reconfigure " geehome-config))))
-     (environment-variables
-      `(;; Guix 使用环境变量
-        ("GUIX_PACKAGE_PATH" . ,geeguix-directory)
+       (aliases
+        '(("la" . "ls -A")
+          ("l"  . "ls -CF")
+          ("isystem-reconfig" .
+           "sudo -E guix system reconfigure -e '(@ (geesystem thinkpad-t14-amd) os)'")
+          ("ihome-test"       .
+           "guix home container -e '(@ (geehome home) home)'")
+          ("ihome-reconfig"   .
+           "guix home reconfigure -e '(@ (geehome home) home)'")))
+       (environment-variables
+        `(;; Guix 使用环境变量
+          ("GUIX_PACKAGE_PATH" . ,(dirname (geehome-directory)))
 
-        ;; Ibus 输入法
-        ("GTK_IM_MODULE" . "ibus")
-        ("QT_IM_MODULE"  . "ibus")
-        ("XMODIFIERS"    . "@im=ibus")
-        ;; 如果使用非 Gnome 桌面, 可能会导致 dconf 不可用，需要加上这行。
-        ("GSETTINGS_BACKEND" . "keyfile")
+          ;; Ibus 输入法
+          ("GTK_IM_MODULE" . "ibus")
+          ("QT_IM_MODULE"  . "ibus")
+          ("XMODIFIERS"    . "@im=ibus")
+          ;; 如果使用非 Gnome 桌面, 可能会导致 dconf 不可用，需要加上这行。
+          ("GSETTINGS_BACKEND" . "keyfile")
 
-        ;; GTK 输入法模块
-        ("GUIX_GTK2_IM_MODULE_FILE" .
-         "${HOME}/.guix-home/profile/lib/gtk-2.0/2.10.0/immodules-gtk2.cache")
-        ("GUIX_GTK3_IM_MODULE_FILE" .
-         "${HOME}/.guix-home/profile/lib/gtk-3.0/3.0.0/immodules-gtk3.cache")
+          ;; GTK 输入法模块
+          ("GUIX_GTK2_IM_MODULE_FILE" .
+           "${HOME}/.guix-home/profile/lib/gtk-2.0/2.10.0/immodules-gtk2.cache")
+          ("GUIX_GTK3_IM_MODULE_FILE" .
+           "${HOME}/.guix-home/profile/lib/gtk-3.0/3.0.0/immodules-gtk3.cache")
 
-        ;; Notmuch 搜索中文邮件设置： Notmuch 使用 Xapian 创建邮
-        ;; 件索引，Xapian (version < 1.5) 支持 CJK 需要设置下面的
-        ;; 环境变量，Xapian (version >= 1.5) 如果启用了 LIBICU,
-        ;; 会自动识别 CJK, 不需要额外设置。
-        ("XAPIAN_CJK_NGRAM"  .  "1"))))))))
+          ;; Notmuch 搜索中文邮件设置： Notmuch 使用 Xapian 创建邮
+          ;; 件索引，Xapian (version < 1.5) 支持 CJK 需要设置下面的
+          ;; 环境变量，Xapian (version >= 1.5) 如果启用了 LIBICU,
+          ;; 会自动识别 CJK, 不需要额外设置。
+          ("XAPIAN_CJK_NGRAM"  .  "1")))))))))
