@@ -191,7 +191,7 @@ jwm"))
        (list auto-update-resolution-crutch))
 
       (service dhcp-client-service-type)
-      (dbus-service)
+      (service dbus-root-service-type)
       (service pulseaudio-service-type)
       (service alsa-service-type)
 
