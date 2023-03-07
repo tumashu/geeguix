@@ -1,5 +1,4 @@
 (define-module (geesystem webvm)
-  #:use-module (gee packages wm)
   #:use-module (gnu bootloader)
   #:use-module (gnu bootloader grub)
   #:use-module (gnu packages)
