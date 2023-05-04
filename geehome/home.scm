@@ -131,7 +131,6 @@
 
         ;; 虚拟机
         "virt-manager"
-        "virt-viewer"
 
         ;; 游戏
         "neverball"
