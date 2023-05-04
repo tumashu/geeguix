@@ -133,9 +133,7 @@
         "virt-manager"
 
         ;; 游戏
-        "neverball"
-        "supertuxkart"
-        "xonotic")))
+        "neverball")))
 
 (define brightnessctl-service
   (shepherd-service
