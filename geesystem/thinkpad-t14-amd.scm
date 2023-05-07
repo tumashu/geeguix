@@ -204,3 +204,5 @@
 
     ;; Allow resolution of '.local' host names with mDNS.
     (name-service-switch %mdns-host-lookup-nss)))
+
+os

@@ -186,3 +186,5 @@ jwm"))
         (delete mingetty-service-type)
         (delete agetty-service-type)
         (delete console-font-service-type))))))
+
+os
