@@ -40,9 +40,8 @@
 	"https://ci.guix.gnu.org"))
 
 ;;; XXX: Xfce does not implement what is needed for the SPICE dynamic
-;;; resolution to work (see:
-;;; https://gitlab.xfce.org/xfce/xfce4-settings/-/issues/142).  Workaround it
-;;; by manually invoking xrandr every second.
+;;; resolution to work (see: https://gitlab.xfce.org/xfce/xfce4-settings/-/issues/142).
+;;; Workaround it by manually invoking xrandr every second.
 (define auto-update-resolution-crutch
   #~(job '(next-second)
          (lambda ()
@@ -83,8 +82,7 @@
 
     (firmware '())
 
-    ;; Below we assume /dev/vda is the VM's hard disk.
-    ;; Adjust as needed.
+    ;; Below we assume /dev/vda is the VM's hard disk.  Adjust as needed.
     (bootloader (bootloader-configuration
                  (bootloader grub-bootloader)
                  (targets '("/dev/vda"))
@@ -135,7 +133,6 @@
                    "engrampa"
                    "gvfs"
                    "network-manager-applet"
-                   "samba"
 
                    ;; 网页浏览器
                    "icecat"
@@ -172,23 +169,6 @@ root ALL=(ALL) ALL
 
     (services
      (cons*
-      (service samba-service-type
-               (samba-configuration
-                (enable-smbd? #t)
-                (config-file (plain-file "smb.conf" "\
-[global]
-workgroup = WORKGROUP
-security = user
-map to guest = bad user
-only guest = yes
-logging = syslog@1
-usershare path = /var/lib/samba/usershares
-usershare max shares = 100
-usershare allow guests = yes
-usershare owner only = yes\n"))))
-
-      (service xfce-desktop-service-type)
-
       ;; Choose SLiM, which is lighter than the default GDM.
       (service slim-service-type
                (slim-configuration
@@ -196,17 +176,17 @@ usershare owner only = yes\n"))))
                 (default-user "guest")
                 (xorg-configuration
                  (xorg-configuration
-                  ;; The QXL virtual GPU driver is added to provide
-                  ;; a better SPICE experience.
+                  ;; The QXL virtual GPU driver is added to provide a better
+                  ;; SPICE experience.
                   (modules (cons xf86-video-qxl
                                  %default-xorg-modules))
                   (keyboard-layout keyboard-layout)))))
 
-      (service openssh-service-type)
+      (service xfce-desktop-service-type)
 
-      ;; Add support for the SPICE protocol, which enables dynamic
-      ;; resizing of the guest screen resolution, clipboard
-      ;; integration with the host, etc.
+      ;; Add support for the SPICE protocol, which enables dynamic resizing of
+      ;; the guest screen resolution, clipboard integration with the host,
+      ;; etc.
       (service spice-vdagent-service-type)
 
       (simple-service 'cron-jobs mcron-service-type
