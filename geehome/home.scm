@@ -403,4 +403,5 @@ fi
           ;; 会自动识别 CJK, 不需要额外设置。
           ("XAPIAN_CJK_NGRAM"  .  "1")))))))))
 
+;; Let 'guix home /path/to/file.scm' to work well.
 home

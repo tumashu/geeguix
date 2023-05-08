@@ -222,4 +222,5 @@ usershare owner only = yes\n"))))
     ;; Allow resolution of '.local' host names with mDNS.
     (name-service-switch %mdns-host-lookup-nss)))
 
+;; Let 'guix system /path/to/file.scm' to work well.
 os

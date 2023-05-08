@@ -187,4 +187,5 @@ jwm"))
         (delete agetty-service-type)
         (delete console-font-service-type))))))
 
+;; Let 'guix system /path/to/file.scm' to work well.
 os
