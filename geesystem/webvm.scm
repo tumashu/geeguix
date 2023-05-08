@@ -103,8 +103,7 @@ jwm"))
     (host-name "Guix-WebVM")
     (locale "zh_CN.utf8")
 
-    ;; Below we assume /dev/vda is the VM's hard disk.
-    ;; Adjust as needed.
+    ;; Below we assume /dev/vda is the VM's hard disk.  Adjust as needed.
     (bootloader (bootloader-configuration
                  (bootloader grub-bootloader)
                  (targets '("does-not-matter"))))
@@ -156,8 +155,8 @@ jwm"))
                 (xorg-configuration
                  (xorg-configuration
                   (modules (list
-                            ;; The QXL virtual GPU driver is added to provide a
-                            ;; better SPICE experience.
+                            ;; The QXL virtual GPU driver is added to provide
+                            ;; a better SPICE experience.
                             xf86-video-qxl
                             xf86-video-vesa
                             xf86-input-libinput
@@ -166,9 +165,9 @@ jwm"))
                             xf86-input-mouse))
                   (keyboard-layout keyboard-layout)))))
 
-      ;; Add support for the SPICE protocol, which enables dynamic
-      ;; resizing of the guest screen resolution, clipboard
-      ;; integration with the host, etc.
+      ;; Add support for the SPICE protocol, which enables dynamic resizing of
+      ;; the guest screen resolution, clipboard integration with the host,
+      ;; etc.
       (service spice-vdagent-service-type)
 
       (simple-service
