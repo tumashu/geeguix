@@ -133,7 +133,7 @@
         "virt-manager"
 
         ;; 游戏
-        "neverball")))
+        "supertuxkart")))
 
 (define brightnessctl-service
   (shepherd-service
