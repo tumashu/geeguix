@@ -95,6 +95,7 @@
         ;; 主题字体
         "elementary-xfce-icon-theme"
         "font-wqy-microhei"
+        "font-gnu-freefont"
         "gnome-themes-extra"   ; gtk2 theme
 
         ;; 桌面工具
