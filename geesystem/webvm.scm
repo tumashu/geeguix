@@ -181,7 +181,6 @@ jwm"))
 
       (modify-services %base-services
         (delete login-service-type)
-        (delete virtual-terminal-service-type)
         (delete mingetty-service-type)
         (delete agetty-service-type)
         (delete console-font-service-type))))))
