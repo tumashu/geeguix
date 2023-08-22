@@ -7,6 +7,7 @@
   #:use-module (gnu home services mcron)
   #:use-module (gnu home services shells)
   #:use-module (gnu home services shepherd)
+  #:use-module (gnu home services syncthing)
   #:use-module (gnu home services xdg)
   #:use-module (gnu packages)
   #:use-module (gnu packages admin)
@@ -145,18 +146,6 @@
    (start #~(make-forkexec-constructor
              (list #$(file-append brightnessctl "/bin/brightnessctl")
                    "set" "70")))
-   (stop #~(make-kill-destructor))))
-
-(define syncthing-service
-  (shepherd-service
-   (provision '(syncthing))
-   (documentation "Run 'syncthing' without calling the browser")
-   (respawn? #t)
-   (start #~(make-forkexec-constructor
-             (list #$(file-append syncthing "/bin/syncthing")
-                   "-no-browser"
-                   "-logflags=3" ; prefix with date & time
-                   "-logfile=~/.local/var/log/syncthing.log")))
    (stop #~(make-kill-destructor))))
 
 (define xautolock-service
@@ -331,12 +320,14 @@
        (videos      "$HOME/videos")))
 
      (service
+      home-syncthing-service-type)
+
+     (service
       home-shepherd-service-type
       (home-shepherd-configuration
        (shepherd shepherd)
        (services
-        (list syncthing-service
-              xautolock-service
+        (list xautolock-service
               brightnessctl-service
               ibus-daemon-service
               rime-sync-setup-service
