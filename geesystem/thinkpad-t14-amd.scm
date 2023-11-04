@@ -147,6 +147,7 @@
                    "dconf-editor"
                    "gvfs"
                    "network-manager-applet"
+                   "xrandr"
 
                    ;; 声音
                    "pulseaudio"
