@@ -129,7 +129,6 @@
 
         ;; Wine
         "wine"
-        "winetricks"
 
         ;; 虚拟机
         "virt-manager"
