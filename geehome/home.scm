@@ -28,13 +28,6 @@
   #:use-module (srfi srfi-13)
   #:export (home))
 
-(define (geehome-directory)
-  (dirname (search-config "geehome/home.scm")))
-
-(define (search-config config)
-  (canonicalize-path
-   (search-path %load-path config)))
-
 (define packages
   (map (compose list specification->package+output)
        (list
@@ -223,7 +216,7 @@
 
 (define (files-subdirs-map-1 info)
   (let ((install-dir (car info))
-        (dir (string-append (geehome-directory) "/files/" (cadr info))))
+        (dir (string-append (current-source-directory) "/files/" (cadr info))))
     (with-directory-excursion dir
       (map (lambda (name)
              (list (string-append install-dir "/" name)
@@ -231,7 +224,7 @@
            (find-files ".")))))
 
 (define (files-map alist)
-  (let ((dir (string-append (geehome-directory) "/files")))
+  (let ((dir (string-append (current-source-directory) "/files")))
     (map (lambda (x)
            (list (car x)
                  (local-file (string-append dir "/" (cadr x)))))
@@ -373,7 +366,7 @@ fi
            "guix home reconfigure -e '(@ (geehome home) home)'")))
        (environment-variables
         `(;; Guix 使用环境变量
-          ("GUIX_PACKAGE_PATH" . ,(dirname (geehome-directory)))
+          ("GUIX_PACKAGE_PATH" . ,(dirname (current-source-directory)))
 
           ;; Ibus 输入法
           ("GTK_IM_MODULE" . "ibus")
