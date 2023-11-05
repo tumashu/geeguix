@@ -1,4 +1,5 @@
 (define-module (geehome home)
+  #:use-module (gee home services)
   #:use-module (gnu home)
   #:use-module (gnu home services)
   #:use-module (gnu home services desktop)
@@ -211,47 +212,17 @@
                 #t)))
    (stop #~(make-kill-destructor))))
 
-(define (files-subdirs-map alist)
-  (append-map files-subdirs-map-1 alist))
-
-(define (files-subdirs-map-1 info)
-  (let ((install-dir (car info))
-        (dir (string-append (current-source-directory) "/files/" (cadr info))))
-    (with-directory-excursion dir
-      (map (lambda (name)
-             (list (string-append install-dir "/" name)
-                   (local-file (string-append dir "/" name))))
-           (find-files ".")))))
-
-(define (files-map alist)
-  (let ((dir (string-append (current-source-directory) "/files")))
-    (map (lambda (x)
-           (list (car x)
-                 (local-file (string-append dir "/" (cadr x)))))
-         alist)))
-
 (define home
   (home-environment
    (packages packages)
    (services
     (list
-     (simple-service
-      'ibus-rime-config
-      home-xdg-configuration-files-service-type
-      (files-subdirs-map
-       '(("ibus/rime/" "rime/"))))
-
-     (simple-service
-      'emacs-liberime-config
-      home-files-service-type
-      (files-subdirs-map
-       '((".emacs.d/rime/" "rime/"))))
-
-     (simple-service
-      'fonts
-      home-files-service-type
-      (files-subdirs-map
-       '((".fonts/" "fonts/"))))
+     (service home-dotfiles-service-type
+              (home-dotfiles-configuration
+               (directories
+                (list (string-append
+                       (current-source-directory)
+                       "/dotfiles")))))
 
      (let* ((webvm-dir (string-append (getenv "HOME") "/webvm/guest"))
             (webvm-cmd (string-append
@@ -274,15 +245,6 @@
         home-xdg-mime-applications-service-type
         (home-xdg-mime-applications-configuration
          (desktop-entries (list desktop-entry)))))
-
-     (simple-service
-      'dot-files
-      home-files-service-type
-      (files-map
-       '((".gtkrc-2.0"        "gtkrc-2.0")
-         (".authinfo-example" "authinfo-example")
-         (".notmuch-config"   "notmuch-config")
-         (".Xresources"       "Xresources"))))
 
      (service
       home-channels-service-type

@@ -1,11 +1,12 @@
 (define-module (gee home services)
   #:use-module (gnu home services)
   #:use-module (guix build utils)
+  #:use-module (guix gexp)
   #:use-module (guix records)
+  #:use-module (srfi srfi-1)
   #:use-module (ice-9 ftw)
   #:use-module (ice-9 regex)
   #:use-module (ice-9 string-fun)
-  #:use-module (ice-9 vlist)
 
   #:export (home-dotfiles-service-type
             home-dotfiles-configuration
