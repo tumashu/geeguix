@@ -212,40 +212,42 @@
                 #t)))
    (stop #~(make-kill-destructor))))
 
+(define webvm-desktop-entry
+  (let* ((webvm-dir (string-append (getenv "HOME") "/webvm/guest"))
+         (webvm-cmd (string-append
+                     "bash -c '$(guix system vm -e \"(@ (geesystem webvm) os)\" "
+                     "--share=" webvm-dir "=/home/guest) "
+                     "-m 4096 -vga virtio -audio pa,model=hda "
+                     "-display gtk,show-menubar=off'")))
+    (mkdir-p webvm-dir)
+    (xdg-desktop-entry
+     (file "webvm")
+     (name "网络浏览器(虚拟机)")
+     (type 'application)
+     (config
+      `((exec . ,webvm-cmd)
+        (icon . "chromium")
+        (categories . "System;")
+        (comment . "在虚拟机中运行网络浏览器来访问互联网"))))))
+
 (define home
   (home-environment
    (packages packages)
    (services
     (list
-     (service home-dotfiles-service-type
-              (home-dotfiles-configuration
-               (directories
-                (list (string-append
-                       (current-source-directory)
-                       "/dotfiles")))))
+     (service
+      home-xdg-mime-applications-service-type
+      (home-xdg-mime-applications-configuration
+       (desktop-entries
+        (list (webvm-desktop-entry)))))
 
-     (let* ((webvm-dir (string-append (getenv "HOME") "/webvm/guest"))
-            (webvm-cmd (string-append
-                        "bash -c '$(guix system vm -e \"(@ (geesystem webvm) os)\" "
-                        "--share=" webvm-dir "=/home/guest) "
-                        "-m 4096 -vga virtio -audio pa,model=hda "
-                        "-display gtk,show-menubar=off'"))
-            (desktop-entry
-             (xdg-desktop-entry
-              (file "webvm")
-              (name "网络浏览器(虚拟机)")
-              (type 'application)
-              (config
-               `((exec . ,webvm-cmd)
-                 (icon . "chromium")
-                 (categories . "System;")
-                 (comment . "在虚拟机中运行网络浏览器来访问互联网"))))))
-       (mkdir-p webvm-dir)
-       (service
-        home-xdg-mime-applications-service-type
-        (home-xdg-mime-applications-configuration
-         (desktop-entries (list desktop-entry)))))
-
+     (service
+      home-dotfiles-service-type
+      (home-dotfiles-configuration
+       (directories
+        (list (string-append
+               (current-source-directory)
+               "/dotfiles")))))
      (service
       home-channels-service-type
       (list (channel
