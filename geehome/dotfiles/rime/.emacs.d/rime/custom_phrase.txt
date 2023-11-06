@@ -1,1 +1,1 @@
-../.config/ibus/rime/custom_phrase.txt
+../../.config/ibus/rime/custom_phrase.txt
