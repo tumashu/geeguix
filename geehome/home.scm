@@ -212,8 +212,8 @@
                 #t)))
    (stop #~(make-kill-destructor))))
 
-(define webvm-desktop-entry
-  (let* ((webvm-dir (string-append (getenv "HOME") "/webvm/guest"))
+(define (webvm-desktop-entry)
+  (let* ((webvm-dir (string-append (getenv "HOME") "/.config/webvm/guest"))
          (webvm-cmd (string-append
                      "bash -c '$(guix system vm -e \"(@ (geesystem webvm) os)\" "
                      "--share=" webvm-dir "=/home/guest) "
