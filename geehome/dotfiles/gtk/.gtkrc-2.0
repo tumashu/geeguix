@@ -1,7 +1,7 @@
 include "/run/current-system/profile/share/themes/Adwaita/gtk-2.0/gtkrc"
 
 style "user-font" {
-	font_name = "文泉驿微米黑 13"
+	font_name = "文泉驿微米黑 12"
 }
 
 widget_class "*" style "user-font"
