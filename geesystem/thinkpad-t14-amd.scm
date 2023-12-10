@@ -188,13 +188,13 @@
             (service openssh-service-type)
             (service sddm-service-type
                      (sddm-configuration
+                      (theme "sugar-dark")
+                      (display-server "wayland")
                       (xorg-configuration
                        (xorg-configuration
                         (server-arguments
-                         ;; 让 sddm 使用较大字体
                          (append %default-xorg-server-arguments
-                                 '("-dpi" "140")))))
-                      (theme "sugar-dark")))
+                                 '("-dpi" "140")))))))
             (service thermald-service-type
                      (thermald-configuration
                       (ignore-cpuid-check? #t)))
