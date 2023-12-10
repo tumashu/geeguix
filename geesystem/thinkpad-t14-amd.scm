@@ -15,6 +15,7 @@
   #:use-module (gnu services mcron)
   #:use-module (gnu services pm)
   #:use-module (gnu services networking)
+  #:use-module (gnu services sddm)
   #:use-module (gnu services shepherd)
   #:use-module (gnu services ssh)
   #:use-module (gnu services virtualization)
@@ -171,7 +172,9 @@
                    ;; 字体主题
                    "elementary-xfce-icon-theme"
                    "font-wqy-microhei"
-                   "gnome-themes-extra"))
+                   "gnome-themes-extra"
+                   "sugar-dark-sddm-theme"
+                   ))
              %base-packages))
 
     (services
@@ -183,7 +186,15 @@
                       (tls-port "16555")))
             (service mt7921e-service-type)
             (service openssh-service-type)
-            (service slim-service-type)
+            (service sddm-service-type
+                     (sddm-configuration
+                      (xorg-configuration
+                       (xorg-configuration
+                        (server-arguments
+                         ;; 让 sddm 使用较大字体
+                         (append %default-xorg-server-arguments
+                                 '("-dpi" "140")))))
+                      (theme "sugar-dark")))
             (service thermald-service-type
                      (thermald-configuration
                       (ignore-cpuid-check? #t)))
