@@ -4,9 +4,7 @@
   #:use-module (gnu bootloader grub)
   #:use-module (gnu packages)
   #:use-module (gnu packages audio)
-  #:use-module (gnu packages fonts)
   #:use-module (gnu packages linux)
-  #:use-module (gnu packages gnome)
   #:use-module (gnu packages xfce)
   #:use-module (gnu services)
   #:use-module (gnu services base)
@@ -185,6 +183,7 @@
                       (tls-port "16555")))
             (service mt7921e-service-type)
             (service openssh-service-type)
+            (service slim-service-type)
             (service thermald-service-type
                      (thermald-configuration
                       (ignore-cpuid-check? #t)))
@@ -198,14 +197,7 @@
              mcron-service-type
              (list garbage-collector-job))
             (modify-services %desktop-services
-              (gdm-service-type
-               config => (gdm-configuration
-                          (inherit config)
-                          (wayland? #t)
-                          (gnome-shell-assets
-                           (list adwaita-icon-theme
-                                 font-abattis-cantarell
-                                 font-wqy-microhei))))
+              (delete gdm-service-type)
               (guix-service-type
                config => (guix-configuration
 		          (inherit config)
