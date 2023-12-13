@@ -1,0 +1,25 @@
+Exit after the user's session has finished. This works around slim's broken
+PAM session handling (see
+http://developer.berlios.de/bugs/?func=detailbug&bug_id=19102&group_id=2663).
+
+Patch by Eelco Dolstra, from Nixpkgs.
+---
+ app.cpp | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/app.cpp b/app.cpp
+index 735df9c..b840e60 100644
+--- a/app.cpp
++++ b/app.cpp
+@@ -994,7 +994,7 @@ void App::RestartServer()
+ 	else
+ 	{
+ 		while (waitpid(-1, NULL, WNOHANG) > 0); /* Collects all dead children */
+-		Run();
++		exit(OK_EXIT);
+ 	}
+ }
+ 
+-- 
+2.39.2
+
