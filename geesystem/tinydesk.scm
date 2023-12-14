@@ -3,6 +3,7 @@
   #:use-module (gnu bootloader)
   #:use-module (gnu bootloader grub)
   #:use-module (gnu packages)
+  #:use-module (gnu packages display-managers)
   #:use-module (gnu packages linux)
   #:use-module (gnu packages package-management)
   #:use-module (gnu packages xorg)
@@ -128,7 +129,18 @@ root ALL=(ALL) ALL
       (simple-service 'cron-jobs mcron-service-type
                       (list auto-update-resolution-crutch))
 
+      (service mingetty-service-type (mingetty-configuration
+                                      (tty "tty2")))
+      (service mingetty-service-type (mingetty-configuration
+                                      (tty "tty3")))
+      (service console-font-service-type
+               (map (lambda (tty)
+                      (cons tty %default-console-font))
+                    '("tty2" "tty3")))
+
       (modify-services %desktop-services
+        (delete mingetty-service-type)
+        (delete console-font-service-type)
         (delete gdm-service-type)
         (guix-service-type
          config => (guix-configuration

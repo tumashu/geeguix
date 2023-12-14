@@ -203,11 +203,24 @@
                      (virtlog-configuration
                       (max-clients 1000)))
             (service xfce-desktop-service-type)
-            (simple-service
-             'my-cron-jobs
-             mcron-service-type
-             (list garbage-collector-job))
+
+            (simple-service 'my-cron-jobs
+                            mcron-service-type
+                            (list garbage-collector-job))
+
+            ;; Remove tty1.
+            (service mingetty-service-type (mingetty-configuration
+                                            (tty "tty2")))
+            (service mingetty-service-type (mingetty-configuration
+                                            (tty "tty3")))
+            (service console-font-service-type
+                     (map (lambda (tty)
+                            (cons tty %default-console-font))
+                          '("tty2" "tty3")))
+
             (modify-services %desktop-services
+              (delete mingetty-service-type)
+              (delete console-font-service-type)
               (delete gdm-service-type)
               (guix-service-type
                config => (guix-configuration
