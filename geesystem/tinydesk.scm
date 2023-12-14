@@ -97,7 +97,8 @@
      (append (map specification->package
                   (list "font-wqy-microhei"
                         "icewm"
-                        "xrandr"))
+                        "xrandr"
+                        "xterm"))
              %base-packages))
 
     ;; Our /etc/sudoers file.  Since 'guest' initially has an empty password,
