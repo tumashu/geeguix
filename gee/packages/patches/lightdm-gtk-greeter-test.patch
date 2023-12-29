@@ -1,0 +1,57 @@
+From 1ee492869b554e486cf42521ae6647efa3a482cf Mon Sep 17 00:00:00 2001
+From: Feng Shu <tumashu@163.com>
+Date: Tue, 26 Dec 2023 11:42:32 +0800
+Subject: [PATCH] Add g_debug for guix.
+
+---
+ src/lightdm-gtk-greeter.c | 10 ++++++++++
+ 1 file changed, 10 insertions(+)
+
+diff --git a/src/lightdm-gtk-greeter.c b/src/lightdm-gtk-greeter.c
+index cefa348..c8ed66c 100644
+--- a/src/lightdm-gtk-greeter.c
++++ b/src/lightdm-gtk-greeter.c
+@@ -1030,6 +1030,9 @@ static void
+ set_session (const gchar *session)
+ {
+     gchar *last_session = NULL;
++    gchar *greeter_default_session = NULL;
++    g_debug ("XXXX: Call lightdm_get_sessions functions from set_session, argument: %s", session);
++
+     GList *sessions = lightdm_get_sessions ();
+ 
+     /* Validation */
+@@ -3162,6 +3165,8 @@ main (int argc, char **argv)
+     icon_theme = gtk_icon_theme_get_default ();
+ 
+     /* Session menu */
++    g_debug ("XXXX: Call lightdm_get_sessions functions from main");
++    items = lightdm_get_sessions ();
+     if (gtk_widget_get_visible (session_menuitem))
+     {
+         GSList *sessions = NULL;
+@@ -3179,6 +3184,8 @@ main (int argc, char **argv)
+             LightDMSession *session = item->data;
+             GtkWidget *radiomenuitem;
+ 
++            g_debug ("XXXX: Session items: %s", lightdm_session_get_key (session));
++
+             radiomenuitem = gtk_radio_menu_item_new_with_label (sessions, lightdm_session_get_name (session));
+             g_object_set_data (G_OBJECT (radiomenuitem), SESSION_DATA_KEY, (gpointer) lightdm_session_get_key (session));
+             sessions = gtk_radio_menu_item_get_group (GTK_RADIO_MENU_ITEM (radiomenuitem));
+@@ -3186,9 +3193,12 @@ main (int argc, char **argv)
+             gtk_menu_shell_append (GTK_MENU_SHELL (session_menu), radiomenuitem);
+             gtk_widget_show (GTK_WIDGET (radiomenuitem));
+         }
++
+         set_session (NULL);
+     }
+ 
++    g_debug ("XXXX: Session menuitem create stop.");
++
+     /* Language menu */
+     if (gtk_widget_get_visible (language_menuitem))
+     {
+-- 
+2.39.2
+
