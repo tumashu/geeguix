@@ -35,6 +35,17 @@
   (list "https://mirror.sjtu.edu.cn/guix/"
 	"https://ci.guix.gnu.org"))
 
+;;; XXX: Xfce does not implement what is needed for the SPICE dynamic
+;;; resolution to work (see: https://gitlab.xfce.org/xfce/xfce4-settings/-/issues/142).
+;;; Workaround it by manually invoking xrandr every second.
+(define auto-update-resolution-crutch
+  #~(job '(next-second)
+         (lambda ()
+           (setenv "DISPLAY" ":0.0")
+           (setenv "XAUTHORITY" "/home/guest/.Xauthority")
+           (execl (string-append #$xrandr "/bin/xrandr") "xrandr" "-s" "0"))
+         #:user "guest"))
+
 (define os
   (operating-system
     (timezone "Asia/Shanghai")
@@ -85,12 +96,7 @@
     (packages
      (append (map specification->package
                   (list "font-wqy-microhei"
-                        "glibc"
                         "icewm"
-                        "jwm"
-                        "strace"
-                        "xorg-server"
-                        "x-resize"
                         "xrandr"
                         "xterm"))
              %base-packages))
@@ -120,6 +126,9 @@ root ALL=(ALL) ALL
       ;; the guest screen resolution, clipboard integration with the host,
       ;; etc.
       (service spice-vdagent-service-type)
+
+      (simple-service 'cron-jobs mcron-service-type
+                      (list auto-update-resolution-crutch))
 
       (service mingetty-service-type (mingetty-configuration
                                       (tty "tty2")))
