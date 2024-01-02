@@ -86,15 +86,8 @@ gtk-cursor-theme-size=" cursor-size)))
 mkdir -p ${HOME}/.config/gtk-3.0
 cp -f " webvm-jwmrc " ${HOME}/.jwmrc
 cp -f " webvm-gtk3-settings " ${HOME}/.config/gtk-3.0/settings.ini
+x-resize --debug &
 jwm"))
-
-(define auto-update-resolution-crutch
-  #~(job '(next-second)
-         (lambda ()
-           (setenv "DISPLAY" ":0.0")
-           (setenv "XAUTHORITY" "/home/guest/.Xauthority")
-           (execl (string-append #$xrandr "/bin/xrandr") "xrandr" "-s" "0"))
-         #:user "guest"))
 
 (define os
   (operating-system
@@ -130,6 +123,7 @@ jwm"))
             ;; 窗口管理器
             "jwm"
             "xkill"
+            "x-resize"
 
             ;; 网页浏览器
             "ungoogled-chromium"
@@ -169,10 +163,6 @@ jwm"))
       ;; the guest screen resolution, clipboard integration with the host,
       ;; etc.
       (service spice-vdagent-service-type)
-
-      (simple-service
-       'cron-jobs mcron-service-type
-       (list auto-update-resolution-crutch))
 
       (service dhcp-client-service-type)
       (service dbus-root-service-type)
