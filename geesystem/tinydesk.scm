@@ -1,6 +1,5 @@
 (define-module (geesystem tinydesk)
   #:use-module (gee packages display-managers)
-  #:use-module (gee services lightdm)
   #:use-module (gnu bootloader)
   #:use-module (gnu bootloader grub)
   #:use-module (gnu packages)
@@ -97,14 +96,9 @@
     (packages
      (append (map specification->package
                   (list "font-wqy-microhei"
-                        "jwm"
                         "icewm"
                         "xrandr"
-                        "xterm"
-                        "xorg-server"
-                        "glibc"
-                        "strace"
-                        ))
+                        "xterm"))
              %base-packages))
 
     ;; Our /etc/sudoers file.  Since 'guest' initially has an empty password,
@@ -115,19 +109,18 @@ root ALL=(ALL) ALL
 
     (services
      (cons*
-      (service lightdm-service-type
-               (lightdm-configuration
-                (lightdm lightdm-gee)
-                (debug? #t)
-                (greeters
-                 (list (lightdm-gtk-greeter-configuration
-                        (lightdm-gtk-greeter lightdm-gtk-greeter-gee))))
-                (seats
-                 (list (lightdm-seat-configuration
-                        (name "*")
-                        (greeter-session 'lightdm-gtk-greeter)
-                        (user-session "jwm")
-                        )))))
+      ;; Choose SLiM, which is lighter than the default GDM.
+      (service slim-service-type
+               (slim-configuration
+                (slim slim-gee)
+                (default-user "guest")
+                (xorg-configuration
+                 (xorg-configuration
+                  ;; The QXL virtual GPU driver is added to provide a better
+                  ;; SPICE experience.
+                  (modules (cons xf86-video-qxl
+                                 %default-xorg-modules))
+                  (keyboard-layout keyboard-layout)))))
 
       ;; Add support for the SPICE protocol, which enables dynamic resizing of
       ;; the guest screen resolution, clipboard integration with the host,
@@ -137,7 +130,18 @@ root ALL=(ALL) ALL
       (simple-service 'cron-jobs mcron-service-type
                       (list auto-update-resolution-crutch))
 
+      (service mingetty-service-type (mingetty-configuration
+                                      (tty "tty2")))
+      (service mingetty-service-type (mingetty-configuration
+                                      (tty "tty3")))
+      (service console-font-service-type
+               (map (lambda (tty)
+                      (cons tty %default-console-font))
+                    '("tty2" "tty3")))
+
       (modify-services %desktop-services
+        (delete mingetty-service-type)
+        (delete console-font-service-type)
         (delete gdm-service-type)
         (guix-service-type
          config => (guix-configuration
