@@ -1,5 +1,4 @@
 (define-module (geesystem tinydesk)
-  #:use-module (gee packages display-managers)
   #:use-module (gnu bootloader)
   #:use-module (gnu bootloader grub)
   #:use-module (gnu packages)
@@ -106,7 +105,6 @@ root ALL=(ALL) ALL
       ;; Choose SLiM, which is lighter than the default GDM.
       (service slim-service-type
                (slim-configuration
-                (slim slim-gee)
                 (default-user "guest")
                 (xorg-configuration
                  (xorg-configuration
@@ -121,18 +119,7 @@ root ALL=(ALL) ALL
       ;; etc.
       (service spice-vdagent-service-type)
 
-      (service mingetty-service-type (mingetty-configuration
-                                      (tty "tty2")))
-      (service mingetty-service-type (mingetty-configuration
-                                      (tty "tty3")))
-      (service console-font-service-type
-               (map (lambda (tty)
-                      (cons tty %default-console-font))
-                    '("tty2" "tty3")))
-
       (modify-services %desktop-services
-        (delete mingetty-service-type)
-        (delete console-font-service-type)
         (delete gdm-service-type)
         (guix-service-type
          config => (guix-configuration
