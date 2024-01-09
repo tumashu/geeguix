@@ -182,7 +182,6 @@
             (service earlyoom-service-type)
             (service libvirt-service-type
                      (libvirt-configuration
-                      (unix-sock-group "libvirt")
                       (tls-port "16555")))
             (service mt7921e-service-type)
             (service openssh-service-type)
