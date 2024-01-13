@@ -188,7 +188,6 @@
             (service sddm-service-type
                      (sddm-configuration
                       (theme "sugar-dark")
-                      (display-server "wayland")
                       (xorg-configuration
                        (xorg-configuration
                         (server-arguments
