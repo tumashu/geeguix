@@ -281,7 +281,6 @@
      (service
       home-shepherd-service-type
       (home-shepherd-configuration
-       (shepherd shepherd)
        (services
         (list xautolock-service
               brightnessctl-service
