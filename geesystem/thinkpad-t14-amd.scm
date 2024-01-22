@@ -38,7 +38,7 @@
 
 (define garbage-collector-job
   #~(job "10 20 * * *"
-         "guix gc --free-space=80G --delete-generations=2m"))
+         "guix gc --free-space=40G --delete-generations=1m"))
 
 (define os
   (operating-system

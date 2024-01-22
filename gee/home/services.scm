@@ -7,6 +7,7 @@
   #:use-module (ice-9 ftw)
   #:use-module (ice-9 regex)
   #:use-module (ice-9 string-fun)
+  #:use-module (ice-9 textual-ports)
 
   #:export (home-dotfiles-service-type
             home-dotfiles-configuration
@@ -26,9 +27,11 @@
   (directories       home-dotfiles-configuration-directories       ;list of strings
                      (default '()))
   (excluded          home-dotfiles-configuration-excluded          ;list of strings
-                     (default %home-dotfiles-excluded)))
+                     (default %home-dotfiles-excluded))
+  (template-configs  home-dotfiles-configuration-template-configs
+                     (default '())))
 
-(define* (import-dotfiles directory excluded)
+(define* (import-dotfiles directory excluded template-configs)
   "Return a list of objects compatible with @code{home-files-service-type}'s
 value.  Each object is a pair where the first element is the relative path
 of a file and the second is a gexp representing the file content.  Objects are
@@ -42,15 +45,45 @@ user's home directory, excluding files that match any of the patterns in EXCLUDE
                          "^.*(" (string-join excluded "|") ")$") file)))))
   (define (strip file)
     (string-drop file (+ 1 (string-length directory))))
+
+  (define (resolve file)
+    (if (eq? 'symlink (stat:type (lstat file)))
+        (let ((resolved (readlink file)))
+          (with-directory-excursion (dirname file)
+            (canonicalize-path resolved)))
+        file))
+
   (define (format file)
-    (string-append "home-dotfiles-"
-                   (string-replace-substring file "/" "-")))
+    (let* ((without-spaces
+            (string-replace-substring file " " "_"))
+           (without-slashes-and-spaces
+            (string-replace-substring without-spaces "/" "-")))
+      (string-append "home-dotfiles-" without-slashes-and-spaces)))
 
   (map (lambda (file)
-         (let* ((stripped (strip file)))
+         (let* ((stripped (strip file))
+                (file (resolve file))
+                (config (assoc-ref template-configs stripped)))
            (list stripped
-                 (local-file file (format stripped)))))
+                 (if (and config
+                          ;; file 已经使用 resolve 处理过了，如果还是链接，那
+                          ;; 说明它是一个目录链接。
+                          (not (eq? 'symlink (stat:type (lstat file)))))
+                     (let ((tmpl (call-with-input-file file get-string-all)))
+                       (plain-file (format stripped)
+                                   (template-expand tmpl config)))
+                     (local-file file (format stripped)
+                                 #:recursive? #t)))))
        filtered))
+
+(define (template-expand template config)
+  (let ((string template))
+    (map (lambda (item)
+           (let ((var (string-append "{{{" (car item) "}}}"))
+                 (value (cdr item)))
+             (set! string (string-replace-substring string var value))))
+         config)
+    string))
 
 (define (home-dotfiles-configuration->files config)
   "Return a list of objects compatible with @code{home-files-service-type}'s
@@ -69,7 +102,10 @@ directories in CONFIG, excluding files that match any of the patterns configured
      directories))
   (append-map
    (lambda (app)
-     (import-dotfiles app (home-dotfiles-configuration-excluded config)))
+     (import-dotfiles
+      app
+      (home-dotfiles-configuration-excluded config)
+      (home-dotfiles-configuration-template-configs config)))
    (directory-contents
     (home-dotfiles-configuration-directories config))))
 

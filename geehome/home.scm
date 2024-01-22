@@ -247,7 +247,12 @@
        (directories
         (list (string-append
                (current-source-directory)
-               "/dotfiles")))))
+               "/dotfiles")))
+       (template-configs
+        '((".home-dotfiles-template"
+           ("var1" . "hello")
+           ("var2" . "world"))))))
+
      (service
       home-channels-service-type
       (list (channel
