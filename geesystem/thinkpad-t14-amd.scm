@@ -48,7 +48,12 @@
              #:configs
              '("# Add by linux-thinkpad-t14-amd."
                "CONFIG_MT7921E=m")))
-    (initrd microcode-initrd)
+
+    (initrd (lambda (file-systems . rest)
+              (apply microcode-initrd file-systems
+                     #:microcode-packages (list amd-microcode)
+                     rest)))
+
     (firmware (list linux-firmware))
 
     (timezone "Asia/Shanghai")
