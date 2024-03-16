@@ -1,8 +1,8 @@
 (define-module (geehome home)
-  #:use-module (gee home services)
   #:use-module (gnu home)
   #:use-module (gnu home services)
   #:use-module (gnu home services desktop)
+  #:use-module (gnu home services dotfiles)
   #:use-module (gnu home services fontutils)
   #:use-module (gnu home services guix)
   #:use-module (gnu home services mcron)
@@ -244,14 +244,11 @@
      (service
       home-dotfiles-service-type
       (home-dotfiles-configuration
+       (layout 'stow)
        (directories
         (list (string-append
                (current-source-directory)
-               "/dotfiles")))
-       (template-configs
-        '((".home-dotfiles-template"
-           ("var1" . "hello")
-           ("var2" . "world"))))))
+               "/dotfiles")))))
 
      (service
       home-channels-service-type
