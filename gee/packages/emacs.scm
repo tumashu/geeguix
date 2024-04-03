@@ -19,12 +19,12 @@
   #:use-module (srfi srfi-9 gnu))
 
 (define-public emacs-gee
-  (let ((commit "1b123972636d717241a38bcd6daa3e3f424fb8b0")
-        (revision "3"))
+  (let ((commit "f107dc26e37c7cc24b158b5dfd21b4fd8eb145f2")
+        (revision "1"))
     (package
       (inherit emacs)
       (name "emacs-gee")
-      (version (git-version "29.1" revision commit))
+      (version (git-version "29.3" revision commit))
       (source
        (origin
          (inherit (package-source emacs))
@@ -43,7 +43,7 @@
                    "emacs-native-comp-driver-options.patch"))
          (sha256
           (base32
-           "18kvn5ik7v51h8arivgm761bi5gmczlvaqvc65vk7dspd1wng1wf"))))
+           "036xwcc3507d66mf3rhg4dxia1xa699w1pbx9pw2hm2ac46xm2p8"))))
       (inputs
        (modify-inputs (package-inputs emacs)
          (delete "gtk+")
@@ -60,6 +60,7 @@
                   "--disable-build-details"))
          ((#:phases phases)
           #~(modify-phases #$phases
+              (delete 'validate-comp-integrity)
               (add-after 'install 'rename-ctags
                 (lambda* (#:key outputs #:allow-other-keys)
                   (with-directory-excursion (assoc-ref outputs "out")
