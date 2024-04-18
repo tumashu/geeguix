@@ -1,12 +1,15 @@
 (define-module (geesystem webvm)
   #:use-module (gnu bootloader)
   #:use-module (gnu bootloader grub)
+  #:use-module (gnu home)
+  #:use-module (gnu home services)
   #:use-module (gnu packages)
   #:use-module (gnu packages bash)
   #:use-module (gnu packages xorg)
   #:use-module (gnu services)
   #:use-module (gnu services base)
   #:use-module (gnu services dbus)
+  #:use-module (gnu services guix)
   #:use-module (gnu services mcron)
   #:use-module (gnu services networking)
   #:use-module (gnu services sound)
@@ -42,6 +45,7 @@ gtk-cursor-theme-size=" cursor-size)))
 <?xml version=\"1.0\"?>
 <JWM>
 
+  <StartupCommand>x-resize --debug &</StartupCommand>
   <StartupCommand>" chromium "</StartupCommand>
   <RestartCommand>" chromium "</RestartCommand>
 
@@ -81,13 +85,13 @@ gtk-cursor-theme-size=" cursor-size)))
 
 </JWM>")))
 
-(define webvm-xsession
-  (mixed-text-file "webvm-xsession.sh" "\
-mkdir -p ${HOME}/.config/gtk-3.0
-cp -f " webvm-jwmrc " ${HOME}/.jwmrc
-cp -f " webvm-gtk3-settings " ${HOME}/.config/gtk-3.0/settings.ini
-x-resize --debug &
-jwm"))
+(define guest-home
+  (home-environment
+   (services
+    (list (service
+           home-files-service-type
+           `((".jwmrc" ,webvm-jwmrc)
+             (".config/gtk-3.0/settings.ini" ,webvm-gtk3-settings)))))))
 
 (define os
   (operating-system
@@ -136,15 +140,13 @@ jwm"))
 
     (services
      (cons*
+      (service guix-home-service-type
+               `(("guest" ,guest-home)))
+
       ;; Choose SLiM, which is lighter than the default GDM.
       (service slim-service-type
                (slim-configuration
                 (auto-login? #t)
-                (auto-login-session
-                 (program-file
-                  "run-webvm-xsession.sh"
-                  #~(execl #$(file-append bash "/bin/sh")
-                           "sh" #$webvm-xsession)))
                 (default-user "guest")
                 (xorg-configuration
                  (xorg-configuration
