@@ -188,8 +188,7 @@
                     (format port
                             "installation_id: notebook-guix-ibus-rime~@
                              sync_dir: ~a"
-                            rime-sync-dir))))
-              #t))
+                            rime-sync-dir))))))
    (stop #~(make-kill-destructor))))
 
 (define desktop-entries-update-service
@@ -208,8 +207,7 @@
                    (substitute* (find-files dir "\\.desktop$")
                      (("Exec=/gnu/store/[^/]+/bin/") "Exec=")
                      (("TryExec=/gnu/store/[^/]+/bin/") "TryExec=")))
-                 (list xfce4-panel-dir desktop-dir))
-                #t)))
+                 (list xfce4-panel-dir desktop-dir)))))
    (stop #~(make-kill-destructor))))
 
 (define (webvm-desktop-entry)
