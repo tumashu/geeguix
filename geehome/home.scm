@@ -244,9 +244,7 @@
       (home-dotfiles-configuration
        (layout 'stow)
        (directories
-        (list (string-append
-               (current-source-directory)
-               "/dotfiles")))))
+        (list "dotfiles"))))
 
      (service
       home-channels-service-type

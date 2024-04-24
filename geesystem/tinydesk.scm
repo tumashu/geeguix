@@ -31,34 +31,17 @@
   #:use-module (gnu system nss)
   #:use-module (gnu system shadow)
   #:use-module (guix gexp)
-  #:use-module (guix packages)
   #:use-module (guix utils)
+  #:use-module (guix packages)
   #:export (os))
 
 (define substitute-urls
   (list "https://mirror.sjtu.edu.cn/guix/"
 	"https://ci.guix.gnu.org"))
 
-(define guest-home
-  (home-environment
-   (services
-    (list (service
-           home-dotfiles-service-type
-           (home-dotfiles-configuration
-            (layout 'stow)
-            (packages '("xrdb" "icewm" "fonts-core"))
-            (directories
-             (list (string-append
-                    (current-source-directory)
-                    "/../geehome/dotfiles")))))
-          (service
-           home-bash-service-type
-           (home-bash-configuration
-            (guix-defaults? #t)
-            (bash-profile
-             (list
-              (mixed-text-file
-               "bash-profile" "
+(define bash-profile
+  (mixed-text-file
+   "bash-profile" "
 if [ -f ~/.Xresources ]; then
     xrdb -merge -I $HOME ~/.Xresources;
 fi
@@ -72,7 +55,28 @@ eval \"$(guix package --search-paths \\
 
 # Prepend setuid programs.
 export PATH=/run/setuid-programs:$PATH
-")))))))))
+"))
+
+(define guest-home
+  (home-environment
+   (services
+    (list (service
+           home-dotfiles-service-type
+           (home-dotfiles-configuration
+            (layout 'stow)
+            (packages '("xrdb" "icewm" "fonts-core" "gtk2"))
+            (directories (list "../geehome/dotfiles"))))
+          (service
+           home-dotfiles-service-type
+           (home-dotfiles-configuration
+            (layout 'stow)
+            (packages '("gtk3"))
+            (directories (list "../geehome/dotfiles-extra"))))
+          (service
+           home-bash-service-type
+           (home-bash-configuration
+            (guix-defaults? #t)
+            (bash-profile (list bash-profile))))))))
 
 (define os
   (operating-system
@@ -128,7 +132,9 @@ export PATH=/run/setuid-programs:$PATH
                    "font-wqy-microhei"
                    "font-gnu-freefont"
                    "gnome-themes-extra"   ; gtk2 theme
+                   "gnome-menus"
                    "icewm"
+                   "thunar"
                    "x-resize"
                    "xrandr"
                    "xkill"
