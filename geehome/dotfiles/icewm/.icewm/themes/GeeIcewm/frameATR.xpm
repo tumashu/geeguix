@@ -1,0 +1,42 @@
+/* XPM */
+static char *frameATR[] = {
+/* width height ncolors chars_per_pixel */
+"15 26 9 1",
+/* colors */
+"  c #ECECEC",
+". c #DBDBDB",
+"X c #EFEFEF",
+"o c #E0E0E0",
+"O c #F2F2F2",
+"+ c #BFBFBF",
+"@ c #C2C2C2",
+"# c #C3C3C3",
+"$ c None",
+/* pixels */
+"++++++++#$$$$$$",
+"XXXXXXX o@+$$$$",
+"OOOOOOOOOO.+$$$",
+"OOOOOOOOOOO.+$$",
+"OOOOOOOOOOOO@$$",
+"OOOOOOOOOOOOo#$",
+"OOOOOOOOOOOO +$",
+"OOOOOOOOOOOOX+$",
+"OOOOOOOOOOOOX+$",
+"OOOOOOOOOOOOX+$",
+"OOOOOOOOOOOOX+$",
+"OOOOOOOOOOOOX+$",
+"OOOOOOOOOOOOX+$",
+"OOOOOOOOOOOOX+$",
+"OOOOOOOOOOOOX+$",
+"OOOOOOOOOOOOX+$",
+"OOOOOOOOOOOOX+$",
+"OOOOOOOOOOOOX+$",
+"OOOOOOOOOOOOX+$",
+"OOOOOOOOOOOOX+$",
+"OOOOOOOOOOOOX+$",
+"OOOOOOOOOOOOX+$",
+"OOOOOOOOOOOOX+$",
+"OOOOOOOOOOOOX+$",
+"OOOOOOOOOOOOX+$",
+"++++++++++++++$"
+};

@@ -1,0 +1,26 @@
+/* XPM */
+static char *frameABL[] = {
+/* width height ncolors chars_per_pixel */
+"15 15 4 1",
+/* colors */
+"  c #EFEFEF",
+". c #F2F2F2",
+"X c #BFBFBF",
+"o c None",
+/* pixels */
+"oX ............",
+"oX ............",
+"oX ............",
+"oX ............",
+"oX ............",
+"oX ............",
+"oX ............",
+"oX ............",
+"oX ............",
+"oX ............",
+"oX ............",
+"oX ............",
+"oX ............",
+"oXXXXXXXXXXXXXX",
+"ooooooooooooooo"
+};

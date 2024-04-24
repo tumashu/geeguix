@@ -1,0 +1,10 @@
+/* XPM */
+static char *frameAL[] = {
+/* width height ncolors chars_per_pixel */
+"2 1 2 1",
+/* colors */
+"  c #BFBFBF",
+". c None",
+/* pixels */
+". "
+};

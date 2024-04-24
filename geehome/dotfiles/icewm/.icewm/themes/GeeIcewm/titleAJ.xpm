@@ -1,0 +1,39 @@
+/* XPM */
+static char *titleAJ[] = {
+/* width height ncolors chars_per_pixel */
+"7 24 8 1",
+/* colors */
+"  c #ECECEC",
+". c #DBDBDB",
+"X c #EFEFEF",
+"o c #E0E0E0",
+"O c #F2F2F2",
+"+ c #BFBFBF",
+"@ c #C2C2C2",
+"# c None",
+/* pixels */
+"#+.OOOO",
+"+.OOOOO",
+"@OOOOOO",
+"oOOOOOO",
+" OOOOOO",
+"XOOOOOO",
+"XOOOOOO",
+"XOOOOOO",
+"XOOOOOO",
+"XOOOOOO",
+"XOOOOOO",
+"XOOOOOO",
+"XOOOOOO",
+"XOOOOOO",
+"XOOOOOO",
+"XOOOOOO",
+"XOOOOOO",
+"XOOOOOO",
+"XOOOOOO",
+"XOOOOOO",
+"XOOOOOO",
+"XOOOOOO",
+"XOOOOOO",
+"+++++++"
+};

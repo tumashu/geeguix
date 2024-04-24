@@ -1,0 +1,5 @@
+prog "文件管理器" Thunar.png thunar
+prog "Terminal 终端" utilities-terminal.png x-terminal-emulator -ls
+prog "Terminal 终端" utilities-terminal.png xterm
+prog "网页浏览器" web-browser.png x-www-browser
+prog "Emacs 编辑器" emacs.png emacs

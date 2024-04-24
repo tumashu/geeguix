@@ -1,0 +1,10 @@
+/* XPM */
+static char *frameIR[] = {
+/* width height ncolors chars_per_pixel */
+"2 1 2 1",
+/* colors */
+"  c #B2B2B2",
+". c None",
+/* pixels */
+" ."
+};

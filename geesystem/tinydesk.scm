@@ -1,6 +1,10 @@
 (define-module (geesystem tinydesk)
   #:use-module (gnu bootloader)
   #:use-module (gnu bootloader grub)
+  #:use-module (gnu home)
+  #:use-module (gnu home services)
+  #:use-module (gnu home services dotfiles)
+  #:use-module (gnu home services shells)
   #:use-module (gnu packages)
   #:use-module (gnu packages display-managers)
   #:use-module (gnu packages linux)
@@ -28,11 +32,47 @@
   #:use-module (gnu system shadow)
   #:use-module (guix gexp)
   #:use-module (guix packages)
+  #:use-module (guix utils)
   #:export (os))
 
 (define substitute-urls
   (list "https://mirror.sjtu.edu.cn/guix/"
 	"https://ci.guix.gnu.org"))
+
+(define guest-home
+  (home-environment
+   (services
+    (list (service
+           home-dotfiles-service-type
+           (home-dotfiles-configuration
+            (layout 'stow)
+            (packages '("xrdb" "icewm" "fonts-core"))
+            (directories
+             (list (string-append
+                    (current-source-directory)
+                    "/../geehome/dotfiles")))))
+          (service
+           home-bash-service-type
+           (home-bash-configuration
+            (guix-defaults? #t)
+            (bash-profile
+             (list
+              (mixed-text-file
+               "bash-profile" "
+if [ -f ~/.Xresources ]; then
+    xrdb -merge -I $HOME ~/.Xresources;
+fi
+
+# Merge search-paths from multiple profiles, the order matters.
+eval \"$(guix package --search-paths \\
+-p $HOME/.config/guix/current        \\
+-p $HOME/.guix-home/profile          \\
+-p $HOME/.guix-profile               \\
+-p /run/current-system/profile)\"
+
+# Prepend setuid programs.
+export PATH=/run/setuid-programs:$PATH
+")))))))))
 
 (define os
   (operating-system
@@ -83,15 +123,17 @@
 
     (packages
      (append (map specification->package
-                  (list "font-wqy-microhei"
-                        "glibc"
-                        "icewm"
-                        "jwm"
-                        "strace"
-                        "xorg-server"
-                        "x-resize"
-                        "xrandr"
-                        "xterm"))
+                  (list
+                   "elementary-xfce-icon-theme"
+                   "font-wqy-microhei"
+                   "font-gnu-freefont"
+                   "gnome-themes-extra"   ; gtk2 theme
+                   "icewm"
+                   "x-resize"
+                   "xrandr"
+                   "xkill"
+                   "xterm"
+                   "xrdb"))
              %base-packages))
 
     ;; Our /etc/sudoers file.  Since 'guest' initially has an empty password,
@@ -102,6 +144,9 @@ root ALL=(ALL) ALL
 
     (services
      (cons*
+      (service guix-home-service-type
+               `(("guest" ,guest-home)))
+      
       ;; Choose SLiM, which is lighter than the default GDM.
       (service slim-service-type
                (slim-configuration
