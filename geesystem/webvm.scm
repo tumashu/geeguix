@@ -6,7 +6,6 @@
   #:use-module (gnu packages)
   #:use-module (gnu packages bash)
   #:use-module (gnu packages xorg)
-  #:use-module (gnu services)
   #:use-module (gnu services base)
   #:use-module (gnu services dbus)
   #:use-module (gnu services guix)
@@ -22,6 +21,9 @@
   #:use-module (gnu system locale)
   #:use-module (gnu system shadow)
   #:use-module (guix gexp)
+  ;; Put here to remove WARNING: imported module (gnu services) overrides core
+  ;; binding `delete'
+  #:use-module (gnu services)
   #:export (os))
 
 (define webvm-font-name "WenQuanYi Micro Hei")

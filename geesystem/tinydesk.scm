@@ -10,7 +10,6 @@
   #:use-module (gnu packages linux)
   #:use-module (gnu packages package-management)
   #:use-module (gnu packages xorg)
-  #:use-module (gnu services)
   #:use-module (gnu services base)
   #:use-module (gnu services desktop)
   #:use-module (gnu services guix)
@@ -33,6 +32,9 @@
   #:use-module (guix gexp)
   #:use-module (guix utils)
   #:use-module (guix packages)
+  ;; Put here to remove WARNING: imported module (gnu services) overrides core
+  ;; binding `delete'
+  #:use-module (gnu services)
   #:export (os))
 
 (define substitute-urls
