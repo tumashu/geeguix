@@ -97,9 +97,10 @@ export PATH=/run/setuid-programs:$PATH
             %default-locale-definitions))
 
     ;; Label for the GRUB boot menu.
-    (label (string-append "GNU Guix "
-                          (or (getenv "GUIX_DISPLAYED_VERSION")
-                              (package-version guix))))
+    (label (string-append
+            "GNU Guix "
+            (or (getenv "GUIX_DISPLAYED_VERSION")
+                (package-version guix))))
 
     (firmware '())
 
