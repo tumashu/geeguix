@@ -5,6 +5,7 @@
   #:use-module (gnu home services)
   #:use-module (gnu home services dotfiles)
   #:use-module (gnu home services shells)
+  #:use-module (gnu home services xdg)
   #:use-module (gnu packages)
   #:use-module (gnu packages display-managers)
   #:use-module (gnu packages linux)
@@ -75,6 +76,18 @@ export PATH=/run/setuid-programs:$PATH
             (packages '("gtk3"))
             (directories (list "../geehome/dotfiles-extra"))))
           (service
+           home-xdg-mime-applications-service-type
+           (home-xdg-mime-applications-configuration
+            (desktop-entries
+             (list (xdg-desktop-entry
+                    (file "xterm")
+                    (name "XTerm")
+                    (type 'application)
+                    (config
+                     '((exec . "xterm")
+                       (icon . "utilities-terminal")
+                       (categories . "System;"))))))))
+          (service
            home-bash-service-type
            (home-bash-configuration
             (guix-defaults? #t)
@@ -133,11 +146,9 @@ export PATH=/run/setuid-programs:$PATH
                   (list
                    "elementary-xfce-icon-theme"
                    "font-wqy-microhei"
-                   "font-gnu-freefont"
-                   "gnome-themes-extra"   ; gtk2 theme
-                   "gnome-menus"
-                   "icewm"
+                   "icewm-gee"
                    "thunar"
+                   "ungoogled-chromium"
                    "x-resize"
                    "xrandr"
                    "xkill"
