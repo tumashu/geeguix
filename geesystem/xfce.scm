@@ -102,7 +102,7 @@
                    %base-groups))
 
     (packages
-     (append (map specification->package
+     (append (map (compose list specification->package+output)
                   (list
                    ;; 基本工具
                    "bash-completion"

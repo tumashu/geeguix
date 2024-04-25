@@ -124,7 +124,7 @@ gtk-cursor-theme-size=" cursor-size)))
 
     (packages
      (append
-      (map specification->package
+      (map (compose list specification->package+output)
            (list
             ;; 窗口管理器
             "jwm"

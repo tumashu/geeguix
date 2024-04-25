@@ -142,13 +142,14 @@ export PATH=/run/setuid-programs:$PATH
                  %base-user-accounts))
 
     (packages
-     (append (map specification->package
+     (append (map (compose list specification->package+output)
                   (list
                    "elementary-xfce-icon-theme"
                    "font-wqy-microhei"
+                   "icecat"
+                   "icecat-l10n:zh-CN"
                    "icewm-gee"
                    "thunar"
-                   "ungoogled-chromium"
                    "x-resize"
                    "xrandr"
                    "xkill"
