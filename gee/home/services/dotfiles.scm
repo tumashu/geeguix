@@ -6,6 +6,7 @@
   #:use-module (guix gexp)
   #:use-module (ice-9 string-fun)
   #:use-module (ice-9 textual-ports)
+  #:re-export (home-dotfiles-configuration)
   #:export (home-dotfiles-template-service-type
 
             home-dotfiles-template-configuration
