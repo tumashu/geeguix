@@ -12,7 +12,7 @@
      (substitute-keyword-arguments (package-arguments icewm)
        ((#:phases phases)
         #~(modify-phases #$phases
-            (add-after 'unpack 'rename-ctags
+            (add-after 'unpack 'fix-fdomenu-translation
               (lambda _
                 ;; Hack: 解决 fdo 菜单无法显示中文的问题。
                 (substitute* "src/fdomenu.cc"
