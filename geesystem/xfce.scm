@@ -7,6 +7,7 @@
   #:use-module (gnu packages package-management)
   #:use-module (gnu packages xfce)
   #:use-module (gnu packages xorg)
+  #:use-module (gnu services)
   #:use-module (gnu services base)
   #:use-module (gnu services cups)
   #:use-module (gnu services desktop)
@@ -32,9 +33,6 @@
   #:use-module (guix packages)
   #:use-module (nongnu packages linux)
   #:use-module (nongnu system linux-initrd)
-  ;; Put here to remove WARNING: imported module (gnu services) overrides core
-  ;; binding `delete'
-  #:use-module (gnu services)
   #:export (os))
 
 (define substitute-urls
