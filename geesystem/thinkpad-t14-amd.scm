@@ -30,6 +30,7 @@
   #:use-module (guix gexp)
   #:use-module (nongnu packages linux)
   #:use-module (nongnu system linux-initrd)
+  #:duplicates (replace last)
   #:export (os))
 
 (define substitute-urls

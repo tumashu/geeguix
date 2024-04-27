@@ -34,6 +34,7 @@
   #:use-module (guix gexp)
   #:use-module (guix utils)
   #:use-module (guix packages)
+  #:duplicates (replace last)
   #:export (os))
 
 (define substitute-urls

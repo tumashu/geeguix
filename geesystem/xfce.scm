@@ -31,8 +31,7 @@
   #:use-module (gnu system shadow)
   #:use-module (guix gexp)
   #:use-module (guix packages)
-  #:use-module (nongnu packages linux)
-  #:use-module (nongnu system linux-initrd)
+  #:duplicates (replace last)
   #:export (os))
 
 (define substitute-urls

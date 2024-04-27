@@ -27,6 +27,7 @@
   #:use-module (guix utils)
   #:use-module (srfi srfi-1)
   #:use-module (srfi srfi-13)
+  #:duplicates (replace last)
   #:export (home))
 
 (define packages

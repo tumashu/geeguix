@@ -22,6 +22,7 @@
   #:use-module (gnu system locale)
   #:use-module (gnu system shadow)
   #:use-module (guix gexp)
+  #:duplicates (replace last)
   #:export (os))
 
 (define webvm-font-name "WenQuanYi Micro Hei")
