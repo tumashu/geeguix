@@ -141,7 +141,6 @@
                    "exfat-utils"
                    "fuse-exfat"
                    "ntfs-3g"
-                   "nss-certs"
 
                    ;; 硬件管理
                    "bluez"

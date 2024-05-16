@@ -114,7 +114,6 @@
                    "exfat-utils"
                    "fuse-exfat"
                    "ntfs-3g"
-                   "nss-certs"
 
                    ;; 桌面基础工具
                    "dconf"
