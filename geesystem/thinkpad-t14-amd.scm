@@ -191,6 +191,7 @@
                       (tls-port "16555")))
             (service mt7921e-service-type)
             (service openssh-service-type)
+            (service startx-command-service-type)
             (service sddm-service-type
                      (sddm-configuration
                       (theme "sugar-dark")
