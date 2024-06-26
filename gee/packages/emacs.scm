@@ -20,11 +20,11 @@
 
 (define-public emacs-gee
   (let ((commit "75ca15f2a3146b17fde5e2a50ad9102c6108ba7f")
-        (revision "2"))
+        (revision "1"))
     (package
       (inherit emacs)
       (name "emacs-gee")
-      (version (git-version "29.3" revision commit))
+      (version (git-version "29.4" revision commit))
       (source
        (origin
          (inherit (package-source emacs))
