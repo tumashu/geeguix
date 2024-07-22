@@ -178,7 +178,6 @@
                    ;; 字体主题
                    "elementary-xfce-icon-theme"
                    "font-wqy-microhei"
-                   "gnome-themes-extra"
                    "sugar-dark-sddm-theme"
                    ))
              %base-packages))
