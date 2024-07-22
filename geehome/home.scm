@@ -35,13 +35,10 @@
        (list
         ;; 基本工具
         "bash-completion"
-        "curl"
         "htop"
         "p7zip-gee"
-        "recutils"  ;提供 recsel 命令: 'guix search emacs | recsel -p name'
         "unrar"
         "unzip-gee"
-        "watchexec"
         "zile"
 
         ;; 开发工具
@@ -65,7 +62,6 @@
         "git:credential-libsecret"
         "git:credential-netrc"
         "git:send-email"
-        "mercurial"
 
         ;; 网页浏览器
         "icecat"
@@ -116,14 +112,9 @@
         ;; 声音图像多媒体
         "cheese"
         "gimp"
-        "imagemagick"
         "mcomix"
         "mpv"
-        "python-mutagen" ; 修复 mp3 乱码
         "rhythmbox"
-
-        ;; Wine
-        "wine"
 
         ;; 虚拟机
         "virt-manager"
