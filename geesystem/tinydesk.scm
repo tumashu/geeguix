@@ -66,7 +66,7 @@ export PATH=/run/setuid-programs:$PATH
            home-dotfiles-service-type
            (home-dotfiles-configuration
             (layout 'stow)
-            (packages '("xrdb" "icewm" "fonts-core" "gtk2" "gtk3"))
+            (packages '("xrdb" "fonts-core" "gtk2" "gtk3"))
             (directories (list "../geehome/dotfiles"))))
           (service
            home-xdg-mime-applications-service-type
@@ -141,7 +141,7 @@ export PATH=/run/setuid-programs:$PATH
                    "font-wqy-microhei"
                    "icecat"
                    "icecat-l10n:zh-CN"
-                   "icewm-gee"
+                   "icewm"
                    "thunar"
                    "x-resize"
                    "xrandr"
