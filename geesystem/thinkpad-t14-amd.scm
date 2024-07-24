@@ -43,41 +43,47 @@
   #~(job "10 20 * * *"
          "guix gc --free-space=40G --delete-generations=1m"))
 
+(define package-uri-map
+  '(("mirror://kernel.org" . "https://mirror.nju.edu.cn/kernel.org")))
+
+(define (replace-package-uri pkg)
+  (let ((pkg-uri (origin-uri (package-source pkg))))
+
+    (for-each (lambda (uris)
+                (set! pkg-uri
+                      (string-replace-substring
+                       pkg-uri
+                       (car uris)
+                       (cdr uris))))
+              package-uri-map)
+
+    (package
+      (inherit pkg)
+      (source
+       (origin
+         (inherit (package-source pkg))
+         (uri pkg-uri))))))
+
+;; (origin-uri (package-source (replace-package-uri linux)))
+;; (origin-uri (package-source (replace-package-uri linux-firmware)))
+;; (origin-uri (package-source (replace-package-uri amd-microcode)))
+
 (define linux-gee
   (customize-linux
    #:name "linux-thinkpad-t14-amd"
-   #:linux (package
-             (inherit linux)
-             (source
-              (origin
-                (inherit (package-source linux))
-                (uri (string-replace-substring
-                      (origin-uri (package-source linux))
-                      "mirror://kernel.org/"
-                      "https://mirror.nju.edu.cn/kernel.org/")))))
+   #:linux (replace-package-uri linux)
    #:configs
    '("# Add by linux-thinkpad-t14-amd."
      "CONFIG_MT7921E=m")))
 
-(define linux-firmware-gee
-  (package
-    (inherit linux-firmware)
-    (source
-     (origin
-       (inherit (package-source linux-firmware))
-       (uri (string-replace-substring
-             (origin-uri (package-source linux-firmware))
-             "mirror://kernel.org/"
-             "https://mirror.nju.edu.cn/kernel.org/"))))))
-
 (define os
   (operating-system
     (kernel linux-gee)
-    (firmware (list linux-firmware-gee))
+    (firmware (list (replace-package-uri linux-firmware)))
 
     (initrd (lambda (file-systems . rest)
               (apply microcode-initrd file-systems
-                     #:microcode-packages (list amd-microcode)
+                     #:microcode-packages (list (replace-package-uri amd-microcode))
                      rest)))
 
     (timezone "Asia/Shanghai")
