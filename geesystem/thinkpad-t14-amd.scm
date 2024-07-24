@@ -28,8 +28,10 @@
   #:use-module (gnu system nss)
   #:use-module (gnu system shadow)
   #:use-module (guix gexp)
+  #:use-module (guix packages)
   #:use-module (nongnu packages linux)
   #:use-module (nongnu system linux-initrd)
+  #:use-module (ice-9 string-fun)
   #:duplicates (replace last)
   #:export (os))
 
@@ -41,21 +43,42 @@
   #~(job "10 20 * * *"
          "guix gc --free-space=40G --delete-generations=1m"))
 
+(define linux-gee
+  (customize-linux
+   #:name "linux-thinkpad-t14-amd"
+   #:linux (package
+             (inherit linux)
+             (source
+              (origin
+                (inherit (package-source linux))
+                (uri (string-replace-substring
+                      (origin-uri (package-source linux))
+                      "mirror://kernel.org/"
+                      "https://mirror.nju.edu.cn/kernel.org/")))))
+   #:configs
+   '("# Add by linux-thinkpad-t14-amd."
+     "CONFIG_MT7921E=m")))
+
+(define linux-firmware-gee
+  (package
+    (inherit linux-firmware)
+    (source
+     (origin
+       (inherit (package-source linux-firmware))
+       (uri (string-replace-substring
+             (origin-uri (package-source linux-firmware))
+             "mirror://kernel.org/"
+             "https://mirror.nju.edu.cn/kernel.org/"))))))
+
 (define os
   (operating-system
-    (kernel (customize-linux
-             #:name "linux-thinkpad-t14-amd"
-             #:linux linux
-             #:configs
-             '("# Add by linux-thinkpad-t14-amd."
-               "CONFIG_MT7921E=m")))
+    (kernel linux-gee)
+    (firmware (list linux-firmware-gee))
 
     (initrd (lambda (file-systems . rest)
               (apply microcode-initrd file-systems
                      #:microcode-packages (list amd-microcode)
                      rest)))
-
-    (firmware (list linux-firmware))
 
     (timezone "Asia/Shanghai")
     (keyboard-layout (keyboard-layout "cn"))
