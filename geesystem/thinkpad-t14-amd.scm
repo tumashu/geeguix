@@ -68,10 +68,6 @@
          (inherit (package-source pkg))
          (uri pkg-uri))))))
 
-;; (origin-uri (package-source (replace-package-uri linux)))
-;; (origin-uri (package-source (replace-package-uri linux-firmware)))
-;; (origin-uri (package-source (replace-package-uri amd-microcode)))
-
 (define linux-gee
   (customize-linux
    #:name "linux-thinkpad-t14-amd"
