@@ -82,9 +82,10 @@
     (firmware (list (replace-package-uri linux-firmware)))
 
     (initrd (lambda (file-systems . rest)
-              (apply microcode-initrd file-systems
-                     #:microcode-packages (list (replace-package-uri amd-microcode))
-                     rest)))
+              (let ((pkgs (list (replace-package-uri amd-microcode))))
+                (apply microcode-initrd file-systems
+                       #:microcode-packages pkgs
+                       rest))))
 
     (timezone "Asia/Shanghai")
     (keyboard-layout (keyboard-layout "cn"))
