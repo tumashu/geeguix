@@ -44,11 +44,8 @@
          "guix gc --free-space=40G --delete-generations=1m"))
 
 (define package-uri-map
-  '((("linux"
-      "linux-firmware"
-      "amd-microcode")
-     ("mirror://kernel.org"
-      "https://mirror.nju.edu.cn/kernel.org"))))
+  '((("linux" "linux-firmware" "amd-microcode")
+     ("mirror://kernel.org" "https://mirror.nju.edu.cn/kernel.org"))))
 
 (define (replace-package-uri pkg)
   (let ((pkg-uri (origin-uri (package-source pkg))))
