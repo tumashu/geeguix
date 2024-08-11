@@ -4,6 +4,8 @@
   #:use-module (gnu bootloader grub)
   #:use-module (gnu packages)
   #:use-module (gnu packages audio)
+  #:use-module (gnu packages fonts)
+  #:use-module (gnu packages gnome)
   #:use-module (gnu packages linux)
   #:use-module (gnu packages xfce)
   #:use-module (gnu services)
@@ -15,7 +17,6 @@
   #:use-module (gnu services mcron)
   #:use-module (gnu services pm)
   #:use-module (gnu services networking)
-  #:use-module (gnu services sddm)
   #:use-module (gnu services shepherd)
   #:use-module (gnu services ssh)
   #:use-module (gnu services virtualization)
@@ -219,13 +220,6 @@
                       (tls-port "16555")))
             (service mt7921e-service-type)
             (service openssh-service-type)
-            (service sddm-service-type
-                     (sddm-configuration
-                      (xorg-configuration
-                       (xorg-configuration
-                        (server-arguments
-                         (append %default-xorg-server-arguments
-                                 '("-dpi" "140")))))))
             (service thermald-service-type
                      (thermald-configuration
                       (ignore-cpuid-check? #t)))
@@ -252,7 +246,17 @@
             (modify-services %desktop-services
               (delete mingetty-service-type)
               (delete console-font-service-type)
-              (delete gdm-service-type)
+              (gdm-service-type
+               config => (gdm-configuration
+		          (inherit config)
+                          (gnome-shell-assets
+                           (list font-wqy-microhei
+                                 adwaita-icon-theme))
+                          (xorg-configuration
+                           (xorg-configuration
+                            (server-arguments
+                             (append %default-xorg-server-arguments
+                                     '("-dpi" "140")))))))
               (guix-service-type
                config => (guix-configuration
 		          (inherit config)
