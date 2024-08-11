@@ -208,7 +208,6 @@
                    ;; 字体主题
                    "elementary-xfce-icon-theme"
                    "font-wqy-microhei"
-                   "sugar-dark-sddm-theme"
                    ))
              %base-packages))
 
@@ -222,7 +221,6 @@
             (service openssh-service-type)
             (service sddm-service-type
                      (sddm-configuration
-                      (theme "sugar-dark")
                       (xorg-configuration
                        (xorg-configuration
                         (server-arguments
