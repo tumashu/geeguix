@@ -16,6 +16,7 @@
   #:use-module (gnu services desktop)
   #:use-module (gnu services guix)
   #:use-module (gnu services linux)
+  #:use-module (gnu services lightdm)
   #:use-module (gnu services mcron)
   #:use-module (gnu services networking)
   #:use-module (gnu services pm)
@@ -161,17 +162,19 @@ root ALL=(ALL) ALL
       (service guix-home-service-type
                `(("guest" ,guest-home)))
       
-      ;; Choose SLiM, which is lighter than the default GDM.
-      (service slim-service-type
-               (slim-configuration
-                (default-user "guest")
+      (service lightdm-service-type
+               (lightdm-configuration
                 (xorg-configuration
                  (xorg-configuration
                   ;; The QXL virtual GPU driver is added to provide a better
                   ;; SPICE experience.
                   (modules (cons xf86-video-qxl
                                  %default-xorg-modules))
-                  (keyboard-layout keyboard-layout)))))
+                  (keyboard-layout keyboard-layout)
+                  (server-arguments
+                   ;; 使用较大字体
+                   (append %default-xorg-server-arguments
+                           '("-dpi" "140")))))))
 
       ;; Add support for the SPICE protocol, which enables dynamic resizing of
       ;; the guest screen resolution, clipboard integration with the host,
