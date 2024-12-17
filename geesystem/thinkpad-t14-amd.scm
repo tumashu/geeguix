@@ -4,8 +4,6 @@
   #:use-module (gnu bootloader grub)
   #:use-module (gnu packages)
   #:use-module (gnu packages audio)
-  #:use-module (gnu packages fonts)
-  #:use-module (gnu packages gnome)
   #:use-module (gnu packages linux)
   #:use-module (gnu packages xfce)
   #:use-module (gnu services)
@@ -14,6 +12,7 @@
   #:use-module (gnu services desktop)
   #:use-module (gnu services guix)
   #:use-module (gnu services linux)
+  #:use-module (gnu services lightdm)
   #:use-module (gnu services mcron)
   #:use-module (gnu services pm)
   #:use-module (gnu services networking)
@@ -227,6 +226,16 @@
             (service virtlog-service-type
                      (virtlog-configuration
                       (max-clients 1000)))
+
+            (service lightdm-service-type
+                     (lightdm-configuration
+                      (xorg-configuration
+                       (xorg-configuration
+                        (server-arguments
+                         ;; 使用较大字体
+                         (append %default-xorg-server-arguments
+                                 '("-dpi" "140")))))))
+
             (service xfce-desktop-service-type)
 
             (simple-service 'my-cron-jobs
@@ -246,17 +255,7 @@
             (modify-services %desktop-services
               (delete mingetty-service-type)
               (delete console-font-service-type)
-              (gdm-service-type
-               config => (gdm-configuration
-		          (inherit config)
-                          (gnome-shell-assets
-                           (list font-wqy-microhei
-                                 adwaita-icon-theme))
-                          (xorg-configuration
-                           (xorg-configuration
-                            (server-arguments
-                             (append %default-xorg-server-arguments
-                                     '("-dpi" "140")))))))
+              (delete gdm-service-type)
               (guix-service-type
                config => (guix-configuration
 		          (inherit config)
