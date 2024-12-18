@@ -1,4 +1,5 @@
 (define-module (geesystem thinkpad-t14-amd)
+  #:use-module (gee packages display-managers)
   #:use-module (gee services mt7921e)
   #:use-module (gnu bootloader)
   #:use-module (gnu bootloader grub)
@@ -229,6 +230,18 @@
 
             (service lightdm-service-type
                      (lightdm-configuration
+                      (greeters
+                       (list (lightdm-gtk-greeter-configuration
+                              (lightdm-gtk-greeter lightdm-gtk-greeter-gee)
+                              (extra-config
+                               (list "font-name = San 12"
+                                     "icon-size = 64"
+                                     "xft-dpi = 140"
+                                     "clock-format = %Y-%m-%d %H:%M"
+                                     ;; We need to use "~~" to generate a tilde, for
+                                     ;; extra-config sting will be handle as
+                                     ;; control-string of format function.
+                                     "indicators = ~~host;~~spacer;~~session;~~a11y;~~clock;~~power")))))
                       (xorg-configuration
                        (xorg-configuration
                         (server-arguments
