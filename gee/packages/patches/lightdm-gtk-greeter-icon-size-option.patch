@@ -1,0 +1,101 @@
+From 0e77f01a67833684e6be58e4cb7d950154150b7f Mon Sep 17 00:00:00 2001
+From: Feng Shu <tumashu@163.com>
+Date: Wed, 18 Dec 2024 08:32:19 +0800
+Subject: [PATCH] Add icon-size option
+
+Description: add icon-size option
+Author: Vincent Lefevre <vincent@vinc17.net>
+Last-Update: 2018-02-23
+---
+ data/lightdm-gtk-greeter.conf |  2 ++
+ src/greeterconfiguration.h    |  1 +
+ src/lightdm-gtk-greeter.c     | 16 ++++++++--------
+ 3 files changed, 11 insertions(+), 8 deletions(-)
+
+diff --git a/data/lightdm-gtk-greeter.conf b/data/lightdm-gtk-greeter.conf
+index 858b40a..2ffdf34 100644
+--- a/data/lightdm-gtk-greeter.conf
++++ b/data/lightdm-gtk-greeter.conf
+@@ -7,6 +7,7 @@
+ # Appearance:
+ #  theme-name = GTK theme to use
+ #  icon-theme-name = Icon theme to use
++#  icon-size = Icon size to use
+ #  cursor-theme-name = Cursor theme to use
+ #  cursor-theme-size = Cursor size to use
+ #  background = Background file to use, either an image path or a color (e.g. #772953)
+@@ -61,6 +62,7 @@
+ #user-background=
+ #theme-name=
+ #icon-theme-name=
++#icon-size=
+ #font-name=
+ #xft-antialias=
+ #xft-dpi=
+diff --git a/src/greeterconfiguration.h b/src/greeterconfiguration.h
+index 3e77e93..695ad6d 100644
+--- a/src/greeterconfiguration.h
++++ b/src/greeterconfiguration.h
+@@ -42,6 +42,7 @@
+ #define CONFIG_KEY_KEYBOARD_POSITION    "keyboard-position"
+ #define CONFIG_KEY_A11Y_STATES          "a11y-states"
+ #define CONFIG_KEY_AT_SPI_ENABLED       "at-spi-enabled"
++#define CONFIG_KEY_ICON_SIZE            "icon-size"
+ 
+ #define CONFIG_GROUP_MONITOR            "monitor:"
+ #define CONFIG_KEY_BACKGROUND           "background"
+diff --git a/src/lightdm-gtk-greeter.c b/src/lightdm-gtk-greeter.c
+index 1373bbf..7c3ecf8 100644
+--- a/src/lightdm-gtk-greeter.c
++++ b/src/lightdm-gtk-greeter.c
+@@ -1051,9 +1051,9 @@ set_session (const gchar *session)
+                     gchar* icon_name = g_strdup_printf ("%s_badge-symbolic", session_name);
+                     g_free (session_name);
+                     if (gtk_icon_theme_has_icon (icon_theme, icon_name))
+-                        gtk_image_set_from_icon_name (GTK_IMAGE (session_badge), icon_name, GTK_ICON_SIZE_MENU);
++                        gtk_image_set_from_icon_name (GTK_IMAGE (session_badge), icon_name, config_get_int (NULL, CONFIG_KEY_ICON_SIZE, GTK_ICON_SIZE_MENU));
+                     else
+-                        gtk_image_set_from_icon_name (GTK_IMAGE (session_badge), "document-properties-symbolic", GTK_ICON_SIZE_MENU);
++                        gtk_image_set_from_icon_name (GTK_IMAGE (session_badge), "document-properties-symbolic", config_get_int (NULL, CONFIG_KEY_ICON_SIZE, GTK_ICON_SIZE_MENU));
+                     g_free (icon_name);
+                     break;
+                 }
+@@ -3177,9 +3177,9 @@ main (int argc, char **argv)
+         GSList *sessions = NULL;
+ 
+         if (gtk_icon_theme_has_icon (icon_theme, "document-properties-symbolic"))
+-            session_badge = gtk_image_new_from_icon_name ("document-properties-symbolic", GTK_ICON_SIZE_MENU);
++            session_badge = gtk_image_new_from_icon_name ("document-properties-symbolic", config_get_int (NULL, CONFIG_KEY_ICON_SIZE, GTK_ICON_SIZE_MENU));
+         else
+-            session_badge = gtk_image_new_from_icon_name ("document-properties", GTK_ICON_SIZE_MENU);
++            session_badge = gtk_image_new_from_icon_name ("document-properties", config_get_int (NULL, CONFIG_KEY_ICON_SIZE, GTK_ICON_SIZE_MENU));
+         gtk_widget_show (session_badge);
+         gtk_container_add (GTK_CONTAINER (session_menuitem), session_badge);
+ 
+@@ -3241,9 +3241,9 @@ main (int argc, char **argv)
+     if (gtk_widget_get_visible (a11y_menuitem))
+     {
+         if (gtk_icon_theme_has_icon (icon_theme, "preferences-desktop-accessibility-symbolic"))
+-            image = gtk_image_new_from_icon_name ("preferences-desktop-accessibility-symbolic", GTK_ICON_SIZE_MENU);
++            image = gtk_image_new_from_icon_name ("preferences-desktop-accessibility-symbolic", config_get_int (NULL, CONFIG_KEY_ICON_SIZE, GTK_ICON_SIZE_MENU));
+         else
+-            image = gtk_image_new_from_icon_name ("preferences-desktop-accessibility", GTK_ICON_SIZE_MENU);
++            image = gtk_image_new_from_icon_name ("preferences-desktop-accessibility", config_get_int (NULL, CONFIG_KEY_ICON_SIZE, GTK_ICON_SIZE_MENU));
+         gtk_widget_show (image);
+         gtk_container_add (GTK_CONTAINER (a11y_menuitem), image);
+     }
+@@ -3270,9 +3270,9 @@ main (int argc, char **argv)
+     if (gtk_widget_get_visible (power_menuitem))
+     {
+         if (gtk_icon_theme_has_icon (icon_theme, "system-shutdown-symbolic"))
+-            image = gtk_image_new_from_icon_name ("system-shutdown-symbolic", GTK_ICON_SIZE_MENU);
++            image = gtk_image_new_from_icon_name ("system-shutdown-symbolic", config_get_int (NULL, CONFIG_KEY_ICON_SIZE, GTK_ICON_SIZE_MENU));
+         else
+-            image = gtk_image_new_from_icon_name ("system-shutdown", GTK_ICON_SIZE_MENU);
++            image = gtk_image_new_from_icon_name ("system-shutdown", config_get_int (NULL, CONFIG_KEY_ICON_SIZE, GTK_ICON_SIZE_MENU));
+         gtk_widget_show (image);
+         gtk_container_add (GTK_CONTAINER (power_menuitem), image);
+ 
+-- 
+2.45.2
+

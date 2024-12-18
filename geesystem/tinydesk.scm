@@ -1,4 +1,5 @@
 (define-module (geesystem tinydesk)
+  #:use-module (gee packages display-managers)
   #:use-module (gnu bootloader)
   #:use-module (gnu bootloader grub)
   #:use-module (gnu home)
@@ -164,6 +165,14 @@ root ALL=(ALL) ALL
       
       (service lightdm-service-type
                (lightdm-configuration
+                (greeters
+                 (list (lightdm-gtk-greeter-configuration
+                        (lightdm-gtk-greeter lightdm-gtk-greeter-gee)
+                        (extra-config
+                         (list "font-name=San 11"
+                               "icon-size=64"
+                               "xft-dpi=140"
+                               "clock-format=%Y-%m-%d %H:%M")))))
                 (xorg-configuration
                  (xorg-configuration
                   ;; The QXL virtual GPU driver is added to provide a better
