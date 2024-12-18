@@ -169,10 +169,14 @@ root ALL=(ALL) ALL
                  (list (lightdm-gtk-greeter-configuration
                         (lightdm-gtk-greeter lightdm-gtk-greeter-gee)
                         (extra-config
-                         (list "font-name=San 11"
-                               "icon-size=64"
-                               "xft-dpi=140"
-                               "clock-format=%Y-%m-%d %H:%M")))))
+                         (list "font-name = San 10"
+                               "icon-size = 64"
+                               "xft-dpi = 140"
+                               "clock-format = %Y-%m-%d %H:%M"
+                               ;; We need to use "~~" to generate a tilde, for
+                               ;; extra-config sting will be handle as
+                               ;; control-string of format function.
+                               "indicators = ~~host;~~spacer;~~session;~~a11y;~~clock;~~power")))))
                 (xorg-configuration
                  (xorg-configuration
                   ;; The QXL virtual GPU driver is added to provide a better
