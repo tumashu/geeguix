@@ -1,11 +1,14 @@
-From 0e77f01a67833684e6be58e4cb7d950154150b7f Mon Sep 17 00:00:00 2001
+From ff39ac5309e214d2715f2e8dc089f11297dfa12e Mon Sep 17 00:00:00 2001
 From: Feng Shu <tumashu@163.com>
 Date: Wed, 18 Dec 2024 08:32:19 +0800
 Subject: [PATCH] Add icon-size option
 
-Description: add icon-size option
-Author: Vincent Lefevre <vincent@vinc17.net>
-Last-Update: 2018-02-23
+This commit come from lightdm-gg-icon_size.patch in
+https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=789273
+
+  Description: add icon-size option
+  Author: Vincent Lefevre <vincent@vinc17.net>
+  Last-Update: 2018-02-23
 ---
  data/lightdm-gtk-greeter.conf |  2 ++
  src/greeterconfiguration.h    |  1 +
@@ -33,17 +36,17 @@ index 858b40a..2ffdf34 100644
  #xft-antialias=
  #xft-dpi=
 diff --git a/src/greeterconfiguration.h b/src/greeterconfiguration.h
-index 3e77e93..695ad6d 100644
+index 3e77e93..72140cb 100644
 --- a/src/greeterconfiguration.h
 +++ b/src/greeterconfiguration.h
-@@ -42,6 +42,7 @@
- #define CONFIG_KEY_KEYBOARD_POSITION    "keyboard-position"
- #define CONFIG_KEY_A11Y_STATES          "a11y-states"
- #define CONFIG_KEY_AT_SPI_ENABLED       "at-spi-enabled"
+@@ -21,6 +21,7 @@
+ #define CONFIG_KEY_SCREENSAVER_TIMEOUT  "screensaver-timeout"
+ #define CONFIG_KEY_THEME                "theme-name"
+ #define CONFIG_KEY_ICON_THEME           "icon-theme-name"
 +#define CONFIG_KEY_ICON_SIZE            "icon-size"
- 
- #define CONFIG_GROUP_MONITOR            "monitor:"
- #define CONFIG_KEY_BACKGROUND           "background"
+ #define CONFIG_KEY_CURSOR_THEME         "cursor-theme-name"
+ #define CONFIG_KEY_CURSOR_THEME_SIZE    "cursor-theme-size"
+ #define CONFIG_KEY_FONT                 "font-name"
 diff --git a/src/lightdm-gtk-greeter.c b/src/lightdm-gtk-greeter.c
 index 1373bbf..7c3ecf8 100644
 --- a/src/lightdm-gtk-greeter.c
