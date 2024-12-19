@@ -1,5 +1,6 @@
 (define-module (geesystem tinydesk)
   #:use-module (gee packages display-managers)
+  #:use-module (gee services lightdm)
   #:use-module (gnu bootloader)
   #:use-module (gnu bootloader grub)
   #:use-module (gnu home)
@@ -17,7 +18,6 @@
   #:use-module (gnu services desktop)
   #:use-module (gnu services guix)
   #:use-module (gnu services linux)
-  #:use-module (gnu services lightdm)
   #:use-module (gnu services mcron)
   #:use-module (gnu services networking)
   #:use-module (gnu services pm)
@@ -166,7 +166,13 @@ root ALL=(ALL) ALL
       (service lightdm-service-type
                (lightdm-configuration
                 (greeters
-                 (list (lightdm-gtk-greeter-configuration
+                 (list (lightdm-greeter-general-configuration
+                        (greeter-package slick-greeter)
+                        (greeter-session-name "slick-greeter")
+                        (greeter-config-name "slick-greeter.conf")
+                        (config (list "[Greeter]"
+                                      "font-name = San 10")))
+                       (lightdm-gtk-greeter-configuration
                         (lightdm-gtk-greeter lightdm-gtk-greeter-gee)
                         (extra-config
                          (list "font-name = San 10"
@@ -177,6 +183,11 @@ root ALL=(ALL) ALL
                                ;; extra-config sting will be handle as
                                ;; control-string of format function.
                                "indicators = ~~host;~~spacer;~~session;~~a11y;~~clock;~~power")))))
+                (seats
+                 (list (lightdm-seat-configuration
+                        (name "*")
+                        (greeter-session 'slick-greeter))))
+
                 (xorg-configuration
                  (xorg-configuration
                   ;; The QXL virtual GPU driver is added to provide a better
