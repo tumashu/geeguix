@@ -59,9 +59,9 @@
             lightdm-gtk-greeter-configuration?
             lightdm-gtk-greeter-configuration-lightdm-gtk-greeter
             lightdm-gtk-greeter-configuration-greeter-package
+            lightdm-gtk-greeter-configuration-assets
             lightdm-gtk-greeter-configuration-greeter-config-name
             lightdm-gtk-greeter-configuration-greeter-session-name
-            lightdm-gtk-greeter-configuration-assets
             lightdm-gtk-greeter-configuration-theme-name
             lightdm-gtk-greeter-configuration-icon-theme-name
             lightdm-gtk-greeter-configuration-cursor-theme-name
@@ -73,11 +73,10 @@
 
             lightdm-greeter-general-configuration
             lightdm-greeter-general-configuration?
-            lightdm-greeter-general-configuration-greeter-session-name
-            lightdm-greeter-general-configuration-geeter-package
+            lightdm-greeter-general-configuration-greeter-package
             lightdm-greeter-general-configuration-assets
             lightdm-greeter-general-configuration-greeter-config-name
-            lightdm-greeter-general-configuration-user
+            lightdm-greeter-general-configuration-greeter-session-name
             lightdm-greeter-general-configuration-config
 
             lightdm-configuration
@@ -148,7 +147,7 @@
 (define-configuration lightdm-gtk-greeter-configuration
   (local-eval-environment
    (local-eval-environment (the-environment))
-   "Recode the environment lightdm-gtk-greeter-configuration is defined."
+   "Recode the environment where lightdm-gtk-greeter-configuration is defined."
    empty-serializer)
   (greeter-session-name
    (string "lightdm-gtk-greeter")
@@ -173,7 +172,7 @@ icon themes."
    empty-serializer)
   (greeter-config-name
    (string "lightdm-gtk-greeter.conf")
-   "Config file name in /etc/lightdm"
+   "Greeter config file name in /etc/lightdm directory."
    empty-serializer)
   (theme-name
    (string "Adwaita")
@@ -214,11 +213,7 @@ configuration file."))
 (define-configuration lightdm-greeter-general-configuration
   (local-eval-environment
    (local-eval-environment (the-environment))
-   "Recode the environment lightdm-greeter-general-configuration is defined"
-   empty-serializer)
-  (greeter-session-name
-   maybe-string
-   "Session name used in lightdm.conf"
+   "Recode the environment where lightdm-greeter-general-configuration is defined."
    empty-serializer)
   (greeter-package
    maybe-file-like
@@ -235,7 +230,11 @@ icon themes."
    empty-serializer)
   (greeter-config-name
    maybe-string
-   "Config file name in /etc/lightdm"
+   "Greeter config file name in /etc/lightdm directory."
+   empty-serializer)
+  (greeter-session-name
+   maybe-string
+   "Session name used in lightdm.conf"
    empty-serializer)
   (config
    (list-of-strings '())
@@ -262,9 +261,9 @@ icon themes."
 (define (greeter-configuration->greeter-fields config)
   "Return the fields of CONFIG, a greeter configuration."
   (let* ((type-name (config->type-name config))
-         (fields-variable (string->symbol (string-append type-name "-fields")))
+         (variable (string->symbol (string-append type-name "-fields")))
          (eval-env (greeter-configuration-field config 'local-eval-environment)))
-    (local-eval fields-variable eval-env)))
+    (local-eval variable eval-env)))
 
 (define (greeter-configuration->packages config)
   "Return the list of greeter packages, including assets, used by CONFIG, a
@@ -346,8 +345,6 @@ easily added to XDG_CONF_DIRS."
 
 (define-maybe greeter-session)
 
-(define-maybe string)
-
 ;;; Note: all the fields except for the seat name should be 'maybe's, since
 ;;; the real default value is set by the %lightdm-seat-default define later,
 ;;; and this avoids repeating ourselves in the serialized configuration file.
@@ -421,6 +418,7 @@ start script.  It can be refined per seat via the @code{xserver-command} of
 the @code{<lightdm-seat-configuration>} record, if desired.")
   (greeters
    (list-of-greeter-configurations
+    ;; Remove all configurations which has no config-name.
     (filter (lambda (cfg)
               (string? (greeter-configuration->conf-name cfg)))
             (list (lightdm-gtk-greeter-configuration)
@@ -510,10 +508,10 @@ When unspecified, listen for any hosts/IP addresses.")
 
 (define (lightdm-configuration-file config)
   (match-record config <lightdm-configuration>
-    (xorg-configuration seats
-                        xdmcp? xdmcp-listen-address
-                        vnc-server? vnc-server-command vnc-server-listen-address vnc-server-port
-                        extra-config)
+                (xorg-configuration seats
+                                    xdmcp? xdmcp-listen-address
+                                    vnc-server? vnc-server-command vnc-server-listen-address vnc-server-port
+                                    extra-config)
     (apply
      mixed-text-file
      "lightdm.conf" "
