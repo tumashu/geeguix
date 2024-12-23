@@ -155,8 +155,8 @@
    "Session name used in lightdm.conf"
    empty-serializer)
   (lightdm-gtk-greeter
-   (file-like lightdm-gtk-greeter)
-   "The lightdm-gtk-greeter package to use."
+   maybe-file-like
+   "Keep it for compatibility, use greeter-package field instead."
    empty-serializer)
   (greeter-package
    (file-like lightdm-gtk-greeter)
@@ -271,7 +271,12 @@ icon themes."
 greeter configuration."
   (filter file-like?
           (cons
-           (greeter-configuration-field config 'greeter-package)
+           (if (eq? (config->type-name config) 'lightdm-gtk-greeter-configuration)
+               ;; Handle lightdm-gtk-greeter field for keeping it for compatibility.
+               (if (file-like? (greeter-configuration-field config 'lightdm-gtk-greeter))
+                   (greeter-configuration-field config 'lightdm-gtk-greeter)
+                   (greeter-configuration-field config 'greeter-package))
+               (greeter-configuration-field config 'greeter-package))
            (greeter-configuration-field config 'assets))))
 
 ;;; TODO: Implement directly in (gnu services configuration), perhaps by
