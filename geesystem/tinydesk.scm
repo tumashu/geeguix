@@ -178,7 +178,10 @@ root ALL=(ALL) ALL
                         (greeter-session-name "lightdm-mini-greeter")
                         (greeter-config-name "lightdm-mini-greeter.conf")
                         (config (list "[greeter]"
-                                      "user = guest")))
+                                      "user = guest"
+                                      "[greeter-hotkeys]"
+                                      "mod-key = control"
+                                      "session-key = e")))
                        (lightdm-greeter-general-configuration)
                        (lightdm-gtk-greeter-configuration
                         (lightdm-gtk-greeter lightdm-gtk-greeter-gee)
@@ -194,7 +197,7 @@ root ALL=(ALL) ALL
                 (seats
                  (list (lightdm-seat-configuration
                         (name "*")
-                        (greeter-session 'slick-greeter))))
+                        (greeter-session 'lightdm-mini-greeter))))
 
                 (xorg-configuration
                  (xorg-configuration
