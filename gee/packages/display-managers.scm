@@ -1,53 +1,30 @@
-;; (define-module (gee packages display-managers)
-;;   #:use-module (gee packages)
-;;   #:use-module (guix packages)
-;;   #:use-module (guix download)
-;;   #:use-module (gnu packages display-managers))
-
 (define-module (gee packages display-managers)
   #:use-module (gee packages)
   #:use-module ((guix licenses) #:prefix license:)
   #:use-module (guix packages)
   #:use-module (guix download)
   #:use-module (guix git-download)
-  #:use-module (guix build-system cmake)
-  #:use-module (guix build-system copy)
-  #:use-module (guix build-system qt)
-  #:use-module (guix build-system gnu)
   #:use-module (guix build-system glib-or-gtk)
   #:use-module (guix build-system meson)
-  #:use-module (guix build-system trivial)
   #:use-module (guix packages)
   #:use-module (guix utils)
   #:use-module (guix gexp)
   #:use-module (gnu packages)
   #:use-module (gnu packages autotools)
-  #:use-module (gnu packages admin)
-  #:use-module (gnu packages base)
   #:use-module (gnu packages bash)
-  #:use-module (gnu packages crypto)
   #:use-module (gnu packages cinnamon)
   #:use-module (gnu packages display-managers)
-  #:use-module (gnu packages fontutils)
   #:use-module (gnu packages freedesktop)
   #:use-module (gnu packages gettext)
-  #:use-module (gnu packages gl)
-  #:use-module (gnu packages glib)
   #:use-module (gnu packages gnome)
-  #:use-module (gnu packages gnupg)
+  #:use-module (gnu packages glib)
   #:use-module (gnu packages gtk)
   #:use-module (gnu packages guile)
-  #:use-module (gnu packages image)
-  #:use-module (gnu packages kde-frameworks)
   #:use-module (gnu packages libcanberra)
-  #:use-module (gnu packages linux)
   #:use-module (gnu packages pkg-config)
   #:use-module (gnu packages python)
-  #:use-module (gnu packages qt)
   #:use-module (gnu packages xdisorg)
-  #:use-module (gnu packages xfce)
   #:use-module (gnu packages xorg))
-
 
 (define-public lightdm-gtk-greeter-gee
   (package
@@ -98,19 +75,19 @@
             (lambda* (#:key outputs #:allow-other-keys)
               (wrap-script (search-input-file
                             outputs "bin/slick-greeter")
-                ;; Wrap GDK_PIXBUF_MODULE_FILE, so that the SVG loader is
-                ;; available at all times even outside of profiles, such as
-                ;; when used in the lightdm-service-type.  Otherwise, it
-                ;; wouldn't be able to display its own icons.
-                `("GDK_PIXBUF_MODULE_FILE" =
-                  (,(search-input-file
-                     outputs
-                     "lib/gdk-pixbuf-2.0/2.10.0/loaders.cache")))
-                `("XDG_DATA_DIRS" ":" prefix
-                  (,(string-append "/run/current-system/profile/share:"
-                                   (getenv "XDG_DATA_DIRS"))))
-                '("XCURSOR_PATH" ":" prefix
-                  ("/run/current-system/profile/share/icons")))))
+                           ;; Wrap GDK_PIXBUF_MODULE_FILE, so that the SVG loader is
+                           ;; available at all times even outside of profiles, such as
+                           ;; when used in the lightdm-service-type.  Otherwise, it
+                           ;; wouldn't be able to display its own icons.
+                           `("GDK_PIXBUF_MODULE_FILE" =
+                             (,(search-input-file
+                                outputs
+                                "lib/gdk-pixbuf-2.0/2.10.0/loaders.cache")))
+                           `("XDG_DATA_DIRS" ":" prefix
+                             (,(string-append "/run/current-system/profile/share:"
+                                              (getenv "XDG_DATA_DIRS"))))
+                           '("XCURSOR_PATH" ":" prefix
+                             ("/run/current-system/profile/share/icons")))))
           (add-after 'install 'wrap-program
             (lambda* (#:key outputs #:allow-other-keys)
               (for-each (lambda (prog)
@@ -159,7 +136,6 @@ cross-distribution and work pretty much anywhere, it supports HiDPI, If a
 default/chosen session isn't present on the system, it will scans for known
 sessions dirs and replaces the invalid session choice with a valid session.")
     (license license:gpl3)))
-
 
 (define-public lightdm-mini-greeter
   (package
