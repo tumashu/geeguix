@@ -273,14 +273,18 @@ icon themes."
   "Return the list of greeter packages, including assets, used by CONFIG, a
 greeter configuration."
   (filter file-like?
-          (cons
-           (if (eq? (config->type-name config) 'lightdm-gtk-greeter-configuration)
-               ;; Handle lightdm-gtk-greeter field for keeping it for compatibility.
-               (if (file-like? (greeter-configuration-field config 'lightdm-gtk-greeter))
-                   (greeter-configuration-field config 'lightdm-gtk-greeter)
-                   (greeter-configuration-field config 'greeter-package))
-               (greeter-configuration-field config 'greeter-package))
-           (greeter-configuration-field config 'assets))))
+          (cons (greeter-configuration->greeter-package config)
+                (greeter-configuration-field config 'assets))))
+
+(define (greeter-configuration->greeter-package config)
+  "Return greeter package used by CONFIG, a greeter configuration."
+  (let ((type-name (config->type-name config))
+        (pkg1 (greeter-configuration-field config 'greeter-package)))
+    (if (eq? type-name "lightdm-gtk-greeter-configuration")
+        ;; Handle lightdm-gtk-greeter field for keeping it for compatibility.
+        (let ((pkg2 (greeter-configuration-field config 'lightdm-gtk-greeter)))
+          (if (file-like? pkg2) pkg2 pkg1))
+        pkg1)))
 
 ;;; TODO: Implement directly in (gnu services configuration), perhaps by
 ;;; making the FIELDS argument optional.
