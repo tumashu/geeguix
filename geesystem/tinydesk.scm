@@ -144,6 +144,7 @@ export PATH=/run/setuid-programs:$PATH
                    "icecat"
                    "icecat-l10n:zh-CN"
                    "icewm"
+                   "openbox"
                    "thunar"
                    "x-resize"
                    "xrandr"
@@ -172,6 +173,13 @@ root ALL=(ALL) ALL
                         (greeter-config-name "slick-greeter.conf")
                         (config (list "[Greeter]"
                                       "font-name = San 10")))
+                       (lightdm-greeter-general-configuration
+                        (greeter-package lightdm-mini-greeter)
+                        (greeter-session-name "lightdm-mini-greeter")
+                        (greeter-config-name "lightdm-mini-greeter.conf")
+                        (config (list "[greeter]"
+                                      "user = guest")))
+                       (lightdm-greeter-general-configuration)
                        (lightdm-gtk-greeter-configuration
                         (lightdm-gtk-greeter lightdm-gtk-greeter-gee)
                         (extra-config

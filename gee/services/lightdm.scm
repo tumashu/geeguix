@@ -258,6 +258,10 @@ icon themes."
   (let ((rtd (struct-vtable config)))
     ((record-accessor rtd field) config)))
 
+(define (greeter-configuration->session-name config)
+  "Return the session name of CONFIG, a greeter configuration."
+  (greeter-configuration-field config 'greeter-session-name))
+
 (define (greeter-configuration->greeter-fields config)
   "Return the fields of CONFIG, a greeter configuration."
   (let* ((type-name (config->type-name config))
@@ -317,6 +321,15 @@ easily added to XDG_CONF_DIRS."
        (call-with-output-file #$output
          (lambda (port)
            (format port #$(serialize-configuration* config)))))))
+
+(define (greeter-configuration-valid? config)
+  "Check greeter-configuration CONFIG valid or not."
+  (let ((conf-name (greeter-configuration->conf-name config))
+        (session-name (greeter-configuration->session-name config)))
+    (and (string? conf-name)
+         (string? session-name)
+         (> (string-length conf-name) 0)
+         (> (string-length session-name) 0))))
 
 
 ;;;
@@ -393,13 +406,12 @@ lowercase string, such as @code{\"gnome\"}, @code{\"ratpoison\"}, etc.")
 (define (list-of-greeter-configurations? greeter-configs)
   (and ((list-of greeter-configuration?) greeter-configs)
        ;; Greeter configurations must also not be provided more than once.
-       (let* ((types (map (compose record-type-name struct-vtable)
-                          greeter-configs))
-              (dupes (filter (lambda (type)
-                               (< 1 (count (cut eq? type <>) types)))
-                             types)))
+       (let* ((conf-names (map greeter-configuration->conf-name greeter-configs))
+              (dupes (filter (lambda (conf-name)
+                               (< 1 (count (cut eq? conf-name <>) conf-names)))
+                             conf-names)))
          (unless (null? dupes)
-           (leave (G_ "duplicate greeter configurations: ~a~%") dupes)))))
+           (leave (G_ "Duplicate greeter configurations: ~a~%") dupes)))))
 
 (define-configuration/no-serialization lightdm-configuration
   (lightdm
@@ -418,11 +430,8 @@ start script.  It can be refined per seat via the @code{xserver-command} of
 the @code{<lightdm-seat-configuration>} record, if desired.")
   (greeters
    (list-of-greeter-configurations
-    ;; Remove all configurations which has no config-name.
-    (filter (lambda (cfg)
-              (string? (greeter-configuration->conf-name cfg)))
-            (list (lightdm-gtk-greeter-configuration)
-                  (lightdm-greeter-general-configuration))))
+    (list (lightdm-gtk-greeter-configuration)
+          (lightdm-greeter-general-configuration)))
    "The LightDM greeter configurations specifying the greeters to use.")
   (seats
    (list-of-seat-configurations (list (lightdm-seat-configuration
@@ -494,9 +503,7 @@ When unspecified, listen for any hosts/IP addresses.")
            (lambda (id)
              (if (find (lambda (greeter-config)
                          (let* ((id (symbol->string id))
-                                (name (greeter-configuration-field
-                                       greeter-config
-                                       'greeter-session-name)))
+                                (name (greeter-configuration->session-name greeter-config)))
                            (equal? id name)))
                        greeter-configurations)
                  #f                     ;happy path
@@ -575,7 +582,8 @@ and all the serialized greeter configurations from CONFIG."
                     (map (lambda (g)
                            `(,(greeter-configuration->conf-name g)
                              ,(greeter-configuration->file g)))
-                         (lightdm-configuration-greeters config)))))
+                         (filter greeter-configuration-valid?
+                                 (lightdm-configuration-greeters config))))))
 
 (define %lightdm-accounts
   (list (user-group (name "lightdm") (system? #t))
