@@ -335,7 +335,7 @@ easily added to XDG_CONF_DIRS."
 
 (define (greeter-session? value)
   (and (symbol? value)
-       (string-contains (symbol->string value) "-greeter" )))
+       (string-contains (symbol->string value) "greeter")))
 
 (define (serialize-greeter-session name value)
   (format #f "~a=~a~%" name value))
