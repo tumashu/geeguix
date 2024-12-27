@@ -334,8 +334,8 @@ easily added to XDG_CONF_DIRS."
 (define-maybe seat-type)
 
 (define (greeter-session? value)
-  (and (symbol? value)
-       (string-contains (symbol->string value) "greeter")))
+  (and (or (symbol? value) (string? value))
+       (string-contains (format #f "~a" value) "greeter")))
 
 (define (serialize-greeter-session name value)
   (format #f "~a=~a~%" name value))
@@ -486,7 +486,7 @@ When unspecified, listen for any hosts/IP addresses.")
           (filter-map
            (lambda (id)
              (if (find (lambda (greeter-config)
-                         (let* ((id (symbol->string id))
+                         (let* ((id (format #f "~a" id))
                                 (name (greeter-configuration->session-name greeter-config)))
                            (equal? id name)))
                        greeter-configurations)
@@ -499,10 +499,10 @@ When unspecified, listen for any hosts/IP addresses.")
 
 (define (lightdm-configuration-file config)
   (match-record config <lightdm-configuration>
-                (xorg-configuration seats
-                                    xdmcp? xdmcp-listen-address
-                                    vnc-server? vnc-server-command vnc-server-listen-address vnc-server-port
-                                    extra-config)
+    (xorg-configuration
+     seats xdmcp? xdmcp-listen-address
+     vnc-server? vnc-server-command vnc-server-listen-address vnc-server-port
+     extra-config)
     (apply
      mixed-text-file
      "lightdm.conf" "

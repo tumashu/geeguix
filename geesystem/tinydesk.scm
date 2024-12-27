@@ -197,7 +197,7 @@ root ALL=(ALL) ALL
                 (seats
                  (list (lightdm-seat-configuration
                         (name "*")
-                        (greeter-session 'lightdm-mini-greeter))))
+                        (greeter-session 'slick-greeter))))
 
                 (xorg-configuration
                  (xorg-configuration
