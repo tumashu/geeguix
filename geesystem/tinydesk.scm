@@ -140,6 +140,7 @@ export PATH=/run/setuid-programs:$PATH
      (append (map (compose list specification->package+output)
                   (list
                    "elementary-xfce-icon-theme"
+                   "guix-backgrounds"
                    "font-wqy-microhei"
                    "icecat"
                    "icecat-l10n:zh-CN"
@@ -172,7 +173,8 @@ root ALL=(ALL) ALL
                         (greeter-session-name "slick-greeter")
                         (greeter-config-name "slick-greeter.conf")
                         (config (list "[Greeter]"
-                                      "font-name = San 10")))
+                                      "font-name = San 12"
+                                      "background = /run/current-system/profile/share/backgrounds/guix/guix-checkered-16-9.svg")))
                        (lightdm-greeter-general-configuration
                         (greeter-package lightdm-mini-greeter)
                         (greeter-session-name "lightdm-mini-greeter")
