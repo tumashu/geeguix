@@ -72,51 +72,47 @@
                 (("/usr/share/wayland-sessions/")
                  "/run/current-system/profile/share/wayland-sessions/"))))
           (add-after 'glib-or-gtk-wrap 'custom-wrap
-            (lambda* (#:key outputs #:allow-other-keys)
-              (wrap-script (search-input-file
-                            outputs "bin/slick-greeter")
-                           ;; Wrap GDK_PIXBUF_MODULE_FILE, so that the SVG loader is
-                           ;; available at all times even outside of profiles, such as
-                           ;; when used in the lightdm-service-type.  Otherwise, it
-                           ;; wouldn't be able to display its own icons.
-                           `("GDK_PIXBUF_MODULE_FILE" =
-                             (,(search-input-file
-                                outputs
-                                "lib/gdk-pixbuf-2.0/2.10.0/loaders.cache")))
-                           `("XDG_DATA_DIRS" ":" prefix
-                             (,(string-append "/run/current-system/profile/share:"
-                                              (getenv "XDG_DATA_DIRS"))))
-                           '("XCURSOR_PATH" ":" prefix
-                             ("/run/current-system/profile/share/icons")))))
+            (lambda _
+              (wrap-script (string-append #$output "/bin/slick-greeter")
+                ;; Wrap GDK_PIXBUF_MODULE_FILE, so that the SVG loader is
+                ;; available at all times even outside of profiles, such as
+                ;; when used in the lightdm-service-type.  Otherwise, it
+                ;; wouldn't be able to display its own icons.
+                `("GDK_PIXBUF_MODULE_FILE" =
+                  (,(string-append
+                     #$output
+                     "/lib/gdk-pixbuf-2.0/2.10.0/loaders.cache")))
+                `("XDG_DATA_DIRS" ":" prefix
+                  (,(string-append "/run/current-system/profile/share:"
+                                   (getenv "XDG_DATA_DIRS"))))
+                '("XCURSOR_PATH" ":" prefix
+                  ("/run/current-system/profile/share/icons")))))
           (add-after 'install 'wrap-program
-            (lambda* (#:key outputs #:allow-other-keys)
-              (for-each (lambda (prog)
-                          (wrap-program (string-append #$output "/bin/" prog)
-                            `("GUIX_PYTHONPATH"      ":" prefix (,(getenv "GUIX_PYTHONPATH")))
-                            `("GI_TYPELIB_PATH" ":" prefix (,(getenv "GI_TYPELIB_PATH")))))
-                        '("slick-greeter-check-hidpi"
-                          "slick-greeter-set-keyboard-layout"
-                          "slick-greeter-enable-tap-to-click"))))
+            (lambda _
+              (for-each
+               (lambda (prog)
+                 (wrap-program (string-append #$output "/bin/" prog)
+                   `("GUIX_PYTHONPATH" ":" prefix (,(getenv "GUIX_PYTHONPATH")))
+                   `("GI_TYPELIB_PATH" ":" prefix (,(getenv "GI_TYPELIB_PATH")))))
+               '("slick-greeter-check-hidpi"
+                 "slick-greeter-set-keyboard-layout"
+                 "slick-greeter-enable-tap-to-click"))))
           (add-after 'install 'fix-.desktop-file
-            (lambda* (#:key outputs #:allow-other-keys)
-              (substitute* (search-input-file
-                            outputs
-                            "share/xgreeters/slick-greeter.desktop")
+            (lambda _
+              (substitute* (string-append
+                            #$output
+                            "/share/xgreeters/slick-greeter.desktop")
                 (("Exec=slick-greeter")
                  (string-append "Exec="
-                                (search-input-file
-                                 outputs "bin/slick-greeter")))))))))
+                                (string-append
+                                 #$output "/bin/slick-greeter")))))))))
     (native-inputs
      (list gettext-minimal
-           gnome-common
            (list glib "bin")
            pkg-config
            vala))
     (inputs
-     (list at-spi2-core
-           bash-minimal                 ;for wrap-program
-           dbus
-           dbus-glib
+     (list dbus
            gtk+
            guile-3.0
            libcanberra
@@ -125,10 +121,8 @@
            libxkbfile
            lightdm
            pixman
-           python-wrapper
            python-pygobject
-           shared-mime-info
-           xvfb-run))
+           python-wrapper))
     (synopsis "A slick-looking LightDM greeter")
     (home-page "https://github.com/linuxmint/slick-greeter")
     (description "Slick-Greeter is a fork of Unity Greeter 16.04.2, it is
@@ -164,14 +158,14 @@ sessions dirs and replaces the invalid session choice with a valid session.")
                 (("\\$\\(sysconfdir)/lightdm/lightdm-mini-greeter.conf")
                  "/etc/lightdm/lightdm-mini-greeter.conf"))))
           (add-after 'install 'fix-.desktop-file
-            (lambda* (#:key outputs #:allow-other-keys)
-              (substitute* (search-input-file
-                            outputs
-                            "share/xgreeters/lightdm-mini-greeter.desktop")
+            (lambda _
+              (substitute* (string-append
+                            #$output
+                            "/share/xgreeters/lightdm-mini-greeter.desktop")
                 (("Exec=lightdm-mini-greeter")
                  (string-append "Exec="
-                                (search-input-file
-                                 outputs "bin/lightdm-mini-greeter")))))))))
+                                (string-append
+                                 #$output "/bin/lightdm-mini-greeter")))))))))
     (native-inputs
      (list autoconf automake pkg-config))
     (inputs
