@@ -60,9 +60,12 @@
       #:phases
       #~(modify-phases %standard-phases
           (add-after 'unpack 'patch-hardcoded-paths
-            (lambda _
+            (lambda* (#:key inputs #:allow-other-keys)
               (substitute* '("src/slick-greeter.vala"
-                             "src/session-list.vala")
+                             "src/session-list.vala"
+                             "src/user-list.vala")
+                (("/usr/bin/numlockx")
+                 (search-input-file inputs "/bin/numlockx"))
                 (("/usr/bin/slick-greeter-")
                  (string-append #$output "/bin/slick-greeter-"))
                 (("/usr/share/slick-greeter/badges/")
@@ -70,7 +73,9 @@
                 (("/usr/share/xsessions/")
                  "/run/current-system/profile/share/xsessions/")
                 (("/usr/share/wayland-sessions/")
-                 "/run/current-system/profile/share/wayland-sessions/"))))
+                 "/run/current-system/profile/share/wayland-sessions/")
+                (("/usr/share/backgrounds/")
+                 "/run/current-system/profile/share/backgrounds/"))))
           (add-after 'glib-or-gtk-wrap 'custom-wrap
             (lambda _
               (wrap-script (string-append #$output "/bin/slick-greeter")
@@ -120,6 +125,7 @@
            libxapp
            libxkbfile
            lightdm
+           numlockx
            pixman
            python-pygobject
            python-wrapper))
