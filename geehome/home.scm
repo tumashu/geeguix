@@ -43,6 +43,7 @@
 
         ;; 开发工具
         "make"
+        "mumi"
 
         ;; Emacs
         "emacs-gee"
