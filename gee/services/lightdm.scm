@@ -20,7 +20,6 @@
   #:use-module (guix i18n)
   #:use-module (guix records)
   #:use-module (ice-9 format)
-  #:use-module (ice-9 local-eval)
   #:use-module (ice-9 match)
   #:use-module (srfi srfi-1)
   #:use-module (srfi srfi-26)
@@ -59,6 +58,8 @@
             lightdm-greeter-general-configuration-greeter-session-name
             lightdm-greeter-general-configuration-config
 
+            greeter-configuration-file-info
+
             lightdm-configuration
             lightdm-configuration?
             lightdm-configuration-lightdm
@@ -79,9 +80,6 @@
 ;;;
 ;;; Greeters.
 ;;;
-
-(define (local-eval-environment? value)
-  #t)
 
 (define list-of-file-likes?
   (list-of file-like?))
@@ -125,10 +123,6 @@
   (string-join value "\n"))
 
 (define-configuration lightdm-gtk-greeter-configuration
-  (local-eval-environment
-   (local-eval-environment (the-environment))
-   "Recode the environment where lightdm-gtk-greeter-configuration is defined."
-   empty-serializer)
   (greeter-session-name
    (string "lightdm-gtk-greeter")
    "Session name used in lightdm.conf"
@@ -191,10 +185,6 @@ Provider Interface (AT-SPI).")
 configuration file."))
 
 (define-configuration lightdm-greeter-general-configuration
-  (local-eval-environment
-   (local-eval-environment (the-environment))
-   "Recode the environment where lightdm-greeter-general-configuration is defined."
-   empty-serializer)
   (greeter-package
    maybe-file-like
    "The greeter package to use."
@@ -242,12 +232,18 @@ icon themes."
   "Return the session name of CONFIG, a greeter configuration."
   (greeter-configuration-field config 'greeter-session-name))
 
-(define (greeter-configuration->greeter-fields config)
-  "Return the fields of CONFIG, a greeter configuration."
-  (let* ((type-name (config->type-name config))
-         (variable (string->symbol (string-append type-name "-fields")))
-         (eval-env (greeter-configuration-field config 'local-eval-environment)))
-    (local-eval variable eval-env)))
+(define (greeter-configuration->conf-name config)
+  "Return the file name of CONFIG, a greeter configuration."
+  (greeter-configuration-field config 'greeter-config-name))
+
+(define (greeter-configuration-valid? config)
+  "Check greeter-configuration CONFIG valid or not."
+  (let ((conf-name (greeter-configuration->conf-name config))
+        (session-name (greeter-configuration->session-name config)))
+    (and (string? conf-name)
+         (string? session-name)
+         (> (string-length conf-name) 0)
+         (> (string-length session-name) 0))))
 
 (define (greeter-configuration->packages config)
   "Return the list of greeter packages, including assets, used by CONFIG, a
@@ -266,29 +262,9 @@ greeter configuration."
           (if (file-like? pkg2) pkg2 pkg1))
         pkg1)))
 
-;;; TODO: Implement directly in (gnu services configuration), perhaps by
-;;; making the FIELDS argument optional.
-(define (serialize-configuration* config)
-  "Like `serialize-configuration', but not requiring to provide a FIELDS
-argument."
-  (define fields (greeter-configuration->greeter-fields config))
-  (serialize-configuration config fields))
-
-(define (greeter-configuration->conf-name config)
-  "Return the file name of CONFIG, a greeter configuration."
-  (greeter-configuration-field config 'greeter-config-name))
-
-(define (greeter-configuration->file config)
-  "Serialize CONFIG into a file under the output directory, so that it can be
-easily added to XDG_CONF_DIRS."
-  (let* ((type-name (config->type-name config))
-         (func-name (string->symbol
-                     (string-append
-                      "greeter-configuration->file/" type-name)))
-         (eval-env (greeter-configuration-field config 'local-eval-environment)))
-    (local-eval `(,func-name ,config) eval-env)))
-
-(define (greeter-configuration->file/lightdm-gtk-greeter-configuration config)
+(define (lightdm-gtk-greeter-configuration->file config)
+  "Serialize CONFIG (lightdm-gtk-greeter-configuration) into a file under the
+output directory, so that it can be easily added to XDG_CONF_DIRS."
   (computed-file
    (greeter-configuration->conf-name config)
    #~(begin
@@ -296,24 +272,36 @@ easily added to XDG_CONF_DIRS."
          (lambda (port)
            (format port (string-append
                          "[greeter]\n"
-                         #$(serialize-configuration* config))))))))
+                         #$(serialize-configuration
+                            config
+                            lightdm-gtk-greeter-configuration-fields))))))))
 
-(define (greeter-configuration->file/lightdm-greeter-general-configuration config)
+(define (lightdm-greeter-general-configuration->file config)
+  "Serialize CONFIG (lightdm-greeter-general-configuration) into a file under the
+output directory, so that it can be easily added to XDG_CONF_DIRS."
   (computed-file
    (greeter-configuration->conf-name config)
    #~(begin
        (call-with-output-file #$output
          (lambda (port)
-           (format port #$(serialize-configuration* config)))))))
+           (format port #$(serialize-configuration
+                           config
+                           lightdm-greeter-general-configuration-fields)))))))
 
-(define (greeter-configuration-valid? config)
-  "Check greeter-configuration CONFIG valid or not."
-  (let ((conf-name (greeter-configuration->conf-name config))
-        (session-name (greeter-configuration->session-name config)))
-    (and (string? conf-name)
-         (string? session-name)
-         (> (string-length conf-name) 0)
-         (> (string-length session-name) 0))))
+;; The info used by greeter-configuration->file.
+(define greeter-configuration-file-info
+  `(("lightdm-gtk-greeter-configuration" .
+     ,lightdm-gtk-greeter-configuration->file)
+    ("lightdm-greeter-general-configuration" .
+     ,lightdm-greeter-general-configuration->file)))
+
+(define (greeter-configuration->file config)
+  "Serialize CONFIG into a file under the output directory, so that it can be
+easily added to XDG_CONF_DIRS."
+  (let* ((type-name (config->type-name config))
+         (func (assoc-ref greeter-configuration-file-info type-name)))
+    (when (procedure? func)
+      (func config))))
 
 
 ;;;
