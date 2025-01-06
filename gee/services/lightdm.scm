@@ -302,7 +302,7 @@ easily added to XDG_CONF_DIRS."
          (func (assoc-ref greeter-configuration-file-info type-name)))
     (if (procedure? func)
         (func config)
-        (error "Can not find serialize function for type name" type-name))))
+        (leave (G_ "Can not find serialize function for greeter config type: ~a~%") type-name))))
 
 
 ;;;
