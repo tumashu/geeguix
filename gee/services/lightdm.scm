@@ -300,8 +300,9 @@ output directory, so that it can be easily added to XDG_CONF_DIRS."
 easily added to XDG_CONF_DIRS."
   (let* ((type-name (config->type-name config))
          (func (assoc-ref greeter-configuration-file-info type-name)))
-    (when (procedure? func)
-      (func config))))
+    (if (procedure? func)
+        (func config)
+        (error "Can not find serialize function for type name" type-name))))
 
 
 ;;;
