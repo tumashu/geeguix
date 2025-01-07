@@ -142,6 +142,7 @@ sessions dirs and replaces the invalid session choice with a valid session.")
         (revision "0"))
     (package
       (name "lightdm-mini-greeter")
+      ;; Version 0.5.1 release in 2021, so we use a recent commit.
       (version (git-version "0.5.1" revision commit))
       (source (origin
                 (method git-fetch)
@@ -180,7 +181,7 @@ sessions dirs and replaces the invalid session choice with a valid session.")
        (list gtk+ lightdm))
       (synopsis "Mini Greeter for LightDM")
       (home-page "https://github.com/prikhi/lightdm-mini-greeter")
-      (description "This package provide a minimal but highly configurable single-user GTK3
-greeter for LightDM, this greeter is inspired by the SLiM Display Manager and
-LightDM GTK3 Greeter.")
+      (description "This package provide a minimal but highly configurable
+single-user GTK3 greeter for LightDM, this greeter is inspired by the SLiM
+Display Manager and LightDM GTK3 Greeter.")
       (license license:gpl3))))
