@@ -38,7 +38,7 @@
 (define-public slick-greeter
   (package
     (name "slick-greeter")
-    (version "2.0.8")
+    (version "2.0.9")
     (source (origin
               (method git-fetch)
               (uri (git-reference
@@ -47,7 +47,7 @@
               (file-name (git-file-name name version))
               (sha256
                (base32
-                "0pk8d8mpnrh70xdi9mfn1h5xkrf09v06vbi1p1wzqdskzfh3ci1n"))))
+                "0d7w0pmjl6b67bgdakg27ivl2s1kj6g9khkfwxj7bkcsgqa80931"))))
     (build-system meson-build-system)
     (arguments
      (list
