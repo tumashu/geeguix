@@ -145,7 +145,6 @@ export PATH=/run/setuid-programs:$PATH
                    "icecat"
                    "icecat-l10n:zh-CN"
                    "icewm"
-                   "openbox"
                    "thunar"
                    "x-resize"
                    "xrandr"
@@ -176,7 +175,7 @@ root ALL=(ALL) ALL
                                       "font-name = San 12"
                                       "background = /run/current-system/profile/share/backgrounds/guix/guix-checkered-16-9.svg")))
                        (lightdm-greeter-general-configuration
-                        (greeter-package lightdm-mini-greeter)
+                        (greeter-package (customize-lightdm-tiny-greeter #:session "icewm"))
                         (greeter-session-name "lightdm-mini-greeter")
                         (greeter-config-name "lightdm-mini-greeter.conf")
                         (config (list "[greeter]"
@@ -184,6 +183,11 @@ root ALL=(ALL) ALL
                                       "[greeter-hotkeys]"
                                       "mod-key = control"
                                       "session-key = e")))
+                       (lightdm-greeter-general-configuration
+                        (greeter-package lightdm-tiny-greeter)
+                        (greeter-session-name "lightdm-tiny-greeter")
+                        (greeter-config-name "lightdm-tiny-greeter.conf")
+                        (config (list "## Lightdm-mini-greeter have no config, ignore it!")))
                        (lightdm-greeter-general-configuration)
                        (lightdm-gtk-greeter-configuration
                         (lightdm-gtk-greeter lightdm-gtk-greeter-gee)
@@ -199,7 +203,7 @@ root ALL=(ALL) ALL
                 (seats
                  (list (lightdm-seat-configuration
                         (name "*")
-                        (greeter-session 'slick-greeter))))
+                        (greeter-session 'lightdm-tiny-greeter))))
 
                 (xorg-configuration
                  (xorg-configuration

@@ -24,7 +24,9 @@
   #:use-module (gnu packages pkg-config)
   #:use-module (gnu packages python)
   #:use-module (gnu packages xdisorg)
-  #:use-module (gnu packages xorg))
+  #:use-module (gnu packages xorg)
+  #:export (customize-lightdm-tiny-greeter))
+
 
 (define-public lightdm-gtk-greeter-gee
   (package
@@ -185,3 +187,69 @@ sessions dirs and replaces the invalid session choice with a valid session.")
 single-user GTK3 greeter for LightDM, this greeter is inspired by the SLiM
 Display Manager and LightDM GTK3 Greeter.")
       (license license:gpl3))))
+
+(define-public lightdm-tiny-greeter
+  (let ((commit "6717c5853315ebd8164b1ddf85b9483f92cbcae8")
+        (revision "0"))
+    (package
+      (name "lightdm-tiny-greeter")
+      ;; Version 1.2 release in 2021, so we use a recent commit.
+      (version (git-version "1.2" revision commit))
+      (source (origin
+                (method git-fetch)
+                (uri (git-reference
+                      (url "https://github.com/tobiohlala/lightdm-tiny-greeter")
+                      (commit commit)))
+                (file-name (git-file-name name version))
+                (sha256
+                 (base32
+                  "1n970d6525fd918i1j09akxiacqbpxni8apkfi542bq5zg5crjbs"))))
+      (build-system glib-or-gtk-build-system)
+      (arguments
+       (list
+        #:tests? #f ; No test target.
+        #:phases
+        #~(modify-phases %standard-phases
+            (delete 'configure)
+            (add-after 'unpack 'patch-hardcoded-paths
+              (lambda _
+                (substitute* "Makefile"
+                  (("PREFIX = /usr")
+                   (string-append "PREFIX = " #$output))
+                  (("/usr/share/xgreeters")
+                   (string-append #$output "/share/xgreeters"))
+                  (("cp lightdm-tiny-greeter")
+                   "mkdir -p $(PREFIX)/bin; cp lightdm-tiny-greeter"))))
+            (add-after 'install 'fix-.desktop-file
+              (lambda _
+                (substitute* (string-append
+                              #$output "/share/xgreeters/lightdm-tiny-greeter.desktop")
+                  (("Exec=lightdm-tiny-greeter")
+                   (string-append "Exec="
+                                  (string-append
+                                   #$output "/bin/lightdm-tiny-greeter")))))))))
+      (native-inputs
+       (list autoconf automake pkg-config))
+      (inputs
+       (list gtk+ lightdm))
+      (synopsis "Tiny Greeter for LightDM")
+      (home-page "https://github.com/prikhi/lightdm-tiny-greeter")
+      (description "A tiny yet customizable GTK3 LightDM Greeter with focus on code and
+minimalism.")
+      (license license:bsd-3))))
+
+(define* (customize-lightdm-tiny-greeter #:key (session "default"))
+  "Make a customized lightdm-tiny-greeter package with SESSION."
+  (package
+    (inherit lightdm-tiny-greeter)
+    (name (string-append (package-name lightdm-tiny-greeter) "-" session))
+    (arguments
+     (substitute-keyword-arguments
+         (package-arguments lightdm-tiny-greeter)
+       ((#:phases phases)
+        #~(modify-phases #$phases
+            (add-after 'unpack 'patch-config-h
+              (lambda _
+                (substitute* "config.h"
+                  (("\\*session = \"default\";")
+                   (string-append "*session = \"" #$session "\";")))))))))))
