@@ -182,15 +182,15 @@ root ALL=(ALL) ALL
                                       "gtk-font-name = San 12"
                                       "wallpaper = /run/current-system/profile/share/backgrounds/guix/guix-checkered-16-9.svg"
                                       "show-indicators = true")))
-                       (lightdm-greeter-general-configuration
-                        (greeter-package lightdm-mini-greeter)
-                        (greeter-session-name "lightdm-mini-greeter")
-                        (greeter-config-name "lightdm-mini-greeter.conf")
-                        (config (list "[greeter]"
-                                      "user = guest"
-                                      "[greeter-hotkeys]"
-                                      "mod-key = control"
-                                      "session-key = e")))
+                       ;; (lightdm-greeter-general-configuration
+                       ;;  (greeter-package lightdm-mini-greeter)
+                       ;;  (greeter-session-name "lightdm-mini-greeter")
+                       ;;  (greeter-config-name "lightdm-mini-greeter.conf")
+                       ;;  (config (list "[greeter]"
+                       ;;                "user = guest"
+                       ;;                "[greeter-hotkeys]"
+                       ;;                "mod-key = control"
+                       ;;                "session-key = e")))
                        (lightdm-greeter-general-configuration
                         (greeter-package (customize-lightdm-tiny-greeter
                                           #:user_text "用户"
@@ -216,7 +216,7 @@ root ALL=(ALL) ALL
                 (seats
                  (list (lightdm-seat-configuration
                         (name "*")
-                        (greeter-session 'lightdm-tiny-greeter))))
+                        (greeter-session 'pi-greeter))))
 
                 (xorg-configuration
                  (xorg-configuration
