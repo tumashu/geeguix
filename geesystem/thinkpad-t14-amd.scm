@@ -243,6 +243,11 @@
                                      ;; extra-config sting will be handle as
                                      ;; control-string of format function.
                                      "indicators = ~~host;~~spacer;~~session;~~a11y;~~clock;~~power")))))
+                      (seats
+                       (list (lightdm-seat-configuration
+                              (name "*")
+                              (greeter-session 'lightdm-gtk-greeter)
+                              (user-session "xfce"))))
                       (xorg-configuration
                        (xorg-configuration
                         (server-arguments
