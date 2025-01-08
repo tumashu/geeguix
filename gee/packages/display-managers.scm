@@ -172,6 +172,22 @@ sessions dirs and replaces the invalid session choice with a valid session.")
                    (string-append #$output "/share/xgreeters"))
                   (("cp lightdm-tiny-greeter")
                    "mkdir -p $(PREFIX)/bin; cp lightdm-tiny-greeter"))))
+            (add-after 'glib-or-gtk-wrap 'custom-wrap
+              (lambda _
+                (wrap-script (string-append #$output "/bin/lightdm-tiny-greeter")
+                  ;; Wrap GDK_PIXBUF_MODULE_FILE, so that the SVG loader is
+                  ;; available at all times even outside of profiles, such as
+                  ;; when used in the lightdm-service-type.  Otherwise, it
+                  ;; wouldn't be able to display its own icons.
+                  `("GDK_PIXBUF_MODULE_FILE" =
+                    (,(string-append
+                       #$output
+                       "/lib/gdk-pixbuf-2.0/2.10.0/loaders.cache")))
+                  `("XDG_DATA_DIRS" ":" prefix
+                    (,(string-append "/run/current-system/profile/share:"
+                                     (getenv "XDG_DATA_DIRS"))))
+                  '("XCURSOR_PATH" ":" prefix
+                    ("/run/current-system/profile/share/icons")))))
             (add-after 'install 'fix-.desktop-file
               (lambda _
                 (substitute* (string-append
@@ -183,14 +199,16 @@ sessions dirs and replaces the invalid session choice with a valid session.")
       (native-inputs
        (list autoconf automake pkg-config))
       (inputs
-       (list gtk+ lightdm))
+       (list gtk+ guile-3.0 lightdm))
       (synopsis "Tiny Greeter for LightDM")
       (home-page "https://github.com/prikhi/lightdm-tiny-greeter")
       (description "A tiny yet customizable GTK3 LightDM Greeter with focus on code and
 minimalism.")
       (license license:bsd-3))))
 
-(define* (customize-lightdm-tiny-greeter #:key (session "default"))
+(define* (customize-lightdm-tiny-greeter #:key name session
+                                         user_text pass_text
+                                         fontname fontsize)
   "Make a customized lightdm-tiny-greeter package with SESSION."
   (package
     (inherit lightdm-tiny-greeter)
@@ -202,9 +220,26 @@ minimalism.")
         #~(modify-phases #$phases
             (add-after 'unpack 'patch-config-h
               (lambda _
-                (substitute* "config.h"
-                  (("\\*session = \"default\";")
-                   (string-append "*session = \"" #$session "\";")))))))))))
+                (when #$user_text
+                  (substitute* "config.h"
+                    (("\\*user_text = \"Username\";")
+                     (string-append "*user_text = \"" #$user_text "\";"))))
+                (when #$pass_text
+                  (substitute* "config.h"
+                    (("\\*pass_text = \"Password\";")
+                     (string-append "*pass_text = \"" #$pass_text "\";"))))
+                (when #$fontname
+                  (substitute* "config.h"
+                    (("DejaVu Sans Mono")
+                     #$fontname)))
+                (when #$fontsize
+                  (substitute* "config.h"
+                    (("font: 16px")
+                     (string-append "font: " #$fontsize "px"))))
+                (when #$session
+                  (substitute* "config.h"
+                    (("\\*session = \"default\";")
+                     (string-append "*session = \"" #$session "\";"))))))))))))
 
 (define-public pi-greeter
   (let ((commit "4acc867b4807000fbd31bafbd33fe35ef1eda39d")
@@ -283,6 +318,7 @@ minimalism.")
              gtk-layer-shell
              guile-3.0
              gobject-introspection
+             libindicator
              lightdm))
       (synopsis "A custom lightdm greeter for Raspberry Pi")
       (home-page "https://github.com/raspberrypi-ui/pi-greeter")
