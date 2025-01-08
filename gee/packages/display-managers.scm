@@ -212,7 +212,7 @@ minimalism.")
   "Make a customized lightdm-tiny-greeter package with SESSION."
   (package
     (inherit lightdm-tiny-greeter)
-    (name (string-append (package-name lightdm-tiny-greeter) "-" session))
+    (name (or name (string-append (package-name lightdm-tiny-greeter) "-" session)))
     (arguments
      (substitute-keyword-arguments
          (package-arguments lightdm-tiny-greeter)
