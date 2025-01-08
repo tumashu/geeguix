@@ -175,7 +175,7 @@ root ALL=(ALL) ALL
                                       "font-name = San 12"
                                       "background = /run/current-system/profile/share/backgrounds/guix/guix-checkered-16-9.svg")))
                        (lightdm-greeter-general-configuration
-                        (greeter-package (customize-lightdm-tiny-greeter #:session "icewm"))
+                        (greeter-package lightdm-mini-greeter)
                         (greeter-session-name "lightdm-mini-greeter")
                         (greeter-config-name "lightdm-mini-greeter.conf")
                         (config (list "[greeter]"
@@ -184,7 +184,7 @@ root ALL=(ALL) ALL
                                       "mod-key = control"
                                       "session-key = e")))
                        (lightdm-greeter-general-configuration
-                        (greeter-package lightdm-tiny-greeter)
+                        (greeter-package (customize-lightdm-tiny-greeter #:session "icewm"))
                         (greeter-session-name "lightdm-tiny-greeter")
                         (greeter-config-name "lightdm-tiny-greeter.conf")
                         (config (list "## Lightdm-mini-greeter have no config, ignore it!")))
