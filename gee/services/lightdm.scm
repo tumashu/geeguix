@@ -224,7 +224,7 @@ icon themes."
    (record-type-name (struct-vtable config))))
 
 (define (greeter-configuration-field config field)
-  "Return field value of config."
+  "Return the value of FIELD in CONFIG."
   (let ((rtd (struct-vtable config)))
     ((record-accessor rtd field) config)))
 
