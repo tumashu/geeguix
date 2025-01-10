@@ -1,0 +1,3 @@
+include toolbar
+includeprog icewm-menu-fdo --no-sep-others --seps --no-sub-cats -t xterm
+menuprog "显示器" computer icewm-menu-xrandr

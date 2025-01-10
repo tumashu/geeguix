@@ -1,0 +1,30 @@
+## 字体设置
+NormalButtonFontNameXft = "Sans:size=12"
+ClockFontNameXft = "Sans:size=11"
+MenuFontNameXft = "Sans:size=10"
+StatusFontNameXft = "Sans:size=10"
+TitleFontNameXft = "Sans:size=10.5"
+ToolTipFontNameXft = "Sans:size=9"
+ActiveTaskBarFontNameXft = "Sans:size=10"
+NormalTaskBarFontNameXft = "Sans:size=9.5"
+
+## 图标设置
+IconPath="~/.guix-profile/share/icons:~/.guix-home/profile/share/icons:/run/current-system/profile/share/icons:/usr/local/share/icons:/usr/local/share/pixmaps:/usr/share/icons:/usr/share/pixmaps"
+IconThemes="elementary-xfce:hicolor:-HighContrast"
+
+## 壁纸设置
+DesktopBackgroundCenter=1
+DesktopBackgroundScaled=1
+DesktopBackgroundImage="/run/current-system/profile/share/backgrounds/guix/guix-checkered-16-9.svg"
+
+## 窗口设置
+#SmartPlacement=0
+
+## 任务栏设置
+TaskbarButtonWidthDivisor=5
+TimeFormat="%m月%d日 %H:%M"
+TaskBarShowMailboxStatus=0
+MailCheckDelay=0
+
+## 工作区设置
+WorkspaceNames="1", "2"

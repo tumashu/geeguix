@@ -1,0 +1,4 @@
+prog "Terminal 终端" org.xfce.terminal.png xterm
+prog "Emacs 编辑器" emacs.png emacs
+prog "文件管理器" org.xfce.thunar.png thunar
+prog "网页浏览器" icecat.png icecat
