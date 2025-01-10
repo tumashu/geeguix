@@ -183,7 +183,7 @@
                    "dconf"
                    "dconf-editor"
                    "gvfs"
-                   "icewm"
+                   "icewm-gee"
                    "labwc"
                    "network-manager-applet"
                    "xrandr"

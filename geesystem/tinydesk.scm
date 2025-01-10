@@ -144,7 +144,7 @@ export PATH=/run/setuid-programs:$PATH
                    "font-wqy-microhei"
                    "icecat"
                    "icecat-l10n:zh-CN"
-                   "icewm"
+                   "icewm-gee"
                    "thunar"
                    "x-resize"
                    "xrandr"
