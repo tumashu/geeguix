@@ -39,13 +39,13 @@ DlgBorderSizeX=2
 DlgBorderSizeY=2
 
 ## 标题栏设置
-TitleBarHeight=24
+TitleBarHeight=20
 TitleBarJustify=50
 TitleBarHorzOffset=-40
-TitleButtonsLeft="s"
+TitleButtonsLeft="d"
 TitleButtonsRight="xmi"
-TitleButtonsSupported="xmis"
-ShowMenuButtonIcon=1
+TitleButtonsSupported="xmishd"
+ShowMenuButtonIcon=0
 
 ## 任务栏设置
 TaskBarEnableSystemTray=1
