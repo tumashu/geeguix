@@ -20,9 +20,9 @@ LabelFontNameXft="WenQuanYi Micro Hei:size=13,sans:size=13"
 
 ## 图标设置
 MenuIconSize=24
-SmallIconSize=32
-LargeIconSize=40
-HugeIconSize=48
+SmallIconSize=40
+LargeIconSize=48
+HugeIconSize=56
 IconThemes="elementary-xfce:Adwaita:gnome:Tango:hicolor:-HighContrast"
 IconPath="~/.guix-profile/share/icons:~/.guix-home/profile/share/icons:/run/current-system/profile/share/icons:/usr/local/share/icons:/usr/local/share/pixmaps:/usr/share/icons:/usr/share/pixmaps"
 
@@ -39,7 +39,7 @@ DlgBorderSizeX=2
 DlgBorderSizeY=2
 
 ## 标题栏设置
-TitleBarHeight=20
+TitleBarHeight=30
 TitleBarJustify=50
 TitleBarHorzOffset=-40
 TitleButtonsLeft="s"
@@ -49,14 +49,14 @@ ShowMenuButtonIcon=1
 
 ## 任务栏设置
 TaskBarEnableSystemTray=1
-TaskBarGraphHeight=30
+TaskBarGraphHeight=36
 TaskBarShowWindowIcons=1
 TaskbuttonIconOffset=2
 TaskBarClockLeds=0
 TaskbarButtonWidthDivisor=5
 TaskBarShowMailboxStatus=0
-TrayIconMaxWidth=26
-TrayIconMaxHeight=26
+TrayIconMaxWidth=36
+TrayIconMaxHeight=36
 PagerShowBorders=0
 TimeFormat="%m月%d日 %H:%M"
 MailCheckDelay=0

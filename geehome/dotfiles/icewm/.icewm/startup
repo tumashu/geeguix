@@ -1,3 +1,4 @@
 #!/bin/sh
 
+sleep 1 &&
 x-resize --debug &
