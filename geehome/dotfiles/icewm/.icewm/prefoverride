@@ -20,10 +20,10 @@ LabelFontNameXft="WenQuanYi Micro Hei:size=13,sans:size=13"
 
 ## 图标设置
 MenuIconSize=24
-SmallIconSize=28
-LargeIconSize=32
+SmallIconSize=32
+LargeIconSize=40
 HugeIconSize=48
-IconThemes="elementary-xfce:Tango:Adwaita:gnome:hicolor:-HighContrast"
+IconThemes="elementary-xfce:Adwaita:gnome:Tango:hicolor:-HighContrast"
 IconPath="~/.guix-profile/share/icons:~/.guix-home/profile/share/icons:/run/current-system/profile/share/icons:/usr/local/share/icons:/usr/local/share/pixmaps:/usr/share/icons:/usr/share/pixmaps"
 
 ## 壁纸设置
@@ -42,10 +42,10 @@ DlgBorderSizeY=2
 TitleBarHeight=20
 TitleBarJustify=50
 TitleBarHorzOffset=-40
-TitleButtonsLeft="d"
+TitleButtonsLeft="s"
 TitleButtonsRight="xmi"
 TitleButtonsSupported="xmishd"
-ShowMenuButtonIcon=0
+ShowMenuButtonIcon=1
 
 ## 任务栏设置
 TaskBarEnableSystemTray=1
