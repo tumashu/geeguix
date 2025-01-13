@@ -207,7 +207,7 @@ root ALL=(ALL) ALL
                  (list (lightdm-seat-configuration
                         (name "*")
                         (greeter-session 'pi-greeter)
-                        (user-session "icewm"))))
+                        (user-session "icewm-session"))))
 
                 (xorg-configuration
                  (xorg-configuration
