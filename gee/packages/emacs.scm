@@ -19,15 +19,15 @@
   #:use-module (srfi srfi-9 gnu))
 
 (define-public emacs-gee
-  (let ((commit "75ca15f2a3146b17fde5e2a50ad9102c6108ba7f")
-        (revision "1"))
+  (let ((commit "d66b8d4becb6804d3bd912a000dc64ccfdbe6810")
+        (revision "0"))
     (package
-      (inherit emacs)
+      (inherit emacs-next)
       (name "emacs-gee")
-      (version (git-version "29.4" revision commit))
+      (version (git-version "30.0.93" revision commit))
       (source
        (origin
-         (inherit (package-source emacs))
+         (inherit (package-source emacs-next))
          (method git-fetch)
          (uri (git-reference
                ;; Emacs git 下载速度太慢了，使用南京大学的 Emacs 镜像，同步延
@@ -36,22 +36,17 @@
                (url "https://mirrors.nju.edu.cn/git/emacs.git")
                (commit commit)))
          (file-name (git-file-name name version))
-         ;; emacs-source-date-epoch.patch is no longer necessary
-         (patches (search-patches
-                   "emacs-exec-path.patch"
-                   "emacs-fix-scheme-indent-function.patch"
-                   "emacs-native-comp-driver-options.patch"))
          (sha256
           (base32
-           "1ybmcb29n5nx7nvsfk0z1n9cx0lmxv92rprylamcqf1xg77xzjmz"))))
+           "0wwjvkhchxzwpa3f3iizqv3xc9pm6iz8q06grk64jkybqck8f28j"))))
       (inputs
-       (modify-inputs (package-inputs emacs)
+       (modify-inputs (package-inputs emacs-next)
          (delete "gtk+")
          (prepend tree-sitter)
          (prepend libxaw)
          (prepend sqlite)))
       (arguments
-       (substitute-keyword-arguments (package-arguments emacs)
+       (substitute-keyword-arguments (package-arguments emacs-next)
          ((#:configure-flags flags #~'())
           #~(list "--with-modules"
                   "--with-cairo"
