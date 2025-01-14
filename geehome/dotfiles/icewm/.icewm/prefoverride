@@ -39,7 +39,7 @@ DlgBorderSizeX=2
 DlgBorderSizeY=2
 
 ## 标题栏设置
-TitleBarHeight=30
+TitleBarHeight=26
 TitleBarJustify=50
 TitleBarHorzOffset=-40
 TitleButtonsLeft="s"
