@@ -167,32 +167,7 @@ root ALL=(ALL) ALL
       (service lightdm-service-type
                (lightdm-configuration
                 (greeters
-                 (list (lightdm-greeter-general-configuration
-                        (greeter-package slick-greeter)
-                        (greeter-session-name "slick-greeter")
-                        (greeter-config-name "slick-greeter.conf")
-                        (config (list "[Greeter]"
-                                      "font-name = Sans 12"
-                                      "background = /run/current-system/profile/share/backgrounds/guix/guix-checkered-16-9.svg")))
-                       (lightdm-greeter-general-configuration
-                        (greeter-package pi-greeter)
-                        (greeter-session-name "pi-greeter")
-                        (greeter-config-name "pi-greeter.conf")
-                        (config (list "[greeter]"
-                                      "gtk-font-name = San 12"
-                                      "desktop_bg = black")))
-                       (lightdm-greeter-general-configuration
-                        (greeter-package (customize-lightdm-tiny-greeter
-                                          #:user_text "用户"
-                                          #:pass_text "密码"
-                                          #:fontname "Sans"
-                                          #:fontsize "40"
-                                          #:session "icewm"))
-                        (greeter-session-name "lightdm-tiny-greeter")
-                        (greeter-config-name "lightdm-tiny-greeter.conf")
-                        (config (list "## Lightdm-mini-greeter have no config, ignore it!")))
-                       (lightdm-greeter-general-configuration)
-                       (lightdm-gtk-greeter-configuration
+                 (list (lightdm-gtk-greeter-configuration
                         (lightdm-gtk-greeter lightdm-gtk-greeter-gee)
                         (extra-config
                          (list "font-name = San 10"
@@ -206,7 +181,7 @@ root ALL=(ALL) ALL
                 (seats
                  (list (lightdm-seat-configuration
                         (name "*")
-                        (greeter-session 'pi-greeter)
+                        (greeter-session 'lightdm-gtk-greeter)
                         (user-session "icewm-session"))))
 
                 (xorg-configuration
