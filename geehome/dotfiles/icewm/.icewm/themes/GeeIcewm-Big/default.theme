@@ -50,11 +50,11 @@ ShowMenuButtonIcon=1
 
 ## 任务栏设置
 TaskBarEnableSystemTray=1
-TaskBarGraphHeight=40
+TaskBarGraphHeight=45
 TaskBarShowWindowIcons=1
 TaskbuttonIconOffset=2
-TrayIconMaxWidth=36
-TrayIconMaxHeight=36
+TrayIconMaxWidth=40
+TrayIconMaxHeight=40
 
 ## 颜色设置
 ColorNormalBorder="rgb:C0/C0/C0"

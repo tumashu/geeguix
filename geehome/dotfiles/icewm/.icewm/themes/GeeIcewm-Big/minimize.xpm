@@ -1,5 +1,5 @@
 /* XPM */
-static char *minimize[] = {
+static const char *minimize[] = {
 /* columns rows colors chars-per-pixel */
 "24 21 13 1 ",
 "  c black",
