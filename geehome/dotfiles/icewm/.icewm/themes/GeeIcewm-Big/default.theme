@@ -1,0 +1,82 @@
+ThemeDescription="GeeIcewm theme"
+ThemeAuthor="Feng Shu"
+Look=win95
+
+## 字体设置
+TitleFontNameXft="WenQuanYi Micro Hei:size=13,sans:size=13:bold"
+MenuFontNameXft="WenQuanYi Micro Hei:size=13,sans:size=13"
+StatusFontNameXft="WenQuanYi Micro Hei:size=13,sans:size=13"
+QuickSwitchFontNameXft="WenQuanYi Micro Hei:size=13,sans:size=13"
+NormalButtonFontNameXft="WenQuanYi Micro Hei:size=13,sans:size=13"
+ActiveButtonFontNameXft="WenQuanYi Micro Hei:size=13,sans:size=13"
+NormalTaskBarFontNameXft="WenQuanYi Micro Hei:size=13,sans:size=13"
+ActiveTaskBarFontNameXft="WenQuanYi Micro Hei:size=13,sans:size=13"
+ToolButtonFontNameXft="WenQuanYi Micro Hei:size=13,sans:size=13"
+NormalWorkspaceFontNameXft="WenQuanYi Micro Hei:size=13,sans:size=13"
+ActiveWorkspaceFontNameXft="WenQuanYi Micro Hei:size=13,sans:size=13:bold"
+MinimizedWindowFontNameXft="WenQuanYi Micro Hei:size=13,sans:size=13"
+ListBoxFontNameXft="WenQuanYi Micro Hei:size=13,sans:size=13"
+ToolTipFontNameXft="WenQuanYi Micro Hei:size=13,sans:size=13"
+ClockFontNameXft="WenQuanYi Micro Hei:size=13:bold,sans:size=13:bold"
+ApmFontNameXft="WenQuanYi Micro Hei:size=13,sans:size=13:bold"
+InputFontNameXft="WenQuanYi Micro Hei:size=13,sans:size=13"
+LabelFontNameXft="WenQuanYi Micro Hei:size=13,sans:size=13"
+
+## 图标设置
+MenuIconSize=32
+SmallIconSize=48
+LargeIconSize=56
+HugeIconSize=64
+
+## 壁纸设置
+DesktopBackgroundColor=""
+DesktopBackgroundCenter=0
+DesktopBackgroundScaled=1
+
+## 窗口设置
+BorderSizeX=2
+BorderSizeY=2
+DlgBorderSizeX=2
+DlgBorderSizeY=2
+
+## 标题栏设置
+TitleBarHeight=32
+TitleBarJustify=50
+TitleBarHorzOffset=-40
+TitleButtonsLeft="s"
+TitleButtonsRight="xmi"
+TitleButtonsSupported="xmishd"
+ShowMenuButtonIcon=1
+
+## 任务栏设置
+TaskBarEnableSystemTray=1
+TaskBarGraphHeight=40
+TaskBarShowWindowIcons=1
+TaskbuttonIconOffset=2
+TrayIconMaxWidth=36
+TrayIconMaxHeight=36
+
+## 颜色设置
+ColorNormalBorder="rgb:C0/C0/C0"
+ColorActiveBorder="rgb:C0/C0/C0"
+ColorNormalButton="rgb:C0/C0/C0"
+ColorNormalTitleBar="rgb:80/80/80"
+ColorActiveTitleBar="rgb:00/00/A0"
+ColorNormalTitleBarText="rgb:00/00/00"
+ColorActiveTitleBarText="rgb:FF/FF/FF"
+ColorNormalMenu="rgb:C0/C0/C0"
+ColorActiveMenuItem="rgb:00/00/A0"
+ColorNormalMenuItemText="rgb:00/00/00"
+ColorActiveMenuItemText="rgb:FF/FF/FF"
+ColorDisabledMenuItemText="rgb:80/80/80"
+ColorMoveSizeStatus="rgb:C0/C0/C0"
+ColorMoveSizeStatusText="rgb:00/00/00"
+ColorDefaultTaskBar="rgb:C0/C0/C0"
+ColorNormalTaskBarApp="rgb:C0/C0/C0"
+ColorNormalTaskBarAppText="rgb:00/00/00"
+ColorActiveTaskBarApp="rgb:E0/E0/E0"
+ColorActiveTaskBarAppText="rgb:00/00/00"
+ColorScrollBar="rgb:E0/E0/E0"
+ColorScrollBarSlider="rgb:C0/C0/C0"
+ColorScrollBarButton="rgb:C0/C0/C0"
+ColorScrollBarButtonArrow="rgb:00/00/00"
