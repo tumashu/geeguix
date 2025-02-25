@@ -225,66 +225,67 @@
   (home-environment
    (packages packages)
    (services
-    (list
-     (service
-      home-xdg-mime-applications-service-type
-      (home-xdg-mime-applications-configuration
-       (desktop-entries
-        (list (webvm-desktop-entry)))))
+    (append
+     (list
+      (service
+       home-xdg-mime-applications-service-type
+       (home-xdg-mime-applications-configuration
+        (desktop-entries
+         (list (webvm-desktop-entry)))))
 
-     (service
-      home-dotfiles-service-type
-      (home-dotfiles-configuration
-       (layout 'stow)
-       (directories
-        (list "dotfiles"))))
+      (service
+       home-dotfiles-service-type
+       (home-dotfiles-configuration
+        (layout 'stow)
+        (directories
+         (list "dotfiles"))))
 
-     (service
-      home-channels-service-type
-      (cons* (channel
-              (name 'nonguix)
-              (url "https://gitlab.com/nonguix/nonguix")
-              ;; Enable signature verification:
-              (introduction
-               (make-channel-introduction
-                "897c1a470da759236cc11798f4e0a5f7d4d59fbc"
-                (openpgp-fingerprint
-                 "2A39 3FFF 68F4 EF7A 3D29  12AF 6F51 20A0 22FB B2D5"))))
-             %default-channels))
+      (service
+       home-channels-service-type
+       (cons* (channel
+               (name 'nonguix)
+               (url "https://gitlab.com/nonguix/nonguix")
+               ;; Enable signature verification:
+               (introduction
+                (make-channel-introduction
+                 "897c1a470da759236cc11798f4e0a5f7d4d59fbc"
+                 (openpgp-fingerprint
+                  "2A39 3FFF 68F4 EF7A 3D29  12AF 6F51 20A0 22FB B2D5"))))
+              %default-channels))
 
-     (service
-      home-xdg-user-directories-service-type
-      (home-xdg-user-directories-configuration
-       (desktop     "$HOME/desktop")
-       (documents   "$HOME/documents")
-       (download    "$HOME/downloads")
-       (music       "$HOME/music")
-       (pictures    "$HOME/pictures")
-       (publicshare "$HOME/public")
-       (templates   "$HOME/templates")
-       (videos      "$HOME/videos")))
+      (service
+       home-xdg-user-directories-service-type
+       (home-xdg-user-directories-configuration
+        (desktop     "$HOME/desktop")
+        (documents   "$HOME/documents")
+        (download    "$HOME/downloads")
+        (music       "$HOME/music")
+        (pictures    "$HOME/pictures")
+        (publicshare "$HOME/public")
+        (templates   "$HOME/templates")
+        (videos      "$HOME/videos")))
 
-     (service
-      home-syncthing-service-type)
+      (service
+       home-syncthing-service-type)
 
-     (service
-      home-shepherd-service-type
-      (home-shepherd-configuration
-       (services
-        (list xautolock-service
-              brightnessctl-service
-              ibus-daemon-service
-              rime-sync-setup-service
-              desktop-entries-update-service))))
+      (service
+       home-shepherd-service-type
+       (home-shepherd-configuration
+        (services
+         (list xautolock-service
+               brightnessctl-service
+               ibus-daemon-service
+               rime-sync-setup-service
+               desktop-entries-update-service))))
 
-     (service
-      home-bash-service-type
-      (home-bash-configuration
-       (guix-defaults? #t)
-       (bash-profile
-        (list
-         (mixed-text-file
-          "bash-profile" "
+      (service
+       home-bash-service-type
+       (home-bash-configuration
+        (guix-defaults? #t)
+        (bash-profile
+         (list
+          (mixed-text-file
+           "bash-profile" "
 if [ -f ~/.Xresources ]; then
     xrdb -merge -I $HOME ~/.Xresources;
 fi
@@ -299,45 +300,46 @@ eval \"$(guix package --search-paths \\
 # Prepend setuid programs.
 export PATH=/run/setuid-programs:$PATH
 ")))
-       (bashrc
-        (list
-         (mixed-text-file
-          "emacs-eat" "
+        (bashrc
+         (list
+          (mixed-text-file
+           "emacs-eat" "
 if [ -n \"$EAT_SHELL_INTEGRATION_DIR\" ]; then
     source \"$EAT_SHELL_INTEGRATION_DIR/bash\";
 fi
 ")))
-       (aliases
-        '(("la" . "ls -A")
-          ("l"  . "ls -CF")
-          ("isystem-reconfig" .
-           "sudo -E guix system reconfigure -e '(@ (geesystem thinkpad-t14-amd) os)'")
-          ("ihome-test"       .
-           "guix home container -e '(@ (geehome home) home)'")
-          ("ihome-reconfig"   .
-           "guix home reconfigure -e '(@ (geehome home) home)'")))
-       (environment-variables
-        `(;; Guix 使用环境变量
-          ("GUIX_PACKAGE_PATH" . ,(dirname (current-source-directory)))
+        (aliases
+         '(("la" . "ls -A")
+           ("l"  . "ls -CF")
+           ("isystem-reconfig" .
+            "sudo -E guix system reconfigure -e '(@ (geesystem thinkpad-t14-amd) os)'")
+           ("ihome-test"       .
+            "guix home container -e '(@ (geehome home) home)'")
+           ("ihome-reconfig"   .
+            "guix home reconfigure -e '(@ (geehome home) home)'")))
+        (environment-variables
+         `(;; Guix 使用环境变量
+           ("GUIX_PACKAGE_PATH" . ,(dirname (current-source-directory)))
 
-          ;; Ibus 输入法
-          ("GTK_IM_MODULE" . "ibus")
-          ("QT_IM_MODULE"  . "ibus")
-          ("XMODIFIERS"    . "@im=ibus")
-          ;; 如果使用非 Gnome 桌面, 可能会导致 dconf 不可用，需要加上这行。
-          ("GSETTINGS_BACKEND" . "keyfile")
+           ;; Ibus 输入法
+           ("GTK_IM_MODULE" . "ibus")
+           ("QT_IM_MODULE"  . "ibus")
+           ("XMODIFIERS"    . "@im=ibus")
+           ;; 如果使用非 Gnome 桌面, 可能会导致 dconf 不可用，需要加上这行。
+           ("GSETTINGS_BACKEND" . "keyfile")
 
-          ;; GTK 输入法模块
-          ("GUIX_GTK2_IM_MODULE_FILE" .
-           "${HOME}/.guix-home/profile/lib/gtk-2.0/2.10.0/immodules-gtk2.cache")
-          ("GUIX_GTK3_IM_MODULE_FILE" .
-           "${HOME}/.guix-home/profile/lib/gtk-3.0/3.0.0/immodules-gtk3.cache")
+           ;; GTK 输入法模块
+           ("GUIX_GTK2_IM_MODULE_FILE" .
+            "${HOME}/.guix-home/profile/lib/gtk-2.0/2.10.0/immodules-gtk2.cache")
+           ("GUIX_GTK3_IM_MODULE_FILE" .
+            "${HOME}/.guix-home/profile/lib/gtk-3.0/3.0.0/immodules-gtk3.cache")
 
-          ;; Notmuch 搜索中文邮件设置： Notmuch 使用 Xapian 创建邮
-          ;; 件索引，Xapian (version < 1.5) 支持 CJK 需要设置下面的
-          ;; 环境变量，Xapian (version >= 1.5) 如果启用了 LIBICU,
-          ;; 会自动识别 CJK, 不需要额外设置。
-          ("XAPIAN_CJK_NGRAM"  .  "1")))))))))
+           ;; Notmuch 搜索中文邮件设置： Notmuch 使用 Xapian 创建邮
+           ;; 件索引，Xapian (version < 1.5) 支持 CJK 需要设置下面的
+           ;; 环境变量，Xapian (version >= 1.5) 如果启用了 LIBICU,
+           ;; 会自动识别 CJK, 不需要额外设置。
+           ("XAPIAN_CJK_NGRAM"  .  "1"))))))
+     %base-home-services))))
 
 ;; Let 'guix home /path/to/file.scm' to work well.
 home
