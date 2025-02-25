@@ -19,12 +19,12 @@
   #:use-module (srfi srfi-9 gnu))
 
 (define-public emacs-gee
-  (let ((commit "d66b8d4becb6804d3bd912a000dc64ccfdbe6810")
+  (let ((commit "0c6b8643aec24935f82c63d43219f26378e3e578")
         (revision "0"))
     (package
       (inherit emacs-next)
       (name "emacs-gee")
-      (version (git-version "30.0.93" revision commit))
+      (version (git-version "30.1" revision commit))
       (source
        (origin
          (inherit (package-source emacs-next))
@@ -38,7 +38,7 @@
          (file-name (git-file-name name version))
          (sha256
           (base32
-           "0wwjvkhchxzwpa3f3iizqv3xc9pm6iz8q06grk64jkybqck8f28j"))))
+           "1sg7bqw0kbr2gazb2pdgaz7glqjgdn6wp96dhyj6klwqd3a8r9fk"))))
       (inputs
        (modify-inputs (package-inputs emacs-next)
          (delete "gtk+")
