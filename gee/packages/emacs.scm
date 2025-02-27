@@ -64,8 +64,8 @@
                     (rename-file "bin/ctags" "bin/ctags-emacs")))))))))))
 
 (define-public emacs-helper
-  (let ((commit "f14ef1164961b809b7f934dcbfdcd551d9c75b55")
-        (revision "6"))
+  (let ((commit "de966739aa922d7ccaf5d8849461215497867fa6")
+        (revision "7"))
     (package
       ;; 如果使用 emacs-helper 作为名称, 安装的时候 'emacs-' 前缀会被
       ;; emacs-build-system 特殊处理，所以这里使用 'Emacs-helper'.
@@ -78,7 +78,7 @@
                (commit commit)))
          (method git-fetch)
          (sha256
-          (base32 "1k113kh9xr5kg37a0v20jk42nhjb5fmnl6l9iqc62vvhpv4wn07b"))
+          (base32 "09gbwxpiknnyd3dl6l21ph8kxivc6yhgbbl76yvnh8gh8pcwpw5v"))
          (file-name (git-file-name name version))))
       (build-system emacs-build-system)
       (arguments
@@ -102,15 +102,11 @@
              emacs-company
              emacs-company-posframe
              emacs-consult
-             emacs-eat
              emacs-ebdb
              emacs-ebdb-i18n-chn
-             emacs-el2org
-             emacs-emms
              emacs-flycheck
              emacs-geiser-guile
              emacs-guix
-             emacs-liberime
              emacs-magit
              emacs-marginalia
              emacs-markdown-mode
