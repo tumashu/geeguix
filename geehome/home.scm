@@ -205,15 +205,34 @@
 
 (define (webvm-desktop-entry)
   (let* ((webvm-dir (string-append (getenv "HOME") "/.config/webvm/guest"))
-         (webvm-cmd (string-append
-                     "bash -c '$(guix system vm -e \"(@ (geesystem webvm) os)\" "
-                     "--share=" webvm-dir "=/home/guest) "
-                     "-m 4096 -vga virtio -audio pa,model=hda "
-                     "-display gtk,show-menubar=off'")))
+         (webvm-cmd
+          (string-append
+           "bash -c '$(guix system vm -e \"(@ (geesystem webvm) os)\" "
+           "--share=" webvm-dir "=/home/guest) "
+           "-m 4096 -vga virtio -audio pa,model=hda "
+           "-display gtk,show-menubar=off'")))
     (mkdir-p webvm-dir)
     (xdg-desktop-entry
      (file "webvm")
      (name "网络浏览器(虚拟机)")
+     (type 'application)
+     (config
+      `((exec . ,webvm-cmd)
+        (icon . "chromium")
+        (categories . "System;")
+        (comment . "在虚拟机中运行网络浏览器来访问互联网"))))))
+
+(define (webvm-fallback-desktop-entry)
+  (let* ((webvm-dir (string-append (getenv "HOME") "/.config/webvm/guest"))
+         (webvm-cmd
+          (string-append
+           "bash -c '/gnu/store/$(ls /gnu/store | grep -m 1 run-vm.sh$) "
+           "-m 4096 -vga virtio -audio pa,model=hda "
+           "-display gtk,show-menubar=off'")))
+    (mkdir-p webvm-dir)
+    (xdg-desktop-entry
+     (file "webvm-fallback")
+     (name "网络浏览器(虚拟机)-备用")
      (type 'application)
      (config
       `((exec . ,webvm-cmd)
@@ -231,7 +250,8 @@
        home-xdg-mime-applications-service-type
        (home-xdg-mime-applications-configuration
         (desktop-entries
-         (list (webvm-desktop-entry)))))
+         (list (webvm-desktop-entry)
+               (webvm-fallback-desktop-entry)))))
 
       (service
        home-dotfiles-service-type
