@@ -143,7 +143,7 @@ export PATH=/run/setuid-programs:$PATH
                    "guix-backgrounds"
                    "font-wqy-microhei"
                    "jwm"
-                   "icewm-gee"
+                   "icewm"
                    "pcmanfm"
                    "x-resize"
                    "xrandr"
