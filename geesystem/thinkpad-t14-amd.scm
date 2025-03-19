@@ -39,11 +39,7 @@
 (define substitute-urls
   (list
    "https://ci.guix.gnu.org"
-   "https://bordeaux-us-east-mirror.cbaines.net"
-   "https://bordeaux-singapore-mirror.cbaines.net"
-   "https://hydra-guix-129.guix.gnu.org"
-   "https://mirror.sjtu.edu.cn/guix"
-   "https://bordeaux.guix.gnu.org"))
+   "https://mirror.sjtu.edu.cn/guix"))
 
 (define garbage-collector-job
   #~(job "10 20 * * *"
