@@ -158,7 +158,6 @@ gtk-cursor-theme-size=" cursor-size)))
                             xf86-video-vesa
                             xf86-input-libinput
                             xf86-input-evdev
-                            xf86-input-keyboard
                             xf86-input-mouse))
                   (keyboard-layout keyboard-layout)))))
 
