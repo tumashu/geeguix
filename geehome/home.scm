@@ -306,6 +306,21 @@
          (list
           (mixed-text-file
            "bash-profile" "
+# Used to set GUIX_PACKAGE_PATH, it is useful when run command
+# './pre-inst-env guix xxx'
+function geeguix_set_package_path () {
+    local package_path=$HOME/geeguix
+    for dir in $HOME/.cache/guix/checkouts/*;
+    do
+        if [ -d $dir ] && [ ! -d $dir/nix ]
+        then
+            package_path=$package_path:$dir
+        fi
+    done
+
+    export GUIX_PACKAGE_PATH=$package_path
+}
+
 if [ -f ~/.Xresources ]; then
     xrdb -merge -I $HOME ~/.Xresources;
 fi
