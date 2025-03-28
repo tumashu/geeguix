@@ -203,42 +203,45 @@
                  (list xfce4-panel-dir desktop-dir)))))
    (stop #~(make-kill-destructor))))
 
-(define (webvm-desktop-entry)
+(define* (webvm-cmd #:key fallback)
   (let* ((webvm-dir (string-append (getenv "HOME") "/.config/webvm/guest"))
          (webvm-cmd
           (string-append
            "bash -c '$(guix system vm -e \"(@ (geesystem webvm) os)\" "
            "--share=" webvm-dir "=/home/guest) "
            "-m 4096 -vga virtio -audio pa,model=hda "
-           "-display gtk,show-menubar=off'")))
-    (mkdir-p webvm-dir)
-    (xdg-desktop-entry
-     (file "webvm")
-     (name "网络浏览器(虚拟机)")
-     (type 'application)
-     (config
-      `((exec . ,webvm-cmd)
-        (icon . "chromium")
-        (categories . "System;")
-        (comment . "在虚拟机中运行网络浏览器来访问互联网"))))))
-
-(define (webvm-fallback-desktop-entry)
-  (let* ((webvm-dir (string-append (getenv "HOME") "/.config/webvm/guest"))
-         (webvm-cmd
+           "-display gtk,show-menubar=off'"))
+         (webvm-fallback-cmd
           (string-append
            "bash -c '/gnu/store/$(ls /gnu/store | grep -m 1 run-vm.sh$) "
            "-m 4096 -vga virtio -audio pa,model=hda "
            "-display gtk,show-menubar=off'")))
     (mkdir-p webvm-dir)
-    (xdg-desktop-entry
-     (file "webvm-fallback")
-     (name "网络浏览器(虚拟机)-备用")
-     (type 'application)
-     (config
-      `((exec . ,webvm-cmd)
-        (icon . "chromium")
-        (categories . "System;")
-        (comment . "在虚拟机中运行网络浏览器来访问互联网"))))))
+    (if fallback
+        webvm-fallback-cmd
+        webvm-cmd)))
+
+(define (webvm-desktop-entry)
+  (xdg-desktop-entry
+   (file "webvm")
+   (name "网络浏览器(虚拟机)")
+   (type 'application)
+   (config
+    `((exec . ,(webvm-cmd))
+      (icon . "chromium")
+      (categories . "System;")
+      (comment . "在虚拟机中运行网络浏览器来访问互联网")))))
+
+(define (webvm-fallback-desktop-entry)
+  (xdg-desktop-entry
+   (file "webvm-fallback")
+   (name "网络浏览器(备用虚拟机)")
+   (type 'application)
+   (config
+    `((exec . ,(webvm-cmd #:fallback #t))
+      (icon . "chromium")
+      (categories . "System;")
+      (comment . "在虚拟机中运行网络浏览器来访问互联网")))))
 
 (define home
   (home-environment
@@ -336,8 +339,10 @@ eval \"$(guix package --search-paths \\
 export PATH=/run/setuid-programs:$PATH
 ")))
         (aliases
-         '(("la" . "ls -A")
+         `(("la" . "ls -A")
            ("l"  . "ls -CF")
+           ("webvm"          . ,(webvm-cmd))
+           ("webvm-fallback" . ,(webvm-cmd #:fallback #t))
            ("isystem-reconfig" .
             "sudo -E guix system reconfigure -e '(@ (geesystem thinkpad-t14-amd) os)'")
            ("ihome-test"       .
