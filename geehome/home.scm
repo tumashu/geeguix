@@ -320,14 +320,6 @@ eval \"$(guix package --search-paths \\
 # Prepend setuid programs.
 export PATH=/run/setuid-programs:$PATH
 ")))
-        (bashrc
-         (list
-          (mixed-text-file
-           "emacs-eat" "
-if [ -n \"$EAT_SHELL_INTEGRATION_DIR\" ]; then
-    source \"$EAT_SHELL_INTEGRATION_DIR/bash\";
-fi
-")))
         (aliases
          '(("la" . "ls -A")
            ("l"  . "ls -CF")
