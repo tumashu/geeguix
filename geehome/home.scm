@@ -203,31 +203,13 @@
                  (list xfce4-panel-dir desktop-dir)))))
    (stop #~(make-kill-destructor))))
 
-(define* (webvm-cmd #:key fallback)
-  (let* ((webvm-dir (string-append (getenv "HOME") "/.config/webvm/guest"))
-         (webvm-cmd
-          (string-append
-           "bash -c '$(guix system vm -e \"(@ (geesystem webvm) os)\" "
-           "--share=" webvm-dir "=/home/guest) "
-           "-m 4096 -vga virtio -audio pa,model=hda "
-           "-display gtk,show-menubar=off'"))
-         (webvm-fallback-cmd
-          (string-append
-           "bash -c '/gnu/store/$(ls /gnu/store | grep -m 1 run-vm.sh$) "
-           "-m 4096 -vga virtio -audio pa,model=hda "
-           "-display gtk,show-menubar=off'")))
-    (mkdir-p webvm-dir)
-    (if fallback
-        webvm-fallback-cmd
-        webvm-cmd)))
-
 (define (webvm-desktop-entry)
   (xdg-desktop-entry
    (file "webvm")
    (name "网络浏览器(虚拟机)")
    (type 'application)
    (config
-    `((exec . ,(webvm-cmd))
+    `((exec . ,(string-append "bash " (getenv "HOME") "/.config/webvm/webvm.sh"))
       (icon . "chromium")
       (categories . "System;")
       (comment . "在虚拟机中运行网络浏览器来访问互联网")))))
@@ -238,7 +220,7 @@
    (name "网络浏览器(备用虚拟机)")
    (type 'application)
    (config
-    `((exec . ,(webvm-cmd #:fallback #t))
+    `((exec . ,(string-append "bash " (getenv "HOME") "/.config/webvm/webvm-fallback.sh"))
       (icon . "chromium")
       (categories . "System;")
       (comment . "在虚拟机中运行网络浏览器来访问互联网")))))
@@ -309,21 +291,6 @@
          (list
           (mixed-text-file
            "bash-profile" "
-# Used to set GUIX_PACKAGE_PATH, it is useful when run command
-# './pre-inst-env guix xxx'
-function geeguix_set_package_path () {
-    local package_path=$HOME/geeguix
-    for dir in $HOME/.cache/guix/checkouts/*;
-    do
-        if [ -d $dir ] && [ ! -d $dir/nix ]
-        then
-            package_path=$package_path:$dir
-        fi
-    done
-
-    export GUIX_PACKAGE_PATH=$package_path
-}
-
 if [ -f ~/.Xresources ]; then
     xrdb -merge -I $HOME ~/.Xresources;
 fi
@@ -338,11 +305,32 @@ eval \"$(guix package --search-paths \\
 # Prepend setuid programs.
 export PATH=/run/setuid-programs:$PATH
 ")))
+        (bashrc
+         (list
+          (mixed-text-file
+           "bashrc" "
+# Used to set GUIX_PACKAGE_PATH, it is useful when run command
+# './pre-inst-env guix xxx'
+function geeguix_set_package_path () {
+    local package_path=$HOME/geeguix
+    for dir in $HOME/.cache/guix/checkouts/*;
+    do
+        if [ -d $dir ] && [ ! -d $dir/nix ]
+        then
+            package_path=$package_path:$dir
+        fi
+    done
+
+    export GUIX_PACKAGE_PATH=$package_path
+}
+")))
         (aliases
          `(("la" . "ls -A")
            ("l"  . "ls -CF")
-           ("webvm"          . ,(webvm-cmd))
-           ("webvm-fallback" . ,(webvm-cmd #:fallback #t))
+           ("webvm"            .
+            "bash ~/.config/webvm/webvm.sh")
+           ("webvm-fallback"   .
+            "bash ~/.config/webvm/webvm-fallback.sh")
            ("isystem-reconfig" .
             "sudo -E guix system reconfigure -e '(@ (geesystem thinkpad-t14-amd) os)'")
            ("ihome-test"       .

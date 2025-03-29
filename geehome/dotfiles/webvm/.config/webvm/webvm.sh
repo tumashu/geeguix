@@ -1,0 +1,1 @@
+$(guix system vm -e '(@ (geesystem webvm) os)' --share=$HOME/.config/webvm/guest=/home/guest) -m 4096 -vga virtio -audio pa,model=hda -display gtk,show-menubar=off
