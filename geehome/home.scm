@@ -326,13 +326,7 @@ function geeguix_set_package_path () {
 ")))
         (aliases
          `(("la" . "ls -A")
-           ("l"  . "ls -CF")
-           ("isystem-reconfig" .
-            "sudo -E guix system reconfigure -e '(@ (geesystem thinkpad-t14-amd) os)'")
-           ("ihome-test"       .
-            "guix home container -e '(@ (geehome home) home)'")
-           ("ihome-reconfig"   .
-            "guix home reconfigure -e '(@ (geehome home) home)'")))
+           ("l"  . "ls -CF")))
         (environment-variables
          `(;; Guix 使用环境变量
            ("GUIX_PACKAGE_PATH" . ,(dirname (current-source-directory)))
