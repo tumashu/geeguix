@@ -214,17 +214,6 @@
       (categories . "System;")
       (comment . "在虚拟机中运行网络浏览器来访问互联网")))))
 
-(define (webvm-fallback-desktop-entry)
-  (xdg-desktop-entry
-   (file "webvm-fallback")
-   (name "网络浏览器(备用虚拟机)")
-   (type 'application)
-   (config
-    `((exec . "sh -c ~/.local/bin/webvm-fallback")
-      (icon . "chromium")
-      (categories . "System;")
-      (comment . "在虚拟机中运行网络浏览器来访问互联网")))))
-
 (define home
   (home-environment
    (packages packages)
@@ -235,8 +224,7 @@
        home-xdg-mime-applications-service-type
        (home-xdg-mime-applications-configuration
         (desktop-entries
-         (list (webvm-desktop-entry)
-               (webvm-fallback-desktop-entry)))))
+         (list (webvm-desktop-entry)))))
 
       (service
        home-dotfiles-service-type

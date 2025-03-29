@@ -1,3 +1,28 @@
 #!/usr/bin/env bash
 
-$(guix system vm -e '(@ (geesystem webvm) os)' --share=$HOME/.config/webvm/guest=/home/guest) -m 4096 -vga virtio -audio pa,model=hda -display gtk,show-menubar=off "$@"
+WEBVM_CACHE_DIR=$HOME/.cache/webvm
+WEBVM_CMD_HISTORY=$WEBVM_CACHE_DIR/webvm_command_history
+
+mkdir -p $WEBVM_CACHE_DIR
+
+if [ -e "$WEBVM_CMD_HISTORY" ]; then
+    WEBVM_CMD=$(cat "$WEBVM_CMD_HISTORY")
+    if [ -e "$WEBVM_CMD" ]; then
+        echo "webvm: Read webvm command '$WEBVM_CMD' from history file ..."
+    fi
+fi
+
+if [ ! -e "$WEBVM_CMD" ]; then
+    echo "webvm: Generate webvm command with 'guix system vm' ..."
+    WEBVM_CMD=$(guix system vm -e '(@ (geesystem webvm) os)' --share=$HOME/.config/webvm/guest=/home/guest)
+    if [ -e "$WEBVM_CMD" ]; then
+        echo "webvm: Saving webvm command '$WEBVM_CMD' to history file ..."
+        echo $WEBVM_CMD > $WEBVM_CMD_HISTORY
+    fi
+fi
+
+if [ -e "$WEBVM_CMD" ]; then
+    WEBVM_FULL_CMD="$WEBVM_CMD -m 4096 -vga virtio -audio pa,model=hda -display gtk,show-menubar=off $@"
+    echo "webvm: Running command '$WEBVM_FULL_CMD'"
+    $WEBVM_FULL_CMD
+fi
