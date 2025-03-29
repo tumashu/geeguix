@@ -3,7 +3,7 @@
 cmd=$(ls /gnu/store | grep -m 1 run-vm.sh$)
 
 if [ cmd != '' ]; then
-    /gnu/store/$(ls /gnu/store | grep -m 1 run-vm.sh$) -m 4096 -vga virtio -audio pa,model=hda -display gtk,show-menubar=off
+    /gnu/store/$(ls /gnu/store | grep -m 1 run-vm.sh$) -m 4096 -vga virtio -audio pa,model=hda -display gtk,show-menubar=off "$@"
 else
     echo "Do not find run-vm.sh!"
 fi
