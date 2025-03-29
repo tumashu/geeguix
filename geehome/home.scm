@@ -209,7 +209,7 @@
    (name "网络浏览器(虚拟机)")
    (type 'application)
    (config
-    `((exec . ,(string-append "bash " (getenv "HOME") "/.config/webvm/webvm.sh"))
+    `((exec . "sh -c ~/.local/bin/webvm")
       (icon . "chromium")
       (categories . "System;")
       (comment . "在虚拟机中运行网络浏览器来访问互联网")))))
@@ -220,7 +220,7 @@
    (name "网络浏览器(备用虚拟机)")
    (type 'application)
    (config
-    `((exec . ,(string-append "bash " (getenv "HOME") "/.config/webvm/webvm-fallback.sh"))
+    `((exec . "sh -c ~/.local/bin/webvm-fallback")
       (icon . "chromium")
       (categories . "System;")
       (comment . "在虚拟机中运行网络浏览器来访问互联网")))))
@@ -303,7 +303,7 @@ eval \"$(guix package --search-paths \\
 -p /run/current-system/profile)\"
 
 # Prepend setuid programs.
-export PATH=/run/setuid-programs:$PATH
+export PATH=$HOME/.local/bin:/run/setuid-programs:$PATH
 ")))
         (bashrc
          (list
@@ -327,10 +327,6 @@ function geeguix_set_package_path () {
         (aliases
          `(("la" . "ls -A")
            ("l"  . "ls -CF")
-           ("webvm"            .
-            "bash ~/.config/webvm/webvm.sh")
-           ("webvm-fallback"   .
-            "bash ~/.config/webvm/webvm-fallback.sh")
            ("isystem-reconfig" .
             "sudo -E guix system reconfigure -e '(@ (geesystem thinkpad-t14-amd) os)'")
            ("ihome-test"       .

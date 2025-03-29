@@ -1,3 +1,5 @@
+#!/usr/bin/env bash
+
 cmd=$(ls /gnu/store | grep -m 1 run-vm.sh$)
 
 if [ cmd != '' ]; then
