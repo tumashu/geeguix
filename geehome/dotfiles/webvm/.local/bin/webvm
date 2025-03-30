@@ -21,7 +21,7 @@ if [ ! -e "$WEBVM_CMD" ]; then
     fi
 fi
 
-if [ -e "$WEBVM_CMD" ]; then
+if [ -e "$WEBVM_CMD" ] && [[ "$WEBVM_CMD" =~ /gnu/store/.*-run-vm\.sh$ ]]; then
     WEBVM_FULL_CMD="$WEBVM_CMD -m 4096 -vga virtio -audio pa,model=hda -display gtk,show-menubar=off $@"
     echo "webvm: Running command '$WEBVM_FULL_CMD'"
     $WEBVM_FULL_CMD
