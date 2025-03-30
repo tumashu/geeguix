@@ -5,7 +5,7 @@ WEBVM_CMD_HISTORY=$WEBVM_CACHE_DIR/webvm_command_history
 
 mkdir -p $WEBVM_CACHE_DIR
 
-if [ -e "$WEBVM_CMD_HISTORY" ]; then
+if [ -e "$WEBVM_CMD_HISTORY" ] && [ "$WEBVM_CREATE" != "1" ]; then
     WEBVM_CMD=$(cat "$WEBVM_CMD_HISTORY")
     if [ -e "$WEBVM_CMD" ]; then
         echo "webvm: Read webvm command '$WEBVM_CMD' from history file ..."
