@@ -314,7 +314,8 @@ function geeguix_set_package_path () {
 ")))
         (aliases
          `(("la" . "ls -A")
-           ("l"  . "ls -CF")))
+           ("l"  . "ls -CF")
+           ("webvm-create"  . "WEBVM_CREATE=1 webvm")))
         (environment-variables
          `(;; Guix 使用环境变量
            ("GUIX_PACKAGE_PATH" . ,(dirname (current-source-directory)))

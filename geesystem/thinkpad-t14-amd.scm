@@ -38,8 +38,9 @@
 
 (define substitute-urls
   (list "https://mirrors.sjtug.sjtu.edu.cn/guix"
-        "https://mirror.sjtu.edu.cn/guix"
-        "https://ci.guix.gnu.org"))
+        ;; "https://mirror.sjtu.edu.cn/guix"
+        ;; "https://ci.guix.gnu.org"
+        ))
 
 (define garbage-collector-job
   #~(job "10 20 * * *"
