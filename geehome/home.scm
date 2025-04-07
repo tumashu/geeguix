@@ -238,6 +238,9 @@
        (cons* (channel
                (name 'nonguix)
                (url "https://gitlab.com/nonguix/nonguix")
+               (branch "master")
+               ;; Update 2025-04-07
+               (commit "54625807ac0e9845b890bfa2f71b2f7cbb6dc261")
                ;; Enable signature verification:
                (introduction
                 (make-channel-introduction
