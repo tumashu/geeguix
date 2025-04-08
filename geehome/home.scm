@@ -318,7 +318,6 @@ function geeguix_set_package_path () {
         (aliases
          `(("la" . "ls -A")
            ("l"  . "ls -CF")
-           ("geeguix-pull"  . "guix pull --disable-authentication --allow-downgrades --url=$HOME/guix/guix")
            ("webvm-create"  . "WEBVM_CREATE=1 webvm")))
         (environment-variables
          `(;; Guix 使用环境变量
