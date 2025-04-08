@@ -6,11 +6,15 @@ echo ""
 read -rp "# Update $GUIX_DIR before guix pull? [yes/NO] " answer
 case "${answer,,}" in
     yes)
-        echo ""
-        echo "## Updating $GUIX_DIR ..."
-        cd $GUIX_DIR
-        git pull --rebase
-        echo ""
+        if [ -d "$GUIX_DIR/.git" ]; then
+            echo ""
+            echo "## Updating $GUIX_DIR ..."
+            cd $GUIX_DIR
+            git pull --rebase
+            echo ""
+        else
+            echo "## $GUIX_DIR is not exist ..."
+        fi
         ;;
     *)
         echo ""
