@@ -1,3 +1,0 @@
-#!/usr/bin/env bash
-
-guix home reconfigure --allow-downgrades -e '(@ (geehome home) home)' "$@"

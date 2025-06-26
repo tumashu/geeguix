@@ -1,5 +1,4 @@
 (define-module (geesystem tinydesk)
-  #:use-module (gee packages display-managers)
   #:use-module (gnu bootloader)
   #:use-module (gnu bootloader grub)
   #:use-module (gnu home)
@@ -162,38 +161,18 @@ root ALL=(ALL) ALL
      (cons*
       (service guix-home-service-type
                `(("guest" ,guest-home)))
-      
-      (service lightdm-service-type
-               (lightdm-configuration
-                (greeters
-                 (list (lightdm-gtk-greeter-configuration
-                        (lightdm-gtk-greeter lightdm-gtk-greeter-gee)
-                        (extra-config
-                         (list "font-name = San 10"
-                               "icon-size = 64"
-                               "xft-dpi = 140"
-                               "clock-format = %Y-%m-%d %H:%M"
-                               ;; We need to use "~~" to generate a tilde, for
-                               ;; extra-config sting will be handle as
-                               ;; control-string of format function.
-                               "indicators = ~~host;~~spacer;~~session;~~a11y;~~clock;~~power")))))
-                (seats
-                 (list (lightdm-seat-configuration
-                        (name "*")
-                        (greeter-session 'lightdm-gtk-greeter)
-                        (user-session "icewm-session"))))
 
+      (service slim-service-type
+               (slim-configuration
+                (auto-login? #t)
+                (default-user "guest")
                 (xorg-configuration
                  (xorg-configuration
                   ;; The QXL virtual GPU driver is added to provide a better
                   ;; SPICE experience.
                   (modules (cons xf86-video-qxl
                                  %default-xorg-modules))
-                  (keyboard-layout keyboard-layout)
-                  (server-arguments
-                   ;; 使用较大字体
-                   (append %default-xorg-server-arguments
-                           '("-dpi" "140")))))))
+                  (keyboard-layout keyboard-layout)))))
 
       ;; Add support for the SPICE protocol, which enables dynamic resizing of
       ;; the guest screen resolution, clipboard integration with the host,

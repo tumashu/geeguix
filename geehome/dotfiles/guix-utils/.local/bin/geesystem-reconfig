@@ -1,3 +1,0 @@
-#!/usr/bin/env bash
-
-sudo -E guix system reconfigure --allow-downgrades -e '(@ (geesystem thinkpad-t14-amd) os)' "$@"
