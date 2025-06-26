@@ -166,7 +166,7 @@ gtk-cursor-theme-size=" cursor-size)))
       ;; etc.
       (service spice-vdagent-service-type)
 
-      (service dhcp-client-service-type)
+      (service dhcpcd-service-type)
       (service dbus-root-service-type)
       (service pulseaudio-service-type)
       (service alsa-service-type)
