@@ -1,0 +1,30 @@
+function geeguix_set_package_path () {
+    local package_path=$HOME/geeguix
+    for dir in $HOME/.cache/guix/checkouts/*;
+    do
+        if [ -d $dir ] && [ ! -d $dir/nix ]
+        then
+            package_path=$package_path:$dir
+        fi
+    done
+
+    export GUIX_PACKAGE_PATH=$package_path
+}
+
+if [ -f ~/.Xresources ]; then
+    xrdb -merge -I $HOME ~/.Xresources;
+fi
+
+# Merge search-paths from multiple profiles, the order matters.
+eval "$(guix package --search-paths  \
+-p $HOME/.config/guix/current        \
+-p $HOME/.guix-home/profile          \
+-p $HOME/.guix-profile               \
+-p /run/current-system/profile)"
+
+# Prepend setuid programs.
+export PATH=$HOME/.local/bin:/run/setuid-programs:$PATH
+export GUIX_PACKAGE_PATH=$HOME/geeguix
+export XAPIAN_CJK_NGRAM=1
+
+alias webvm-create="WEBVM_CREATE=1 webvm"
