@@ -22,12 +22,12 @@
   (let ((commit "0c6b8643aec24935f82c63d43219f26378e3e578")
         (revision "0"))
     (package
-      (inherit emacs-next)
+      (inherit emacs)
       (name "emacs-gee")
       (version (git-version "30.1" revision commit))
       (source
        (origin
-         (inherit (package-source emacs-next))
+         (inherit (package-source emacs))
          (method git-fetch)
          (uri (git-reference
                ;; Emacs git 下载速度太慢了，使用南京大学的 Emacs 镜像，同步延
