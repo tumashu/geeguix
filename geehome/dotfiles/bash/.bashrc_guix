@@ -32,3 +32,4 @@ fi
 
 
 alias webvm-create="WEBVM_CREATE=1 webvm"
+alias stow_all="stow --adopt --dir=$HOME/geeguix/geehome/dotfiles --target=$HOME --verbose=1 authinfo bash fonts-core fonts-extra gtk2 gtk3 icewm notmuch rime stow user-dirs webvm xrdb"
