@@ -1,3 +1,5 @@
+#!/usr/bin/env bash
+
 function geeguix_set_package_path () {
     local package_path=$HOME/geeguix
     for dir in $HOME/.cache/guix/checkouts/*;
