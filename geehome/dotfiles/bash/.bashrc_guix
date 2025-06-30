@@ -16,8 +16,9 @@ function geeguix_set_package_path () {
 GUIX_PROFILE="/home/feng/.guix-profile"
 [[ -f "$GUIX_PROFILE/etc/profile" ]] && source "$GUIX_PROFILE/etc/profile"
 
-export PATH=$HOME/.local/bin:$HOME/.config/guix/current/bin:/run/setuid-programs:$PATH
-export GUIX_PACKAGE_PATH=$HOME/geeguix
+export PATH="$HOME/.local/bin:$HOME/.config/guix/current/bin:/run/setuid-programs:$PATH"
+export GUIX_LOCPATH="$HOME/.guix-profile/lib/locale"
+export GUIX_PACKAGE_PATH="$HOME/geeguix"
 export XAPIAN_CJK_NGRAM=1
 
 if [[ -n "$GUIX_ENVIRONMENT" ]]; then
