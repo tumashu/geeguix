@@ -9,6 +9,7 @@
   #:use-module (gnu packages)
   #:use-module (gnu packages autotools)
   #:use-module (gnu packages emacs)
+  #:use-module (gnu packages emacs-build)
   #:use-module (gnu packages emacs-xyz)
   #:use-module (gnu packages sqlite)
   #:use-module (gnu packages tree-sitter)
@@ -30,11 +31,11 @@
          (inherit (package-source emacs))
          (method git-fetch)
          (uri (git-reference
-               ;; Emacs git 下载速度太慢了，使用南京大学的 Emacs 镜像，同步延
-               ;; 迟大概 8 小时。
-               ;; (url "https://git.savannah.gnu.org/git/emacs.git")
-               (url "https://mirrors.nju.edu.cn/git/emacs.git")
-               (commit commit)))
+                ;; Emacs git 下载速度太慢了，使用南京大学的 Emacs 镜像，同步延
+                ;; 迟大概 8 小时。
+                ;; (url "https://git.savannah.gnu.org/git/emacs.git")
+                (url "https://mirrors.nju.edu.cn/git/emacs.git")
+                (commit commit)))
          (file-name (git-file-name name version))
          (sha256
           (base32
@@ -74,8 +75,8 @@
       (source
        (origin
          (uri (git-reference
-               (url "https://github.com/tumashu/emacs-helper")
-               (commit commit)))
+                (url "https://github.com/tumashu/emacs-helper")
+                (commit commit)))
          (method git-fetch)
          (sha256
           (base32 "09gbwxpiknnyd3dl6l21ph8kxivc6yhgbbl76yvnh8gh8pcwpw5v"))
