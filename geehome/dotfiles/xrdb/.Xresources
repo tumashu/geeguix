@@ -1,5 +1,5 @@
 ! DPI for xft
-# Xft.dpi: 140
+! Xft.dpi: 140
 
 ! Emacs: Disable XIM
 Emacs.useXIM: off
