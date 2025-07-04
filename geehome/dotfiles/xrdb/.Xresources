@@ -26,6 +26,8 @@ xterm*altSendsEscape: true
 xterm*printAttributes: 2
 xterm*printerCommand: cat > ~/xtermdump
 
+XTerm*selectToClipboard: true
+
 ! Xterm: Mouse selecting to copy, ctrl-v to paste. Ctrl-p to print screen
 ! content to file
 XTerm*VT100.Translations: #override \
