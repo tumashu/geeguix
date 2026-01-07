@@ -106,7 +106,7 @@
                    "curl"
                    "git"
                    "htop"
-                   "p7zip"
+                   "p7zip-gee"
                    "unzip"
                    "x-resize"
 
