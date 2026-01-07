@@ -12,12 +12,13 @@ diff --git a/CPP/7zip/Archive/Zip/ZipItem.cpp b/CPP/7zip/Archive/Zip/ZipItem.cpp
 index 12bc8ad..8184127 100644
 --- a/CPP/7zip/Archive/Zip/ZipItem.cpp
 +++ b/CPP/7zip/Archive/Zip/ZipItem.cpp
-@@ -1,5 +1,10 @@
+@@ -1,5 +1,11 @@
  // Archive/ZipItem.cpp
  
 +#ifndef _WIN32
 +#include <iconv.h>
 +#include <locale.h>
++#include <cstdlib>
 +#endif
 +
  #include "StdAfx.h"
@@ -35,7 +36,7 @@ index 12bc8ad..8184127 100644
 +  if (!isUtf8 && ((hostOS == NFileHeader::NHostOS::kFAT) || (hostOS == NFileHeader::NHostOS::kNTFS))) {
 +
 +    const char *oemcp;
-+    oemcp = getenv("OEMCP");
++    oemcp = std::getenv("OEMCP");
 +    if (!oemcp) {
 +      oemcp = "CP437\0"; // CP name is 6 chars max
 +
@@ -102,7 +103,7 @@ index 12bc8ad..8184127 100644
 +
 +      iconv_close(cd);
 +
-+      if (ConvertUTF8ToUnicode(s_utf8, res) || ignore_Utf8_Errors)
++      if (ConvertUTF8ToUnicode(s_utf8, res))
 +        return;
 +    }    
 +  }

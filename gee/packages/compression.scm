@@ -23,13 +23,13 @@
 
 (define-public p7zip-gee
   (package
-    (inherit p7zip)
+    (inherit 7zip)
     (name "p7zip-gee")
     (source
-     (origin (inherit (package-source p7zip))
+     (origin (inherit (package-source 7zip))
              (patches (append
-                       (origin-patches (package-source p7zip))
+                       (origin-patches (package-source 7zip))
                        (geeguix-search-patches
                         ;; 这个补丁可以让中文 ZIP 压缩包解压缩时不出现乱码，是
                         ;; 从 https://github.com/unxed/oemcp 移植过来的。
-                        "p7zip-support-OEM-code-page-auto-detection.patch")))))))
+                        "7zip-support-OEM-code-page-auto-detection.patch")))))))
